@@ -45,6 +45,9 @@ Route::get("shippings/statuses", "ShippingController@getAllStatuses")->middlewar
 Route::post('/shippings/store', "ShippingController@store")->middleware("auth");
 Route::post('/shippings/update', "ShippingController@update")->middleware("auth");
 Route::post('/shippings/erase', "ShippingController@erase")->middleware("auth");
+Route::get("/shippings/qr/{id}", "ShippingController@downloadQR")->middleware("auth");
+
+Route::get("/tracking", "trackingController@search");
 
 /*Route::get("/create/shipping/step-1", function(){
     return view("shippings.create.step1");

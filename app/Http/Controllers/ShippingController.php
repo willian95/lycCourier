@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ShippingStoreRequest;
 use App\Http\Requests\ShippingUpdateRequest;
 use App\Traits\StoreShippingHistory;
+use App\Traits\SendEmail;
 use App\Shipping;
 use App\ShippingStatus;
+use PDF;
 
 class ShippingController extends Controller
 {
     use StoreShippingHistory;
+    use SendEmail;
     
     function index(){
         return view("shippings.list");
@@ -38,6 +41,7 @@ class ShippingController extends Controller
             $shipping->save();
 
             $this->storeShippingHistory($shipping->id, 1);
+            $this->sendEmail($shipping);
 
             return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
 
@@ -58,6 +62,7 @@ class ShippingController extends Controller
             $shipping->update();
 
             $this->storeShippingHistory($shipping->id, $request->status);
+            $this->sendEmail($shipping);
 
             return response()->json(["success" => true, "msg" => "Envío Actualizado exitosamente"]);
 
@@ -99,6 +104,16 @@ class ShippingController extends Controller
 
         $statuses = ShippingStatus::all();
         return response()->json(["statuses" => $statuses]);
+
+    }
+
+    function downloadQR($id){
+
+        $shipping = Shipping::find($id);
+        $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?php='.$shipping->tracking."&amp;size=100x100";
+
+        $pdf = PDF::loadView('pdf.qr', ["data" => $data]);
+        return $pdf->download('qr'.$shipping->tracking.'.pdf');
 
     }
 

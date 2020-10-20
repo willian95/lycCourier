@@ -137,6 +137,7 @@
                                     <td>
                                         <button class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
                                         <a :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
+                                        <a :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
                                         {{--<button class="btn btn-secondary"><i class="far fa-trash-alt"></i></button>--}}
                                     </td>
                                 </tr>
