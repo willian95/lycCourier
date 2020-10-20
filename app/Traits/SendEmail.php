@@ -9,7 +9,7 @@ trait SendEmail
 {
     public function sendEmail($shipping)
     {   
-        $recipient = Recipient::find($shipping->recipient_id)->first();
+        $recipient = Recipient::find($shipping->recipient_id);
         $to_name = $recipient->name;
         $to_email = $recipient->email;
         $status = ShippingStatus::find($shipping->shipping_status_id);
