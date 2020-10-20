@@ -43,8 +43,21 @@ class ShippingController extends Controller
             $shipping->save();
 
             $this->storeShippingHistory($shipping->id, 1);
-            $this->sendEmail($shipping);
+            //$this->sendEmail($shipping);
+            $recipient = Recipient::find($shipping->recipient_id);
+            $to_name = $recipient->name;
+            $to_email = $recipient->email;
+            
+            $status = ShippingStatus::find($shipping->shipping_status_id);
     
+            $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
+    
+            \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email) {
+    
+                $message->to($to_email, $to_name)->subject("¡Paquete actualizado!");
+                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+    
+            });
     
 
             return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
@@ -66,7 +79,21 @@ class ShippingController extends Controller
             $shipping->update();
 
             $this->storeShippingHistory($shipping->id, $request->status);
-            $this->sendEmail($shipping);
+            //$this->sendEmail($shipping);
+            $recipient = Recipient::find($shipping->recipient_id);
+            $to_name = $recipient->name;
+            $to_email = $recipient->email;
+            
+            $status = ShippingStatus::find($shipping->shipping_status_id);
+    
+            $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
+    
+            \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email) {
+    
+                $message->to($to_email, $to_name)->subject("¡Paquete actualizado!");
+                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+    
+            });
 
             return response()->json(["success" => true, "msg" => "Envío Actualizado exitosamente"]);
 
