@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label for="recipient">Destinatario</label>
                                     <div style="display: flex;">
-                                        <input type="text" class="form-control" v-model="recipientQuery" @keyup="recipientSearch()" id="recipient">
+                                        <input type="text" class="form-control" v-model="recipientQuery" @keyup="recipientSearch()" id="recipient" autocomplete="off">
                                         <button class="btn btn-success" data-toggle="modal" data-target="#recipientModal"><i class="fa fa-plus"></i></button>
                                     </div>
                                     <small v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
