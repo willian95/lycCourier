@@ -554,7 +554,7 @@
         <section class="container mt-5">
             <div class="card-info">
                 <div class="content-input">
-                    <input type="text" placeholder="Csx567" id="tracking">
+                    <input type="text" placeholder="Ingresa tu tracking" id="tracking">
                     <button class="btn_enviar" onclick="search()">Buscar</button>
                 </div>
                 @if(isset($shipping))
