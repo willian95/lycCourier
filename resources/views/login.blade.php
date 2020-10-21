@@ -14,14 +14,14 @@
 
 
                 <div class="wrap-input100 validate-input">
-                    <input class="input100" type="text" v-model="email">
+                    <input class="input100" type="text" v-model="email" v-on:keyup.enter="login()">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Email</span>
                 </div>
 
 
                 <div class="wrap-input100 validate-input">
-                    <input class="input100" type="password" v-model="password">
+                    <input class="input100" type="password" v-model="password" v-on:keyup.enter="login()">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Password</span>
                 </div>
