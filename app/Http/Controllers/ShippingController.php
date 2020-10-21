@@ -141,7 +141,7 @@ class ShippingController extends Controller
     function downloadQR($id){
 
         $shipping = Shipping::find($id);
-        $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?php='.$shipping->tracking."&amp;size=100x100";
+        $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
 
         $pdf = PDF::loadView('pdf.qr', ["data" => $data]);
         return $pdf->download('qr'.$shipping->tracking.'.pdf');
