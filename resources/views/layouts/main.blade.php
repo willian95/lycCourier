@@ -179,7 +179,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 
 								<li class="menu-item" aria-haspopup="true">
-									<a href="{{ url('/') }}" class="menu-link">
+									<a href="{{ url('/logout') }}" class="menu-link">
 										<i class="menu-icon fas fa-power-off"></i>
 										<span class="menu-text">Cerrar Sesión</span>
 									</a>

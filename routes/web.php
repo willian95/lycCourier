@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('login');
 })->middleware("guest");
 
+Route::get("/logout", "LoginController@logout");
+
 Route::post("/login", "LoginController@login");
 
 Route::get('/home', function(){
