@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RecipientStoreRequest;
 use App\Http\Requests\RecipientUpdateRequest;
 use App\Recipient;
+use App\Shipping;
+
+use PDF;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RecipientsExport;
 
 class RecipientController extends Controller
 {
@@ -108,5 +114,58 @@ class RecipientController extends Controller
 
         }
     }
+
+    function exportExcel(){
+
+        try{
+
+            return Excel::download(new RecipientsExport, uniqid().'destinatarios.xlsx');
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+
+    }
+
+    function exportPDF(){
+
+        try{
+
+            $pdf = PDF::loadView('pdf.recipients');
+            return $pdf->stream();
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+
+    }
+
+    function shippingList($recipient){
+        return view("recipients.shippingList", ["recipient" => $recipient]);
+    }
+
+    function shippingFetch($recipient, $page){
+
+        try{
+
+            $dataAmount = 20;
+            $skip = ($page - 1) * $dataAmount;
+
+            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->has("recipient")->has("box")->orderBy("id", "desc")->where("recipient_id", $recipient)->get();
+            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->where("recipient_id", $recipient)->has("recipient")->has("box")->count();
+
+            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+        }
+
+    }
+
 
 }

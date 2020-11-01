@@ -12,6 +12,9 @@ use App\ShippingStatus;
 use App\Recipient;
 use PDF;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ShippingsExport;
+
 class ShippingController extends Controller
 {
     use StoreShippingHistory;
@@ -41,6 +44,9 @@ class ShippingController extends Controller
             $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
             $shipping->save();
+
+            $shipping->warehouse_number = "WRI".str_pad($shipping->id, 10, "0", STR_PAD_LEFT);
+            $shipping->update();
 
             $this->storeShippingHistory($shipping->id, 1);
             //$this->sendEmail($shipping);
@@ -105,6 +111,22 @@ class ShippingController extends Controller
 
     }
 
+    function search(Request $request){
+
+        try{
+
+            $shippings = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take(40)->orderBy("id", "desc")->get();
+
+            return response()->json(["success" => true, "shippings" => $shippings]);
+
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+        }
+
+    }
+
     function fetch($page = 1){
 
         try{
@@ -112,10 +134,10 @@ class ShippingController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus")->get();
-            $shippingsCount = Shipping::count();
+            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->has("recipient")->has("box")->orderBy("id", "desc")->get();
+            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->has("recipient")->has("box")->count();
 
-            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount]);
+            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
         }catch(\Exception $e){
 
@@ -145,6 +167,57 @@ class ShippingController extends Controller
 
         $pdf = PDF::loadView('pdf.qr', ["data" => $data]);
         return $pdf->download('qr'.$shipping->tracking.'.pdf');
+
+    }
+
+    function fetchByRecipient($recipient, $page = 1){
+
+        try{
+
+            $dataAmount = 20;
+            $skip = ($page - 1) * $dataAmount;
+
+            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus")->where("recipient_id", $recipient)->orderBy("id", "desc")->get();
+            $shippingsCount = Shipping::where("recipient_id", $recipient)->count();
+
+            return response()->json(["success" => true, "shippings" => $shippings, "dataAmount" => $dataAmount]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+        }
+
+    }
+
+    function exportExcel($start_date, $end_date){
+
+        try{
+
+            return Excel::download((new ShippingsExport)->forFromDate($start_date)->forToDate($end_date), uniqid().'envios'.$start_date.'-'.$end_date.'.xlsx');
+    
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+
+    }
+
+    function exportPDF($start_date, $end_date){
+
+        try{
+
+            $shippings = Shipping::whereDate('created_at', '>=', $start_date)->whereDate("created_at", '<=', $end_date)->with("recipient", "box")->has("recipient")->has("box")->get();
+
+            $pdf = PDF::loadView('pdf.shippings', ["shippings" => $shippings]);
+            return $pdf->stream();
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
 
     }
 

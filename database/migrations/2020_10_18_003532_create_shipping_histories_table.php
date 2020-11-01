@@ -18,6 +18,7 @@ class CreateShippingHistoriesTable extends Migration
             $table->unsignedBigInteger("shipping_id");
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("shipping_status_id");
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign("shipping_id")->references("id")->on("shippings");

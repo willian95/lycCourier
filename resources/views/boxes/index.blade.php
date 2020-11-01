@@ -20,7 +20,7 @@
                     <div class="card-toolbar">
                         <!--begin::Dropdown-->
                         <div class="dropdown dropdown-inline mr-2">
-                            <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button @click="toggleList()" type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -31,52 +31,30 @@
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
-                            </span>Export</button>
+                            </span>Exportar</button>
                             <!--begin::Dropdown Menu-->
-                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" id="export-list">
                                 <!--begin::Navigation-->
                                 <ul class="navi flex-column navi-hover py-2">
-                                    <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose an option:</li>
-                                    {{--<li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="la la-print"></i>
-                                            </span>
-                                            <span class="navi-text">Print</span>
-                                        </a>
-                                    </li>
+                                    
+
                                     <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="la la-copy"></i>
-                                            </span>
-                                            <span class="navi-text">Copy</span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
+                                        <a href="{{ url('packages/export/excel') }}" target="_blank" class="navi-link" @click="toggleList()">
                                             <span class="navi-icon">
                                                 <i class="la la-file-excel-o"></i>
                                             </span>
                                             <span class="navi-text">Excel</span>
                                         </a>
-                                    </li>--}}
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="la la-file-text-o"></i>
-                                            </span>
-                                            <span class="navi-text">CSV</span>
-                                        </a>
                                     </li>
-                                    {{--<li class="navi-item">
-                                        <a href="#" class="navi-link">
+
+                                    <li class="navi-item">
+                                        <a href="{{ url('packages/export/pdf') }}" target="_blank" class="navi-link" @click="toggleList()">
                                             <span class="navi-icon">
                                                 <i class="la la-file-pdf-o"></i>
                                             </span>
                                             <span class="navi-text">PDF</span>
                                         </a>
-                                    </li>--}}
+                                    </li>
                                 </ul>
                                 <!--end::Navigation-->
                             </div>
@@ -300,7 +278,17 @@
 
                     })
 
+                },
+                toggleList(){
+
+                    if($("#export-list").hasClass("show")){
+                        $("#export-list").removeClass("show")
+                    }else{
+                        $("#export-list").addClass("show")
+                    }
+
                 }
+
             },
             created(){
 

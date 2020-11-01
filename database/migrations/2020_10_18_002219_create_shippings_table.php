@@ -24,6 +24,7 @@ class CreateShippingsTable extends Migration
             $table->float("width")->nullable();
             $table->float("height")->nullable();
             $table->float("weight")->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign("recipient_id")->references("id")->on("recipients");

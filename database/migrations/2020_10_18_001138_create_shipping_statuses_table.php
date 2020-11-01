@@ -16,6 +16,7 @@ class CreateShippingStatusesTable extends Migration
         Schema::create('shipping_statuses', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

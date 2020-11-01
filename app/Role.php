@@ -3,8 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    //
+
+    use SoftDeletes;
+
+    function users(){
+        return $this->belongsTo(User::class);
+    }
 }

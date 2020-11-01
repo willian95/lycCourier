@@ -19,5 +19,11 @@ class RoleSeeder extends Seeder
             $role->save();
         }
 
+        if(Role::where("id", 2)->count() <= 0){
+            $role = new Role;
+            $role->name  = "encargado";
+            $role->save();
+        }
+
     }
 }

@@ -109,7 +109,7 @@
                                 </div>
                                 <!--end::Section-->
                                 <!--begin::Label-->
-                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">450</div>
+                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\Shipping::count() }}</div>
                                 <!--end::Label-->
                             </div>
                             <!--end::Item-->
@@ -132,7 +132,7 @@
                                 </div>
                                 <!--end::Section-->
                                 <!--begin::Label-->
-                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">80</div>
+                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\Recipient::count() }}</div>
                                 <!--end::Label-->
                             </div>
                             <!--end::Widget Item-->
@@ -155,7 +155,7 @@
                                 </div>
                                 <!--end::Section-->
                                 <!--begin::Label-->
-                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">7</div>
+                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\User::count() }}</div>
                                 <!--end::Label-->
                             </div>
                             <!--end::Widget Item-->

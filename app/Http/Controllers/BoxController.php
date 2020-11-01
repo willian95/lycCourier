@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BoxStoreRequest;
 use App\Http\Requests\BoxUpdateRequest;
 use App\Box;
+use PDF;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BoxesExport;
 
 class BoxController extends Controller
 {
@@ -104,7 +108,34 @@ class BoxController extends Controller
         }
     }
 
-    
+    function exportExcel(){
+
+        try{
+
+            return Excel::download(new BoxesExport, uniqid().'boxes.xlsx');
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+
+    }
+
+    function exportPDF(){
+
+        try{
+
+            $pdf = PDF::loadView('pdf.boxes');
+            return $pdf->stream();
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+
+    }
 
 
 }
