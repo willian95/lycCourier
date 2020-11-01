@@ -326,29 +326,44 @@
 
                 },
                 erase(id){
-                    axios.post("{{ url('users/erase') }}", {id: id})
-                    .then(res => {
 
-                        if(res.data.success == true){
-
-                            swal({
-                                title: "Perfecto!",
-                                text: res.data.msg,
-                                icon: "success"
-                            });
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Eliminarás este usuario!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
                             
-                            this.fetch()
-                        }else{
+                            axios.post("{{ url('users/erase') }}", {id: id})
+                            .then(res => {
 
-                            swal({
-                                title: "Lo sentimos!",
-                                text: res.data.msg,
-                                icon: "error"
-                            });
+                                if(res.data.success == true){
+
+                                    swal({
+                                        title: "Perfecto!",
+                                        text: res.data.msg,
+                                        icon: "success"
+                                    });
+                                    
+                                    this.fetch()
+                                }else{
+
+                                    swal({
+                                        title: "Lo sentimos!",
+                                        text: res.data.msg,
+                                        icon: "error"
+                                    });
+
+                                }
+
+                            })
 
                         }
+                    }
 
-                    })
 
                 }
             },

@@ -332,29 +332,44 @@
 
                 },
                 erase(id){
-                    axios.post("{{ url('recipients/erase') }}", {id: id})
-                    .then(res => {
 
-                        if(res.data.success == true){
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Eliminarás este destinatario!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
 
-                            swal({
-                                title: "Perfecto!",
-                                text: res.data.msg,
-                                icon: "success"
-                            });
-                            
-                            this.fetch()
-                        }else{
+                            axios.post("{{ url('recipients/erase') }}", {id: id})
+                            .then(res => {
 
-                            swal({
-                                title: "Lo sentimos!",
-                                text: res.data.msg,
-                                icon: "error"
-                            });
+                                if(res.data.success == true){
+
+                                    swal({
+                                        title: "Perfecto!",
+                                        text: res.data.msg,
+                                        icon: "success"
+                                    });
+                                    
+                                    this.fetch()
+                                }else{
+
+                                    swal({
+                                        title: "Lo sentimos!",
+                                        text: res.data.msg,
+                                        icon: "error"
+                                    });
+
+                                }
+
+                            })
 
                         }
+                    }
 
-                    })
 
                 },
                 toggleList(){
