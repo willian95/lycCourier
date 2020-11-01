@@ -119,7 +119,7 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-info" data-toggle="modal" data-target="#recipientModal" @click="edit(recipient)"><i class="far fa-edit"></i></button>
-                                        <a class="btn btn-info" :href="'/recipients/shipping'+'/'+recipient.id"><i class="menu-icon flaticon2-telegram-logo"></i></a>
+                                        <a class="btn btn-info" :href="'{{ url('/recipients/shipping')}}'+'/'+recipient.id"><i class="menu-icon flaticon2-telegram-logo"></i></a>
                                         <button class="btn btn-secondary" @click="erase(recipient.id)"><i class="far fa-trash-alt"></i></button>
                                         
                                     </td>
