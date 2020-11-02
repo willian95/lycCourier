@@ -166,6 +166,22 @@ class RecipientController extends Controller
         }
 
     }
+    
+    function searchShipping(Request $request){
+
+        try{
+
+            $shippings = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->where("recipient_id", $request->recipient)->take(40)->orderBy("id", "desc")->get();
+
+            return response()->json(["success" => true, "shippings" => $shippings]);
+
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+        }
+
+    }
 
 
 }
