@@ -33,7 +33,7 @@ Route::post('/recipients/erase', "RecipientController@erase")->middleware("auth"
 Route::post('/recipients/search', "RecipientController@search")->middleware("auth");
 Route::get("/recipients/shipping/{recipient}", "RecipientController@shippingList")->middleware("auth");
 Route::get("/recipients/shipping/{recipient}/fetch/{page}", "RecipientController@shippingFetch")->middleware("auth");
-Route::post("/recipients/shippings/search", "RecipientController@shippingFetch")->middleware("auth");
+Route::post("/recipients/shippings/search", "RecipientController@searchShipping")->middleware("auth");
 Route::get('/recipients/export/excel', "RecipientController@exportExcel")->middleware("auth");
 Route::get('/recipients/export/pdf', "RecipientController@exportPDF")->middleware("auth");
 
