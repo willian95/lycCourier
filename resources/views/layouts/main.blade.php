@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--begin::Head-->
 	<head><base href="../../../">
 		<meta charset="utf-8" />
-		<title>List Datatable | Keenthemes</title>
+		<title>L&CCourier</title>
 		<meta name="description" content="User datatable listing" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -31,7 +31,9 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--end::Global Theme Styles-->
 		<!--begin::Layout Themes(used by all pages)-->
 		<!--end::Layout Themes-->
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" />
+		<link href="{{ asset('alertify/css/alertify.min.css') }}" rel="stylesheet" />
+    	<link href="{{ asset('alertify/css/themes/bootstrap.min.css') }}" rel="stylesheet" />
 
 		<style>
 
@@ -72,7 +74,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="index.html">
-				<img alt="Logo" class="w-45px" src="{{ asset('assets/media/logos/logo-letter-13.png') }}" />
+				<img alt="Logo" class="w-45px" src="{{ asset('assets/img/logo1.png') }}" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -115,7 +117,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					<div class="brand flex-column-auto" id="kt_brand">
 						<!--begin::Logo-->
 						<a href="{{ url('/home') }}" class="brand-logo">
-							<img alt="Logo" class="w-65px" src="{{ asset('assets/media/logos/logo-letter-13.png') }}" />
+							<img alt="Logo" style="width: 230px;" src="{{ asset('/img/logo1.png') }}" />
 						</a>
 						<!--end::Logo-->
 					</div>
@@ -336,7 +338,12 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		<script src="{{ asset('assets/js/pages/custom/user/list-datatable.js') }}"></script>
+		<script src="{{ asset('alertify/alertify.min.js') }}"></script>
 		<script src="{{ asset('/js/app.js') }}"></script>
+
+		<script>
+			alertify.set('notifier', 'position', 'top-right');
+		</script>
 
 		@stack("scripts")
 

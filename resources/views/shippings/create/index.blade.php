@@ -2,6 +2,12 @@
 
 @section("content")
 
+    <style>
+        small{
+            color: red;
+        }
+    </style>
+
     <div class="d-flex flex-column-fluid" id="shipping-dev">
 
         <div class="loader-cover-custom" v-if="loading == true">
@@ -38,17 +44,12 @@
                                 <div class="form-group">
                                     <label for="recipient">Destinatario</label>
                                     <div style="display: flex;">
-                                        <input type="text" class="form-control" v-model="recipientQuery" @keyup="recipientSearch()" id="recipient" autocomplete="off">
+                                        <input type="text" class="form-control" @click="showRecipientSearch()" id="recipient" autocomplete="off" v-model="recipientShowName">
                                         <button class="btn btn-success" data-toggle="modal" data-target="#recipientModal"><i class="fa fa-plus"></i></button>
                                     </div>
                                     <small v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
                                 </div>
-                                <div v-if="recipients.length > 0 && recipientQuery.length > 0">
-                                    <p v-for="recipient in recipients">
-                                        <a @click="selectRecipientId(recipient)">@{{ recipient.name }}</a>
-                                    </p>
-                                 
-                                </div>
+                               
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -78,16 +79,9 @@
                                 <div class="form-group">
                                     <label for="recipient">Tipo de paquete</label>
                                     <div style="display: flex;">
-                                        <input type="text" class="form-control" v-model="packageQuery" @keyup="packageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
+                                        <input type="text" class="form-control" v-model="packageShowName" @click="showPackageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
                                     </div>
                                     <small v-if="errors.hasOwnProperty('packageId')">@{{ errors['packageId'][0] }}</small>
-
-                                    <div v-if="packages.length > 0 && packageQuery.length > 0">
-                                        <p v-for="package in packages">
-                                            <a @click="selectPackageId(package)">@{{ package.name }}</a>
-                                        </p>
-                                    
-                                    </div>
 
                                 </div>
                             </div>
@@ -202,6 +196,71 @@
             </div>
         </div>
 
+        <!-- Modal Recipients Search-->
+        <div class="modal fade" id="recipientSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Buscar destinatario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipientSearch">Nombre</label>
+                            <input type="text" class="form-control" @keyup="recipientSearch()" id="recipientSearch" v-model="recipientQuery" autocomplete="off"> 
+                        </div>
+
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-action" style="cursor:pointer;" v-for="recipient in recipients" @click="selectRecipientId(recipient)">@{{ recipient.name }}</li>
+                        </ul>
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" @click="showNewRecipientModal()">Nuevo destinatario</button>
+                        <button type="button" id="recipientModalSearch" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Recipients Search-->
+
+        <!-- Modal Recipients Search-->
+        <div class="modal fade" id="packageSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Buscar tipos de empaques</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipientSearch">Nombre</label>
+                            <input type="text" class="form-control" v-model="packageQuery" @keyup="packageSearch()" autocomplete="off">
+                        </div>
+
+
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-action" style="cursor:pointer;" v-for="package in packages" @click="selectPackageId(package)">@{{ package.name }}</li>
+                        </ul>
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" @click="showNewPackageModal()">Nuevo empaque</button>
+                        <button type="button" id="packageModalSearch" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Recipients Search-->
+
     </div>
 
 @endsection
@@ -216,9 +275,11 @@
                     recipients:[],
                     recipientId:"",
                     recipientQuery:"",
+                    recipientShowName:"",
                     packages:[],
                     packageId:"",
                     packageQuery:"",
+                    packageShowName:"",
                     tracking:"",
                     description:"",
                     pieces:"",
@@ -241,21 +302,27 @@
 
                 recipientSearch(){
 
-                    if(this.recipientQuery.length > 0){
+                    //if(this.recipientQuery.length > 0){
                         axios.post("{{ url('recipients/search') }}", {search: this.recipientQuery}).then(res => {
 
                             this.recipients = res.data.recipients
 
                         })
-                    }
+                    //}
 
                 },
                 selectRecipientId(recipient){
                     
                     
                     this.recipientId = recipient.id
-                    this.recipientQuery = recipient.name
+                    this.recipientShowName = recipient.name
+                    this.recipientQuery = ""
                     this.recipients = []
+
+                    $("#recipientModalSearch").click();
+                    $('body').removeClass('modal-open');
+                    $('body').css('padding-right', '0px');
+                    $('.modal-backdrop').remove();
                    
 
                 },
@@ -271,10 +338,16 @@
 
                 },
                 selectPackageId(package){
-
+                    
                     this.packageId = package.id
-                    this.packageQuery = package.name
+                    this.packageShowName = package.name
+                    this.packageQuery = ""
                     this.packages = []
+
+                    $("#packageModalSearch").click();
+                    $('body').removeClass('modal-open');
+                    $('body').css('padding-right', '0px');
+                    $('.modal-backdrop').remove();
 
                 },
                 isNumberDot(evt) {
@@ -326,6 +399,9 @@
 
                     })
                     .catch(err => {
+
+                        alertify.error("Hay algunos campos que debe revisar")
+
                         this.loading = false
                         this.errors = err.response.data.errors
                     })
@@ -348,7 +424,7 @@
                             this.recipientEmail = ""
                             this.recipientPhone = ""
                             this.recipientAddress = ""
-                            this.recipientQuery = res.data.recipient.name
+                            this.recipientShowName = res.data.recipient.name
                             this.recipientId = res.data.recipient.id
                             this.recipients = []
 
@@ -369,6 +445,7 @@
 
                     })
                     .catch(err => {
+                        alertify.error("Hay algunos campos que debe revisar")
                         this.loading = false
                         this.recipientErrors = err.response.data.errors
                     })
@@ -388,7 +465,7 @@
                                 icon: "success"
                             });
                             this.packageName = ""
-                            this.packageQuery = res.data.box.name
+                            this.packageShowName = res.data.box.name
                             this.packageId = res.data.box.id
                             this.packages = []
 
@@ -409,9 +486,38 @@
 
                     })
                     .catch(err => {
+                        alertify.error("Hay algunos campos que debe revisar")
                         this.loading = false
                         this.packageErrors = err.response.data.errors
                     })
+
+                },
+                showRecipientSearch(){
+
+                    $("#recipientSearch").modal("show")
+
+                },
+                showPackageSearch(){
+
+                    $("#packageSearch").modal("show")
+
+                },
+                showNewRecipientModal(){
+                    $("#recipientModalSearch").click();
+                    $('body').removeClass('modal-open');
+                    $('body').css('padding-right', '0px');
+                    $('.modal-backdrop').remove();
+
+                    $("#recipientModal").modal("show")
+
+                },
+                showNewPackageModal(){
+                    $("#packageModalSearch").click();
+                    $('body').removeClass('modal-open');
+                    $('body').css('padding-right', '0px');
+                    $('.modal-backdrop').remove();
+
+                    $("#packageModal").modal("show")
 
                 }
             },

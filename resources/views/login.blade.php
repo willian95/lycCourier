@@ -8,10 +8,13 @@
                 style="background-image: url('https://images.unsplash.com/photo-1568731053253-f99d388659f0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80');">
 
 
-                <p>LyCCourier</p>
+                
+                <p>L&CCourier</p>
+
             </div>
             <div class="login100-form validate-form col-md-6">
 
+                <p class="text-center"><img style="width: 230px;" src="{{ url('/img/logo2.png') }}" alt=""></p>
 
                 <div class="wrap-input100 validate-input">
                     <input class="input100" type="text" v-model="email" v-on:keyup.enter="login()">

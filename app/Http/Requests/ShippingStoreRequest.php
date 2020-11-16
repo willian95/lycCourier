@@ -28,11 +28,11 @@ class ShippingStoreRequest extends FormRequest
             "recipientId" => "required|exists:recipients,id",
             "packageId" => "required|exists:boxes,id",
             "description" => "required",
-            "pieces" => "required|integer|min:1",
-            "length" => "required|numeric|min:0",
-            "height" => "required|numeric|min:0",
-            "width" => "required|numeric|min:0",
-            "weight" => "required|numeric|min:0"
+            "pieces" => "nullable|integer|min:1",
+            "length" => "nullable|numeric|min:0",
+            "height" => "nullable|numeric|min:0",
+            "width" => "nullable|numeric|min:0",
+            "weight" => "nullable|numeric|min:0"
         ];
     }
 
