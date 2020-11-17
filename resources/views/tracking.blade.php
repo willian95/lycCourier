@@ -690,12 +690,16 @@
                                 @if($shipping->pieces != null)
                                 <p class="subtitle">{{ $shipping->pieces }}</p>
                                 @else
-                                <p class="subtitle">0</p>
+                                <p class="subtitle">No especificado</p>
                                 @endif
                             </div>
                             <div class="card_content-title card_content-title--info mt-5">
                                 <p>Largo</p>
+                                @if($shipping->length != null)
                                 <p class="subtitle">{{ $shipping->length }}cm</p>
+                                @else
+                                <p class="subtitle">No especificado</p>
+                                @endif
                             </div>
                             <div class="card_content-title card_content-title--info mt-5">
                                 <p>Tipo de empaque</p>
@@ -705,11 +709,19 @@
                         <div class="col-md-4">
                             <div class="card_content-title card_content-title--info">
                                 <p>Alto</p>
+                                @if($shipping->height != null)
                                 <p class="subtitle">{{ $shipping->height }}cm</p>
+                                @else
+                                <p class="subtitle">No especificado</p>
+                                @endif
                             </div>
                             <div class="card_content-title card_content-title--info mt-5">
                                 <p>Ancho</p>
+                                @if($shipping->width != null)
                                 <p class="subtitle">{{ $shipping->width }}cm</p>
+                                @else
+                                <p class="subtitle">No especificado</p>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-4">
