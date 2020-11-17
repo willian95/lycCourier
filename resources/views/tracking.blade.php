@@ -686,7 +686,12 @@
                         <div class="col-md-4">
                             <div class="card_content-title card_content-title--info">
                                 <p>Numero de piezas</p>
+
+                                @if($shipping->pieces != null)
                                 <p class="subtitle">{{ $shipping->pieces }}</p>
+                                @else
+                                <p class="subtitle">0</p>
+                                @endif
                             </div>
                             <div class="card_content-title card_content-title--info mt-5">
                                 <p>Largo</p>
