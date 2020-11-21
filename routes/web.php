@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');
-})->middleware("guest");
+})->middleware("guest")->name("login");
 
-Route::get("/logout", "LoginController@logout")->name("login")->middleware("guest");
+Route::get("/logout", "LoginController@logout");
 
 Route::post("/login", "LoginController@login");
 
