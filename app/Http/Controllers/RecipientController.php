@@ -115,6 +115,24 @@ class RecipientController extends Controller
         }
     }
 
+    function searchList(Request $request){
+        try{
+
+            $dataAmount = 20;
+            $skip = ($request->page - 1) * $dataAmount;
+
+            $recipients = Recipient::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take($dataAmount)->skip($skip)->get();
+            $recipientsCount = Recipient::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->count();
+
+            return response()->json(["success" => true, "recipients" => $recipients, "recipientsCount" => $recipientsCount, "dataAmount" => $dataAmount]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+    }
+
     function exportExcel(){
 
         try{

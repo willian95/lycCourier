@@ -178,9 +178,14 @@ class ShippingController extends Controller
 
         try{
 
-            $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take(40)->orderBy("id", "desc")->get();
+            $dataAmount = 20;
+            $skip = ($request->page - 1) * $dataAmount;
 
-            return response()->json(["success" => true, "shippings" => $shippings]);
+            $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")->get();
+
+            $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->count();
+
+            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
 
         }catch(\Exception $e){
@@ -194,9 +199,15 @@ class ShippingController extends Controller
 
         try{
 
-            $shippings = Shipping::where("is_finished", 0)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take(40)->orderBy("id", "desc")->get();
+            $dataAmount = 1;
+            $skip = ($request->page - 1) * $dataAmount;
 
-            return response()->json(["success" => true, "shippings" => $shippings]);
+            $shippings = Shipping::where("is_finished", 0)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->skip($skip)->take($dataAmount)->orderBy("id", "desc")->get();
+
+
+            $shippingsCount = Shipping::where("is_finished", 0)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->count();
+            
+            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
 
         }catch(\Exception $e){

@@ -154,17 +154,17 @@
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_full_numbers" id="kt_datatable_paginate">
                                     <ul class="pagination">
-                                        <li class="paginate_button page-item previous disabled" id="kt_datatable_previous" v-if="page > 1">
-                                            <a href="#" aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">
+                                        <li class="paginate_button page-item previous" id="kt_datatable_previous" v-if="page > 1">
+                                            <a style="cursor:pointer;" @click="fetch(1)" aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">
                                                 <i class="ki ki-arrow-back"></i>
                                             </a>
                                         </li>
                                         <li class="paginate_button page-item active" v-for="index in pages">
-                                            <a href="#" aria-controls="kt_datatable" tabindex="0" class="page-link":key="index" @click="fetch(index)" >@{{ index }}</a>
+                                            <a style="cursor:pointer;" aria-controls="kt_datatable" tabindex="0" class="page-link":key="index" @click="fetch(index)" >@{{ index }}</a>
                                         </li>
                                         
                                         <li class="paginate_button page-item next" id="kt_datatable_next" v-if="page < pages" href="#">
-                                            <a href="#" aria-controls="kt_datatable" data-dt-idx="7" tabindex="0" class="page-link" @click="fetch(page + 6)">
+                                            <a style="cursor:pointer;" aria-controls="kt_datatable" data-dt-idx="7" tabindex="0" class="page-link" @click="fetch(pages)">
                                                 <i class="ki ki-arrow-next"></i>
                                             </a>
                                         </li>
@@ -320,16 +320,24 @@
                     
                     this.page = page
 
-                    axios.get("{{ url('/shippings/fetch/') }}"+"/"+page).then(res => {
+                    if(this.query == ""){
+                        axios.get("{{ url('/shippings/fetch/') }}"+"/"+page).then(res => {
                         
-                        this.shippings = res.data.shippings
-                        this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
+                            this.shippings = res.data.shippings
+                            this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
 
-                    })
+                        })
+                    }else{
+
+                        this.search()
+
+                    }
+
+                    
 
                 },
                 edit(shipping){
-                    console.log(shipping)
+                    
                     this.shippingId = shipping.id
                     this.actualStatus = shipping.shipping_status.name
                     this.actualStatusId = shipping.shipping_status.id
@@ -394,9 +402,10 @@
 
                     }else{
                         
-                        axios.post("{{ url('/shippings/search') }}", {search: this.query}).then(res =>{
+                        axios.post("{{ url('/shippings/search') }}", {search: this.query, page: this.page}).then(res =>{
 
                             this.shippings = res.data.shippings
+                            this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
 
                         })
 

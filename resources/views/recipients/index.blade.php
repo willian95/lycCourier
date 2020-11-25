@@ -81,6 +81,14 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--begin: Datatable-->
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Búsqueda</label>
+                            <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Nombre o email">
+                        </div>
+                    </div>
+
                     <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded table-responsive" id="kt_datatable" style="">
                         <table class="table">
                             <thead>
@@ -134,17 +142,17 @@
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_full_numbers" id="kt_datatable_paginate">
                                     <ul class="pagination">
-                                        <li class="paginate_button page-item previous disabled" id="kt_datatable_previous" v-if="page > 1">
-                                            <a href="#" aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">
+                                        <li class="paginate_button page-item previous" id="kt_datatable_previous" v-if="page > 1">
+                                            <a style="cursor:pointer;" aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">
                                                 <i class="ki ki-arrow-back"></i>
                                             </a>
                                         </li>
                                         <li class="paginate_button page-item active" v-for="index in pages">
-                                            <a href="#" aria-controls="kt_datatable" tabindex="0" class="page-link":key="index" @click="fetch(index)" >@{{ index }}</a>
+                                            <a style="cursor:pointer;" aria-controls="kt_datatable" tabindex="0" class="page-link":key="index" @click="fetch(index)" >@{{ index }}</a>
                                         </li>
                                         
                                         <li class="paginate_button page-item next" id="kt_datatable_next" v-if="page < pages" href="#">
-                                            <a href="#" aria-controls="kt_datatable" data-dt-idx="7" tabindex="0" class="page-link" @click="fetch(page + 6)">
+                                            <a style="cursor:pointer;" aria-controls="kt_datatable" data-dt-idx="7" tabindex="0" class="page-link" @click="fetch(page + 6)">
                                                 <i class="ki ki-arrow-next"></i>
                                             </a>
                                         </li>
@@ -225,6 +233,7 @@
                     address:"",
                     pages:0,
                     page:1,
+                    query:"",
                     loading:false
                 }
             },
@@ -237,6 +246,27 @@
                     this.email = ""
                     this.phone = ""
                     this.address = ""
+                },
+                search(){
+
+                    if(this.query != ""){
+                        axios.post("{{ url('/recipients/list/search') }}", {search: this.query, page: this.page})
+                        .then(res => {
+                        
+                            if(res.data.success == true){
+
+                                this.recipients = res.data.recipients
+                                this.pages = Math.ceil(res.data.recipientsCount / res.data.dataAmount)
+
+                            }
+
+                        })
+                    }else{
+                        this.fetch()
+                    }
+
+                    
+
                 },
                 store(){
 
@@ -322,13 +352,19 @@
 
                     this.page = page
 
-                    axios.get("{{ url('recipients/fetch') }}"+"/"+page)
-                    .then(res => {
+                    if(this.query == ""){
+                        axios.get("{{ url('recipients/fetch') }}"+"/"+page)
+                        .then(res => {
 
-                        this.recipients = res.data.recipients
-                        this.pages = Math.ceil(res.data.recipientsCount / res.data.dataAmount)
+                            this.recipients = res.data.recipients
+                            this.pages = Math.ceil(res.data.recipientsCount / res.data.dataAmount)
 
-                    })
+                        })
+                    }else{
+
+                        this.search()
+
+                    }
 
                 },
                 erase(id){
