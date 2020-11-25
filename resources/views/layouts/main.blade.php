@@ -73,8 +73,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
-			<a href="index.html">
-				<img alt="Logo" class="w-45px" src="{{ asset('assets/img/logo1.png') }}" />
+			<a href="{{ url('/home') }}">
+				<img alt="Logo" class="w-45px" src="{{ asset('/img/logo1.png') }}" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -154,6 +154,14 @@ License: You must have a valid license purchased only from themeforest(the above
 														<span></span>
 													</i>
 													<span class="menu-text">Listado</span>
+												</a>
+											</li>
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('shippings.pending') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text">Pendientes</span>
 												</a>
 											</li>
 										</ul>

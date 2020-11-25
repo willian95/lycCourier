@@ -175,22 +175,22 @@
                         <div class="form-group">
                             <label for="name">Nombre</label>
                             <input type="text" class="form-control" id="name" v-model="name">
-                            <small v-if="errors.hasOwnProperty('name')">@{{ errors['name'][0] }}</small>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('name')">@{{ errors['name'][0] }}</small>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="text" class="form-control" id="email" v-model="email">
-                            <small v-if="errors.hasOwnProperty('email')">@{{ errors['email'][0] }}</small>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('email')">@{{ errors['email'][0] }}</small>
                         </div>
                         <div class="form-group">
                             <label for="phone">Teléfono</label>
                             <input type="text" class="form-control" id="phone" v-model="phone">
-                            <small v-if="errors.hasOwnProperty('phone')">@{{ errors['phone'][0] }}</small>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('phone')">@{{ errors['phone'][0] }}</small>
                         </div>
                         <div class="form-group">
                             <label for="address">Dirección</label>
                             <input type="text" class="form-control" id="address" v-model="address">
-                            <small v-if="errors.hasOwnProperty('address')">@{{ errors['address'][0] }}</small>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('address')">@{{ errors['address'][0] }}</small>
                         </div>
                         
                     </div>
