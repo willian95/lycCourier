@@ -262,9 +262,11 @@
                                 title: "Perfecto!",
                                 text: res.data.msg,
                                 icon: "success"
-                            });
+                            }).then(res => {
+                                window.location.reload()
+                            })
                             
-                            window.location.reload()
+                            
                             //this.getShippings()
 
                         }else{
