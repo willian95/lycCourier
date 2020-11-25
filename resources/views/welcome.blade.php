@@ -263,8 +263,9 @@
                                 text: res.data.msg,
                                 icon: "success"
                             });
-                           
-                            this.getShippings()
+                            
+                            window.location.reload()
+                            //this.getShippings()
 
                         }else{
 
