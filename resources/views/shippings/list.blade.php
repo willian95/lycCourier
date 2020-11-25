@@ -364,18 +364,23 @@
                         this.loading = false
                         if(res.data.success == true){
 
-                            swal({
-                                title: "Perfecto!",
-                                text: res.data.msg,
-                                icon: "success"
-                            });
+                            
 
                             $("#shippingModalClose").click();
                             $('body').removeClass('modal-open');
                             $('body').css('padding-right', '0px');
                             $('.modal-backdrop').remove();
+
+                            swal({
+                                title: "Perfecto!",
+                                text: res.data.msg,
+                                icon: "success"
+                            }).then(res => {
+                                window.location.reload()
+                            });
                            
-                            window.location.reload()
+                            
+                            
 
                         }else{
 
