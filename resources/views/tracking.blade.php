@@ -584,7 +584,7 @@
                             <div class="card_content-title">
                                 <p><i class="fa fa-calendar-o" aria-hidden="true"></i>
                                     Fecha de creación</p>
-                                <p class="subtitle">{{ $shipping->created_at->format('d-m-Y') }}</p>
+                                <p class="subtitle">{{ $shipping->shipped_at->format('d-m-Y') }}</p>
                             </div>
 
                             <div class="card_content-body">

@@ -47,6 +47,7 @@ class ShippingController extends Controller
 
             if(Recipient::find($request->recipientId)->email != "" && Recipient::find($request->recipientId)->address != "" && Recipient::find($request->recipientId)->phone != ""){
                 $shipping->is_finished = 1;
+                $shipping->shipped_at = Carbon::now();
             }
 
             $shipping->save();
@@ -104,6 +105,7 @@ class ShippingController extends Controller
 
             if(Recipient::find($request->recipientId)->email != "" && Recipient::find($request->recipientId)->address != "" && Recipient::find($request->recipientId)->phone != ""){
                 $shipping->is_finished = 1;
+                $shipping->shipped_at = Carbon::now();
             }
 
             $shipping->update();
@@ -291,11 +293,12 @@ class ShippingController extends Controller
 
     function downloadQR($id){
 
-        $shipping = Shipping::find($id);
+        $shipping = Shipping::where("id", $id)->with("recipient", "box")->first();
         $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
 
-        $pdf = PDF::loadView('pdf.qr', ["data" => $data]);
-        return $pdf->download('qr'.$shipping->tracking.'.pdf');
+        $pdf = PDF::loadView('pdf.qr', ["data" => $data, "shipping" => $shipping]);
+        $pdf->setPaper([0, 0, 288, 430.87], 'portrait');
+        return $pdf->stream('qr'.$shipping->tracking.'.pdf');
 
     }
 

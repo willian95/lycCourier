@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
+                    <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded table-responsive" id="kt_datatable" style="">
                         <table class="table">
                             <thead>
                                 <tr >
@@ -129,7 +129,7 @@
                                         @{{ shipping.recipient.name }}
                                     </td>
                                     <td class="datatable-cell">
-                                        @{{ dateFormatter(shipping.created_at) }}
+                                        @{{ dateFormatter(shipping.shipped_at) }}
                                     </td>
                                     <td class="datatable-cell" v-if="shipping.shipping_status">
                                         @{{ shipping.shipping_status.name }}

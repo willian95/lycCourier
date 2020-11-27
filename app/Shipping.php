@@ -10,6 +10,8 @@ class Shipping extends Model
 
     use SoftDeletes;
 
+    protected $dates = ["shipped_at"];
+
     public function recipient(){
         return $this->belongsTo(Recipient::class);
     }
