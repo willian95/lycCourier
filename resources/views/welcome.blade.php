@@ -56,7 +56,7 @@
                                                 @{{ dateFormatter(shipping.created_at) }}
                                             </td>
                                             <td class="datatable-cell">
-                                                @{{ shipping.shipping_status.name }}
+                                                @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                             </td>
                                             <td>
                                                 <button class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>

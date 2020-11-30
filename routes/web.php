@@ -54,17 +54,18 @@ Route::get('/shippings/show/{tracking}', "ShippingController@show")->middleware(
 Route::get("shippings/statuses", "ShippingController@getAllStatuses")->middleware("auth");
 Route::post('/shippings/store', "ShippingController@store")->middleware("auth");
 Route::post('/shippings/update', "ShippingController@update")->middleware("auth");
+Route::post('/shippings/update-info', "ShippingController@updateInfo")->middleware("auth");
 Route::post('/shippings/erase', "ShippingController@erase")->middleware("auth");
 Route::get("/shippings/qr/{id}", "ShippingController@downloadQR")->middleware("auth");
 Route::post("/shippings/search", "ShippingController@search")->middleware("auth");
 Route::get('/shippings/export/excel/{start_date}/{end_date}', "ShippingController@exportExcel")->middleware("auth");
 Route::get('/shippings/export/pdf/{start_date}/{end_date}', "ShippingController@exportPDF")->middleware("auth");
 
-Route::get("shippings/pending", "ShippingController@shippingsPending")->name("shippings.pending")->middleware("auth");
+/*Route::get("shippings/pending", "ShippingController@shippingsPending")->name("shippings.pending")->middleware("auth");
 Route::get('/shippings/pending/fetch/{page}', "ShippingController@pendingFetch")->middleware("auth");
 Route::get('shippings/pending/edit/{id}', "ShippingController@pendingEdit")->middleware("auth");
 Route::post("/shippings/pending/search", "ShippingController@pendingSearch")->middleware("auth");
-Route::post("/shippings/pending/update", "ShippingController@pendingUpdate")->middleware("auth");
+Route::post("/shippings/pending/update", "ShippingController@pendingUpdate")->middleware("auth");*/
 
 Route::get("/user", "UserController@index")->name("user")->middleware("auth");
 Route::post("/users/store", "UserController@store")->middleware("auth");

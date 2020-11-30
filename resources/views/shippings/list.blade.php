@@ -129,10 +129,10 @@
                                         @{{ shipping.recipient.name }}
                                     </td>
                                     <td class="datatable-cell">
-                                        @{{ dateFormatter(shipping.shipped_at) }}
+                                        @{{ dateFormatter(shipping.shipped_at) }} 
                                     </td>
                                     <td class="datatable-cell" v-if="shipping.shipping_status">
-                                        @{{ shipping.shipping_status.name }}
+                                        @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                     </td>
                                     <td>
                                         <button class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" v-if="shipping.shipping_status_id < 5" ><i class="far fa-edit"></i></button>

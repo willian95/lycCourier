@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShippingStoreRequest;
 use App\Http\Requests\ShippingUpdateRequest;
+use App\Http\Requests\ShippingUpdateInfoRequest;
 use App\Http\Requests\ShippingPendingUpdateRequest;
 use App\Traits\StoreShippingHistory;
 use App\Traits\SendEmail;
@@ -45,42 +46,33 @@ class ShippingController extends Controller
             $shipping->width = $request->width;
             $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
-
-            if(Recipient::find($request->recipientId)->email != "" && Recipient::find($request->recipientId)->address != "" && Recipient::find($request->recipientId)->phone != ""){
-                $shipping->is_finished = 1;
-                $shipping->shipped_at = Carbon::now();
-            }
-
+            $shipping->is_finished = 1;
+            $shipping->shipped_at = Carbon::now();
+            $shipping->address = $request->address;
             $shipping->save();
 
             $shipping->warehouse_number = "WRI".str_pad($shipping->id, 10, "0", STR_PAD_LEFT);
             $shipping->update();
     
+            $this->storeShippingHistory($shipping->id, 1);
+            //$this->sendEmail($shipping);
+            $recipient = Recipient::find($shipping->recipient_id);
+            $to_name = $recipient->name;
+            $to_email = $recipient->email;
+            
+            $status = ShippingStatus::find($shipping->shipping_status_id);
 
-            if(Recipient::find($request->recipientId)->email != "" && Recipient::find($request->recipientId)->address != "" && Recipient::find($request->recipientId)->phone != ""){
-
-                $this->storeShippingHistory($shipping->id, 1);
-                //$this->sendEmail($shipping);
-                $recipient = Recipient::find($shipping->recipient_id);
-                $to_name = $recipient->name;
-                $to_email = $recipient->email;
-                
-                $status = ShippingStatus::find($shipping->shipping_status_id);
-        
-                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
-        
-                \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
-        
-                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
-                    $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
-        
-                });
-
-                return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
-            }else{
-                return response()->json(["success" => true, "msg" => "Envío guardado hasta completar información del destinatario"]);
-            }
-
+            $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
+    
+            \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
+    
+                $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
+                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+    
+            });
+            
+            return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
+            
         }catch(\Exception $e){
 
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
@@ -88,59 +80,29 @@ class ShippingController extends Controller
 
     }
 
-    function pendingUpdate(ShippingPendingUpdateRequest $request){
+    function updateInfo(ShippingUpdateInfoRequest $request){
 
         try{
 
             $shipping = Shipping::find($request->shippingId);
-            $shipping->tracking = $request->tracking;
-            $shipping->recipient_id = $request->recipientId;
-            $shipping->box_id = $request->packageId;
             $shipping->pieces = $request->pieces;
             $shipping->length = $request->length;
             $shipping->height = $request->height;
             $shipping->weight = $request->weight;
             $shipping->width = $request->width;
-            $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
-
-            if(Recipient::find($request->recipientId)->email != "" && Recipient::find($request->recipientId)->address != "" && Recipient::find($request->recipientId)->phone != ""){
-                $shipping->is_finished = 1;
-                $shipping->shipped_at = Carbon::now();
-            }
-
+            $shipping->address = $request->address;
             $shipping->update();
-    
-            if(Recipient::find($request->recipientId)->email != "" && Recipient::find($request->recipientId)->address != "" && Recipient::find($request->recipientId)->phone != ""){
-
-                $this->storeShippingHistory($shipping->id, 1);
-                //$this->sendEmail($shipping);
-                $recipient = Recipient::find($shipping->recipient_id);
-                $to_name = $recipient->name;
-                $to_email = $recipient->email;
-                
-                $status = ShippingStatus::find($shipping->shipping_status_id);
-        
-                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
-        
-                \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
-        
-                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
-                    $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
-        
-                });
-
-                return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
-            }else{
-                return response()->json(["success" => true, "msg" => "Envío guardado hasta completar información del destinatario"]);
-            }
-
+            
+            return response()->json(["success" => true, "msg" => "Envío actualizado exitosamente"]);
+            
         }catch(\Exception $e){
 
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
         }
-
+        
     }
+
 
     function update(ShippingUpdateRequest $request){
 
