@@ -110,7 +110,7 @@
             data() {
                 return {
                     shippingId:"{{ $shipping->id }}",
-                    recipientShowName:"{{ $shipping->name }}",
+                    recipientShowName:"{{ $shipping->recipient->name }}",
                     packageShowName:"{{ $shipping->box->name }}",
                     tracking:"{{ $shipping->tracking }}",
                     description:"{{ $shipping->description }}",
