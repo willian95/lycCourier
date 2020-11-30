@@ -146,9 +146,19 @@ class ShippingController extends Controller
             $dataAmount = 20;
             $skip = ($request->page - 1) * $dataAmount;
 
-            $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")->get();
+            $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->get();
 
-            $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->count();
+            $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->count();
 
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
@@ -156,48 +166,6 @@ class ShippingController extends Controller
         }catch(\Exception $e){
 
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
-        }
-
-    }
-
-    function pendingSearch(Request $request){
-
-        try{
-
-            $dataAmount = 1;
-            $skip = ($request->page - 1) * $dataAmount;
-
-            $shippings = Shipping::where("is_finished", 0)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->skip($skip)->take($dataAmount)->orderBy("id", "desc")->get();
-
-
-            $shippingsCount = Shipping::where("is_finished", 0)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->count();
-            
-            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
-
-
-        }catch(\Exception $e){
-
-            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
-        }
-
-    }
-
-    function pendingEdit($id){
-
-        try{
-
-            $shipping = Shipping::where("id", $id)->with("recipient", "box")->first();
-
-            if($shipping->is_finished == 0){
-
-                return view("shippings.edit.index", ["shipping" => $shipping]);
-
-            }
-
-        }catch(\Exception $e){
-
-
-
         }
 
     }
@@ -209,8 +177,18 @@ class ShippingController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->has("recipient")->has("box")->orderBy("id", "desc")->where("is_finished", 1)->get();
-            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->where("is_finished", 1)->has("recipient")->has("box")->count();
+            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("is_finished", 1)->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->get();
+            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->where("is_finished", 1)->count();
 
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
@@ -220,29 +198,17 @@ class ShippingController extends Controller
         }
 
     }
-
-    function pendingFetch($page = 1){
-
-        try{
-
-            $dataAmount = 20;
-            $skip = ($page - 1) * $dataAmount;
-
-            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->has("recipient")->has("box")->orderBy("id", "desc")->where("is_finished", 0)->get();
-            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->where("is_finished", 0)->has("recipient")->has("box")->count();
-
-            return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
-
-        }catch(\Exception $e){
-
-            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
-        }
-
-    }
-
     function show($tracking){
     
-        $shipping = Shipping::where("tracking", $tracking)->firstOrFail();
+        $shipping = Shipping::where("tracking", $tracking)
+                    ->with(['box' => function ($q) {
+                        $q->withTrashed();
+                    }])
+                    ->with(['recipient' => function ($q) {
+                        $q->withTrashed();
+                    }])
+                    ->first();
+
         return view("shippings.show", ["shipping" => $shipping]);
 
     }
@@ -256,7 +222,12 @@ class ShippingController extends Controller
 
     function downloadQR($id){
 
-        $shipping = Shipping::where("id", $id)->with("recipient", "box")->first();
+        $shipping = Shipping::where("id", $id)->with(['box' => function ($q) {
+            $q->withTrashed();
+        }])
+        ->with(['recipient' => function ($q) {
+            $q->withTrashed();
+        }])->first();
         $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
 
         $pdf = PDF::loadView('pdf.qr', ["data" => $data, "shipping" => $shipping]);
@@ -272,8 +243,18 @@ class ShippingController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus")->where("recipient_id", $recipient)->orderBy("id", "desc")->get();
-            $shippingsCount = Shipping::where("recipient_id", $recipient)->count();
+            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus")->where("recipient_id", $recipient)->orderBy("id", "desc")->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->get();
+            $shippingsCount = Shipping::where("recipient_id", $recipient)->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->count();
 
             return response()->json(["success" => true, "shippings" => $shippings, "dataAmount" => $dataAmount]);
 
@@ -303,7 +284,12 @@ class ShippingController extends Controller
 
         try{
 
-            $shippings = Shipping::whereDate('created_at', '>=', $start_date)->whereDate("created_at", '<=', $end_date)->with("recipient", "box")->has("recipient")->has("box")->get();
+            $shippings = Shipping::whereDate('created_at', '>=', $start_date)->whereDate("created_at", '<=', $end_date)->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->get();
 
             $pdf = PDF::loadView('pdf.shippings', ["shippings" => $shippings]);
             return $pdf->stream();
