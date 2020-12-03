@@ -26,8 +26,8 @@ class RecipientUpdateRequest extends FormRequest
         return [
             "name" => "required",
             "email" => "required|email",
-            "address" => "required",
-            "phone" => "required"
+            "address" => "nullable",
+            "phone" => "nullable"
         ];
     }
 
