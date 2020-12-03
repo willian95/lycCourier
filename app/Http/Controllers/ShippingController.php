@@ -14,6 +14,7 @@ use App\ShippingStatus;
 use App\Recipient;
 use PDF;
 use Carbon\Carbon;
+use App\Jobs\SendUpdateEmail;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ShippingsExport;
@@ -306,6 +307,23 @@ class ShippingController extends Controller
 
         return view("shippings.pending");
 
+    }
+
+    function massUpdate(Request $request){
+
+        foreach($request->selectedShippings as $selectedShipping){
+
+            $shipping = Shipping::find($selectedShipping["id"]);
+            $shipping->shipping_status_id = $request->status;
+            $shipping->update();
+
+            $this->storeShippingHistory($shipping["id"], $request->status);
+
+            SendUpdateEmail::dispatch($shipping["id"]);
+
+        }
+
+        return response()->json(["success" => true, "msg" => "Envío por lote realizado"]);
     }
 
 }

@@ -61,6 +61,8 @@ Route::post("/shippings/search", "ShippingController@search")->middleware("auth"
 Route::get('/shippings/export/excel/{start_date}/{end_date}', "ShippingController@exportExcel")->middleware("auth");
 Route::get('/shippings/export/pdf/{start_date}/{end_date}', "ShippingController@exportPDF")->middleware("auth");
 
+Route::post("shippings/mass/update", "ShippingController@massUpdate")->middleware("auth");
+
 /*Route::get("shippings/pending", "ShippingController@shippingsPending")->name("shippings.pending")->middleware("auth");
 Route::get('/shippings/pending/fetch/{page}', "ShippingController@pendingFetch")->middleware("auth");
 Route::get('shippings/pending/edit/{id}', "ShippingController@pendingEdit")->middleware("auth");

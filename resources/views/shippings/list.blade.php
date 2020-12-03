@@ -85,10 +85,17 @@
                 <div class="card-body">
                     <!--begin: Datatable-->
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Búsqueda</label>
-                            <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Tracking #">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Búsqueda</label>
+                                <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Tracking #">
+                            </div>
+                        </div>
+                        <div class="col-md-8" v-if="selectedShippings.length > 0">
+                            <p class="text-right">
+                                <button class="btn btn-success" data-toggle="modal" data-target="#massShippingModal">Enviar</button>
+                            </p>
                         </div>
                     </div>
 
@@ -96,6 +103,9 @@
                         <table class="table">
                             <thead>
                                 <tr >
+                                    <th class="datatable-cell datatable-cell-sort">
+                                        <input type="checkbox" class="form-check-input" @click="selectAllShippings()" style="margin-top: -16px;">
+                                    </th>
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Tracking #</span>
                                     </th>
@@ -119,6 +129,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="shipping in shippings">
+                                    <td>
+                                        <input type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :id="'shipping'+shipping.id">
+                                    </td>
                                     <td class="datatable-cell">
                                         @{{ shipping.tracking }}
                                     </td>
@@ -135,10 +148,11 @@
                                         @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" v-if="shipping.shipping_status_id < 5" ><i class="far fa-edit"></i></button>
-                                        <a :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
-                                        <a :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#shippingHistoryModal" @click="setShippingHistory(shipping.shipping_histories)"><i class="far fa-list-alt"></i></button>
+                                        
+                                        <button v-if="selectedShippings.length == 0" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" v-if="shipping.shipping_status_id < 5" ><i class="far fa-edit"></i></button>
+                                        <a v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
+                                        <a v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
+                                        <button v-if="selectedShippings.length == 0" class="btn btn-info" data-toggle="modal" data-target="#shippingHistoryModal" @click="setShippingHistory(shipping.shipping_histories)"><i class="far fa-list-alt"></i></button>
                                         {{--<button class="btn btn-secondary"><i class="far fa-trash-alt"></i></button>--}}
                                     </td>
                                 </tr>
@@ -286,6 +300,52 @@
             </div>
         </div>
 
+        <!-- Modal-->
+        <div class="modal fade" id="massShippingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">¿Estás seguro?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Status</label>
+                            <select class="form-control"  v-model="status">
+                                <option :value="status.id" v-for="status in statuses">@{{ status.name }}</option>
+                            </select>
+                            <small v-if="errors.hasOwnProperty('status')">@{{ errors['status'][0] }}</small>
+                        </div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tracking #</th>
+                                    <th>Warehouse #</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="selectedShip in selectedShippings">
+                                    <td>@{{ selectedShip.tracking }}</td>
+                                    <td>@{{ selectedShip.warehouse_number }}</td>
+                                    <td>@{{ selectedShip.shipping_status.name }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="shippingModalClose" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary font-weight-bold" @click="massUpdate()">Actualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 @endsection
@@ -298,6 +358,7 @@
             data() {
                 return {
                     shippings:[],
+                    selectedShippings:[],
                     shippingId:"",
                     actualStatus:"",
                     actualStatusId:"",
@@ -311,6 +372,7 @@
                     endDateExport:"",
                     exportType:"",
                     histories:"",
+                    selectedAll:false,
                     loading:false
                 }
             },
@@ -319,13 +381,14 @@
                 fetch(page = 1){
                     
                     this.page = page
-
+                   
                     if(this.query == ""){
+                        
                         axios.get("{{ url('/shippings/fetch/') }}"+"/"+page).then(res => {
                         
                             this.shippings = res.data.shippings
                             this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
-
+                            this.setCheckbox()
                         })
                     }else{
 
@@ -401,8 +464,9 @@
                 },
                 search(){
                     
+                    
                     if(this.query == ""){
-
+                        
                         this.fetch()
 
                     }else{
@@ -411,7 +475,7 @@
 
                             this.shippings = res.data.shippings
                             this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
-
+                            this.setCheckbox()
                         })
 
                     }
@@ -443,9 +507,86 @@
                     }
 
                 },
+                selectShipping(shipping){
+
+                    if(this.selectedShippings.includes(shipping)){
+
+                        this.selectedShippings.forEach((data, index) => {
+
+                            if(data == shipping){
+                                this.selectedShippings.splice(index, 1)
+                            }
+
+                        })
+
+                    }else{
+                        this.selectedShippings.push(shipping)
+                    }
+
+                },
+                selectAllShippings(){
+                    
+                    this.selectedShippings = []
+                    
+                    if(this.selectedAll == false){
+
+                        this.shippings.forEach((data) => {
+
+                            this.selectedShippings.push(data)
+
+                        })
+                        this.selectedAll = true
+                        $(".form-check-input").prop( "checked", true );
+                    }else{
+                        this.selectedAll = false
+                        $(".form-check-input").prop( "checked", false );
+                    }
+
+                },
+                setCheckbox(){
+                    
+                    window.setTimeout(() => {
+                        $(".form-check-input").prop( "checked", false );
+                        this.selectedShippings.forEach((data) => {
+                        
+                            $("#shipping"+data.id).prop( "checked", true );
+
+                        })
+                    }, 1000)
+
+                },
                 setShippingHistory(history){
 
                     this.histories = history
+
+                },
+                massUpdate(){
+
+                    if(this.status == ""){
+                        swal({
+                            text: "Debe indicar un status para poder enviar",
+                            icon: "success"
+                        })
+                    }else{
+                        this.loading = true
+                        axios.post("{{ url('shippings/mass/update') }}", {"selectedShippings": this.selectedShippings,"status": this.status}).then(res => {
+                            this.loading = false
+                            if(res.data.success == true){
+
+                                swal({
+                                    title: "Excelente",
+                                    text: res.data.msg,
+                                    icon: "success"
+                                }).then(res => {
+
+                                    window.location.reload()
+
+                                })
+
+                            }
+
+                        })
+                    }
 
                 }
 
