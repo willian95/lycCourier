@@ -15,13 +15,13 @@
 
         <hr>
 
-        <p style="margin-top: -20px; font-size: 10px;">SHIPPER</p>
-        <p style="margin-top: -10px; font-size: 12px">L & C Courier Inc</p>
+        <p style="margin-top: -20px; font-size: 12px;">SHIPPER</p>
+        <p style="margin-top: -10px; font-size: 14px">L & C Courier Inc</p>
 
         <hr style="margin-top: -10px;">
 
-        <p style="margin-top: -20px; font-size: 10px;">CONSIGNEE</p>
-        <p style="margin-top: -10px; font-size: 12px;">{{ $shipping->recipient->name }}</p>
+        <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
+        <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->recipient->name }}</p>
 
         <hr>
 
