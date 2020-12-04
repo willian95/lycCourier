@@ -47,14 +47,14 @@
                                         </a>
                                     </li>
 
-                                    <li class="navi-item">
+                                    {{--<li class="navi-item">
                                         <a href="{{ url('recipients/export/pdf') }}" target="_blank" class="navi-link" @click="toggleList()">
                                             <span class="navi-icon">
                                                 <i class="la la-file-pdf-o"></i>
                                             </span>
                                             <span class="navi-text">PDF</span>
                                         </a>
-                                    </li>
+                                    </li>--}}
                                 </ul>
                                 <!--end::Navigation-->
                             </div>

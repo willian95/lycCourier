@@ -545,14 +545,14 @@
                 },
                 setCheckbox(){
                     
-                    window.setTimeout(() => {
-                        $(".form-check-input").prop( "checked", false );
-                        this.selectedShippings.forEach((data) => {
-                        
-                            $("#shipping"+data.id).prop( "checked", true );
+                   
+                    $(".form-check-input").prop( "checked", false );
+                    this.selectedShippings.forEach((data) => {
+                    
+                        $("#shipping"+data.id).prop( "checked", true );
 
-                        })
-                    }, 1000)
+                    })
+                    
 
                 },
                 setShippingHistory(history){

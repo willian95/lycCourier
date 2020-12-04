@@ -27,7 +27,7 @@
                     {{ $shipping->recipient->name }}
                 </td>
                 <td>
-                    {{ $shipping->recipient->address }}
+                    {{ $shipping->address }}
                 </td>
                 <td>
                     {{ $shipping->created_at->format('d-m-Y') }}

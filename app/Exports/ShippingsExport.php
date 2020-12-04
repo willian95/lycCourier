@@ -29,7 +29,12 @@ class ShippingsExport implements FromView
     public function view(): View
     {
         return view('excel.shippings', [
-            'shippings' => Shipping::whereDate('created_at', '>=', $this->fromDate)->whereDate("created_at", '<=', $this->toDate)->with("recipient", "box")->has("recipient")->has("box")->get()
+            'shippings' => Shipping::whereDate('created_at', '>=', $this->fromDate)->whereDate("created_at", '<=', $this->toDate)->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->get()
         ]);
     }
 }

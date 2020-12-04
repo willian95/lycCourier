@@ -35,7 +35,7 @@ Route::get("/recipients/shipping/{recipient}", "RecipientController@shippingList
 Route::get("/recipients/shipping/{recipient}/fetch/{page}", "RecipientController@shippingFetch")->middleware("auth");
 Route::post("/recipients/shippings/search", "RecipientController@searchShipping")->middleware("auth");
 Route::get('/recipients/export/excel', "RecipientController@exportExcel")->middleware("auth");
-Route::get('/recipients/export/pdf', "RecipientController@exportPDF")->middleware("auth");
+//Route::get('/recipients/export/pdf', "RecipientController@exportPDF")->middleware("auth");
 Route::post("/recipients/list/search", "RecipientController@searchList")->middleware("auth");
 
 Route::get('/packages', "BoxController@index")->name("packages")->middleware("auth");
@@ -45,7 +45,7 @@ Route::post('/packages/update', "BoxController@update")->middleware("auth");
 Route::post('/packages/erase', "BoxController@erase")->middleware("auth");
 Route::post('/packages/search', "BoxController@search")->middleware("auth");
 Route::get('/packages/export/excel', "BoxController@exportExcel")->middleware("auth");
-Route::get('/packages/export/pdf', "BoxController@exportPDF")->middleware("auth");
+//Route::get('/packages/export/pdf', "BoxController@exportPDF")->middleware("auth");
 
 Route::get('/shippings', "ShippingController@index")->name("shippings.list")->middleware("auth");
 Route::get('/shippings/fetch/{page}', "ShippingController@fetch")->middleware("auth");
@@ -59,7 +59,7 @@ Route::post('/shippings/erase', "ShippingController@erase")->middleware("auth");
 Route::get("/shippings/qr/{id}", "ShippingController@downloadQR")->middleware("auth");
 Route::post("/shippings/search", "ShippingController@search")->middleware("auth");
 Route::get('/shippings/export/excel/{start_date}/{end_date}', "ShippingController@exportExcel")->middleware("auth");
-Route::get('/shippings/export/pdf/{start_date}/{end_date}', "ShippingController@exportPDF")->middleware("auth");
+//Route::get('/shippings/export/pdf/{start_date}/{end_date}', "ShippingController@exportPDF")->middleware("auth");
 
 Route::post("shippings/mass/update", "ShippingController@massUpdate")->middleware("auth");
 
