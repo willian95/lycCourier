@@ -45,14 +45,14 @@
                                             <span class="navi-text">Excel</span>
                                         </a>
                                     </li>
-                                    <li class="navi-item">
+                                    {{--<li class="navi-item">
                                         <a href="#" class="navi-link" data-toggle="modal" data-target="#exportModal" @click="setExportType('pdf')">
                                             <span class="navi-icon">
                                                 <i class="la la-file-pdf-o"></i>
                                             </span>
                                             <span class="navi-text">PDF</span>
                                         </a>
-                                    </li>
+                                    </li>--}}
                                 </ul>
                                 <!--end::Navigation-->
                             </div>
