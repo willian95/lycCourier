@@ -173,8 +173,19 @@ class RecipientController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->has("recipient")->has("box")->orderBy("id", "desc")->where("recipient_id", $recipient)->get();
-            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->where("recipient_id", $recipient)->has("recipient")->has("box")->count();
+            $shippings = Shipping::skip($skip)->take($dataAmount)->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("recipient_id", $recipient)->get();
+            
+            $shippingsCount = Shipping::with("shippingStatus", "shippingHistories")->where("recipient_id", $recipient)->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->count();
 
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 

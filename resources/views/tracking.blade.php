@@ -566,6 +566,11 @@
                                 <span>{{ $shipping->tracking }}</span>
                             </div>
 
+                            <div class="card_content-title">
+                                <p><i class="fa fa-align-left"></i> Warehouse #</p>
+                                <span>{{ $shipping->warehouse_number }}</span>
+                            </div>
+
                             <div class="card_content-body">
                                 <div class="card_content-title">
                                     <p><i class="fa fa-map-marker" aria-hidden="true"></i>

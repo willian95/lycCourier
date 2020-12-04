@@ -232,7 +232,7 @@ class ShippingController extends Controller
         $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
 
         $pdf = PDF::loadView('pdf.qr', ["data" => $data, "shipping" => $shipping]);
-        $pdf->setPaper([0, 0, 288, 430.87], 'portrait');
+        $pdf->setPaper([0, 0, 320, 430.87], 'portrait');
         return $pdf->stream('qr'.$shipping->tracking.'.pdf');
 
     }

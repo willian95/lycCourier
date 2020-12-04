@@ -12,7 +12,14 @@ class TrackingController extends Controller
 
         if($request->tracking != ""){
 
-            $shipping = Shipping::where("tracking", $request->tracking)->with("recipient")->with("box")->with("shippingStatus")->first();
+            $shipping = Shipping::where("tracking", $request->tracking)
+            ->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with("shippingStatus")->first();
             if($shipping != null){
                 return view("tracking", ["shipping" => $shipping]);
             }else{

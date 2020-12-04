@@ -130,7 +130,7 @@
                             <tbody>
                                 <tr v-for="shipping in shippings">
                                     <td>
-                                        <input type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :id="'shipping'+shipping.id">
+                                        <input type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
                                     </td>
                                     <td class="datatable-cell">
                                         @{{ shipping.tracking }}
@@ -388,7 +388,7 @@
                         
                             this.shippings = res.data.shippings
                             this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
-                            this.setCheckbox()
+                            //this.setCheckbox()
                         })
                     }else{
 
@@ -475,11 +475,21 @@
 
                             this.shippings = res.data.shippings
                             this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
-                            this.setCheckbox()
+                            //this.setCheckbox()
                         })
 
                     }
 
+                },
+                checkTest(shipping){
+                    var exists = false
+                    this.selectedShippings.forEach((data) => {
+                        if(data.id == shipping.id){
+                            exists = true
+                        }
+                    })
+
+                    return exists
                 },
                 toggleList(){
 
