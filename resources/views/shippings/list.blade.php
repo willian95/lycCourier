@@ -61,7 +61,7 @@
                         <!--end::Dropdown-->
                         <!--begin::Button-->
                         @if(\Auth::user()->role_id == 1)
-                        <button href="{{ route('shippings.create') }}" class="btn btn-primary font-weight-bolder">
+                        <a href="{{ route('shippings.create') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -72,7 +72,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Nuevo Envío</button>
+                        </span>Nuevo Envío</a>
                         @endif
                         <!--end::Button-->
                     </div>
