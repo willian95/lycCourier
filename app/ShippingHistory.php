@@ -9,8 +9,8 @@ class ShippingHistory extends Model
 {
     use SoftDeletes;
 
-    public function shippingHistory(){
-        return $this->belongsTo(ShippingHistory::class);
+    public function shipping(){
+        return $this->belongsTo(Shipping::class);
     }
 
     public function shippingStatus(){

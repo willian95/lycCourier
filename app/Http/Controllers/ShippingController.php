@@ -85,15 +85,22 @@ class ShippingController extends Controller
 
         try{
 
-            $shipping = Shipping::find($request->shippingId);
-            $shipping->pieces = $request->pieces;
-            $shipping->length = $request->length;
-            $shipping->height = $request->height;
-            $shipping->weight = $request->weight;
-            $shipping->width = $request->width;
-            $shipping->description = $request->description;
-            $shipping->address = $request->address;
-            $shipping->update();
+            if(Shipping::where("tracking", $request->tracking)->where("id", "<>", $request->shippingId)->count() == 0){
+                $shipping = Shipping::find($request->shippingId);
+                $shipping->tracking = $request->tracking;
+                $shipping->recipient_id = $request->recipientId;
+                $shipping->box_id = $request->packageId;
+                $shipping->pieces = $request->pieces;
+                $shipping->length = $request->length;
+                $shipping->height = $request->height;
+                $shipping->weight = $request->weight;
+                $shipping->width = $request->width;
+                $shipping->description = $request->description;
+                $shipping->address = $request->address;
+                $shipping->update();
+            }else{
+                return response()->json(["success" => false, "msg" => "Este tracking ya lo posee otro envío"]);
+            }
             
             return response()->json(["success" => true, "msg" => "Envío actualizado exitosamente"]);
             
@@ -232,7 +239,8 @@ class ShippingController extends Controller
         $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
 
         $pdf = PDF::loadView('pdf.qr', ["data" => $data, "shipping" => $shipping]);
-        $pdf->setPaper([0, 0, 320, 430.87], 'portrait');
+        //$pdf->setPaper([0, 0, 288, 430.87], 'portrait');
+        $pdf->setPaper([0, 0, 288, 430.87], 'portrait');
         return $pdf->stream('qr'.$shipping->tracking.'.pdf');
 
     }

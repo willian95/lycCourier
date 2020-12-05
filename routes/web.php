@@ -75,17 +75,11 @@ Route::post("/users/update", "UserController@update")->middleware("auth");
 Route::post("/users/erase", "UserController@delete")->middleware("auth");
 Route::get('/users/fetch/{page}', "UserController@fetch")->middleware("auth");
 
+Route::get('/binnacle', "BinnacleController@index")->name("binnacle")->middleware("admin");
+Route::post('/binnacle/fetch', "BinnacleController@fetch")->middleware("admin");
+Route::post('/binnacle/search', "BinnacleController@search")->middleware("admin");
+
 Route::get("/tracking", "TrackingController@search");
 
-/*Route::get("/create/shipping/step-1", function(){
-    return view("shippings.create.step1");
-})->name("create.shipping.step.1");*/
 
-/*Route::get("/shipping/list", function(){
-    return view("shippings.list");
-})->name("shipping.list");*/
-
-/*Route::get("/shipping/show", function(){
-    return view("shippings.show");
-});*/
 

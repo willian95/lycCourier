@@ -546,10 +546,10 @@
 
                         })
                         this.selectedAll = true
-                        $(".form-check-input").prop( "checked", true );
+
                     }else{
                         this.selectedAll = false
-                        $(".form-check-input").prop( "checked", false );
+                        
                     }
 
                 },
