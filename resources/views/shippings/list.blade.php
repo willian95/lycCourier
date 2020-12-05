@@ -427,8 +427,6 @@
                         this.loading = false
                         if(res.data.success == true){
 
-                            
-
                             $("#shippingModalClose").click();
                             $('body').removeClass('modal-open');
                             $('body').css('padding-right', '0px');
@@ -518,20 +516,23 @@
 
                 },
                 selectShipping(shipping){
+                                        
+                    var exists = false
+                       
+                    this.selectedShippings.forEach((data, index) => {
 
-                    if(this.selectedShippings.includes(shipping)){
+                        if(data.id == shipping.id){
+                            exists = true
+                            this.selectedShippings.splice(index, 1)
+                        }
 
-                        this.selectedShippings.forEach((data, index) => {
+                    })
 
-                            if(data == shipping){
-                                this.selectedShippings.splice(index, 1)
-                            }
-
-                        })
-
-                    }else{
+                    if(exists == false){
                         this.selectedShippings.push(shipping)
                     }
+                        
+                    
 
                 },
                 selectAllShippings(){
