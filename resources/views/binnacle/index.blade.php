@@ -62,10 +62,10 @@
                                 <tr v-for="log in logs">
                         
                                     <td class="datatable-cell">
-                                        <span v-if="log.shipping.tracking">@{{ log.shipping.tracking }}</span>
+                                        <span v-if="log.shipping">@{{ log.shipping.tracking }}</span>
                                     </td>
                                     <td class="datatable-cell">
-                                        @{{ log.shipping.warehouse_number }}
+                                        <span v-if="log.shipping">@{{ log.shipping.warehouse_number }}</span>
                                     </td>
                                     <td class="datatable-cell">
                                         @{{ log.user.name }}
