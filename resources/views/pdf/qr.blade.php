@@ -2,9 +2,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <style>
-            body { margin: 0px; }
-        </style>
+        <style media="all">
+		    @page { margin: 0.2in 0.2in 0.2in 0.2in;}
+		</style>
     </head>
     <body>
 

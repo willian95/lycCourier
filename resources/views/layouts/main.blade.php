@@ -185,7 +185,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								@if(\Auth::user()->role_id == 1)
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('binnacle') }}" class="menu-link">
-										<i class="menu-icon fas fa-user-shield"></i>
+										<i class="menu-icon far fa-compass"></i>
 										<span class="menu-text">Bitácora</span>
 									</a>
 								</li>
