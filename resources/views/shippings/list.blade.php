@@ -104,7 +104,7 @@
                             <thead>
                                 <tr >
                                     <th class="datatable-cell datatable-cell-sort">
-                                        <input type="checkbox" class="form-check-input" @click="selectAllShippings()" style="margin-top: -16px;">
+                                        {{--<input type="checkbox" class="form-check-input" @click="selectAllShippings()" style="margin-top: -16px;">--}}
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Tracking #</span>

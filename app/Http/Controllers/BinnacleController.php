@@ -60,7 +60,7 @@ class BinnacleController extends Controller
             $dataAmount = 20;
             $skip = ($request->page - 1) * $dataAmount;
 
-            $query = ShippingHistory::whereHas("shipping", function($q) use($request){
+            $logs = ShippingHistory::whereHas("shipping", function($q) use($request){
 
                 $q->where("tracking", "like", '%'.$request->search.'%');
                 $q->orWhere("warehouse_number", "like", '%'.$request->search.'%');
@@ -79,10 +79,28 @@ class BinnacleController extends Controller
                 $q->withTrashed();
             }])
             ->with("shippingStatus")
-            ->take($dataAmount)->skip($skip)->orderBy("id", "desc");
+            ->take($dataAmount)->skip($skip)->orderBy("id", "desc")->get();
 
-           $logs = $query->get();
-           $logsCount = $query->count();
+        $logsCount = ShippingHistory::whereHas("shipping", function($q) use($request){
+
+            $q->where("tracking", "like", '%'.$request->search.'%');
+            $q->orWhere("warehouse_number", "like", '%'.$request->search.'%');
+
+        })
+        ->orWhereHas("user", function($q) use($request){
+            $q->orWhere("name", "like", '%'.$request->search.'%');
+        })
+        ->with(['user' => function ($q) {
+            $q->withTrashed();
+        }])
+        ->with(['shipping.box' => function ($q) {
+            $q->withTrashed();
+        }])
+        ->with(['shipping.recipient' => function ($q) {
+            $q->withTrashed();
+        }])
+        ->with("shippingStatus")
+        ->count();
 
             return response()->json(["success" => true, "logs" => $logs, "logsCount" => $logsCount, "dataAmount" => $dataAmount]);
 
