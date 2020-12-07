@@ -20,7 +20,11 @@ trait StoreShippingHistory
             $q->withTrashed();
         }])->first();
 
-        $description = "tracking: ".$shipping->tracking.", destinatario: ".$shipping->recipient->name.", tipo de empaque: ".$shipping->box->name.", piezas: ".$shipping->pieces.", largo: ".$shipping->length.", alto: ".$shipping->height.", ancho: ".$shipping->width.", peso: ".$shipping->weight.", reseller: ".$shipping->reseller->name.", descripción: ".$shipping->description.", address: ".str_replace(",", "", $shipping->address);
+        $description = "tracking: ".$shipping->tracking.", destinatario: ".$shipping->recipient->name.", tipo de empaque: ".$shipping->box->name.", piezas: ".$shipping->pieces.", largo: ".$shipping->length.", alto: ".$shipping->height.", ancho: ".$shipping->width.", peso: ".$shipping->weight.", descripción: ".$shipping->description.", address: ".str_replace(",", "", $shipping->address);
+
+        if($shipping->reseller){
+            $description .= ", reseller: ".$shipping->reseller->name;
+        }
 
         $shippingHistory = new ShippingHistory;
         $shippingHistory->shipping_id = $shipping_id;
