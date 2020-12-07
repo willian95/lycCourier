@@ -32,7 +32,7 @@ class BinnacleController extends Controller
             ->orderBy("id", "desc");
 
             $logs = $query->take($dataAmount)->skip($skip)->get();
-            $logsCount = $query>count();
+            $logsCount = $query->count();
 
             return response()->json(["success" => true, "logs" => $logs, "logsCount" => $logsCount, "dataAmount" => $dataAmount]);
 
