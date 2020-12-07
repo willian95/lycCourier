@@ -31,9 +31,19 @@ class BinnacleController extends Controller
             }])
             ->orderBy("id", "desc");
             
-            $countQuery = $query;
+           
             $logs = $query->take($dataAmount)->skip($skip)->get();
-            $logsCount = $countQuery->count();
+            $logsCount = ShippingHistory::with("shipping", "shippingStatus")
+            ->with(['shipping.box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['shipping.recipient' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['user' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->count();
 
             return response()->json(["success" => true, "logs" => $logs, "logsCount" => $logsCount, "dataAmount" => $dataAmount]);
 
