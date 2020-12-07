@@ -16,17 +16,17 @@
         <hr>
 
         <p style="margin-top: -20px; font-size: 12px;">SHIPPER</p>
-        <p style="margin-top: -10px; font-size: 17px">L & C Courier Inc</p>
+        <p style="margin-top: -10px; font-size: 14px">L & C Courier Inc</p>
 
         <hr style="margin-top: -10px;">
 
         <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
-        <p style="margin-top: -10px; font-size: 17px;">{{ $shipping->recipient->name }}</p>
+        <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->recipient->name }}</p>
 
         <hr>
 
-        <p style="margin-top: -20px; font-size: 14px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span><strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span></p>  
-        <h2 class="text-center" style="margin-top: -10px; font-weight: bolder;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h2>      
+        <p style="margin-top: -20px; font-size: 11px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span><strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span></p>  
+        <h1 class="text-center" style="margin-top: -10px; font-weight: bolder; font-size: 65px;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h1>      
 
         <table style="width: 100%; ">
             <tr style="line-height: 7px !important;">
@@ -67,7 +67,7 @@
                 <td style="border-top: 1px solid; border-bottom: 1px solid; padding: 0 !important" colspan="6">
                     <p style="font-size: 11px; margin:0 !important; padding:0!important; margin-left: 10px; margin-top: 5px;">Description</p>
                     <p style="font-size: 13px; margin:0 !important; padding:0!important; margin-left: 10px; margin-top: 8px;">
-                    {{ substr($shipping->description, 0, 150) }}
+                    {{ substr("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", 0, 90) }}
                     </p>
                 </td>
             </tr>
