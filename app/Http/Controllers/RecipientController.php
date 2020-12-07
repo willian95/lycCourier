@@ -180,7 +180,7 @@ class RecipientController extends Controller
                 $q->withTrashed();
             }])->with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("recipient_id", $recipient)->get();
             
-            $shippingsCount = Shipping::with("shippingStatus", "shippingHistories")->where("recipient_id", $recipient)->with(['box' => function ($q) {
+            $shippingsCount = Shipping::with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->where("recipient_id", $recipient)->with(['box' => function ($q) {
                 $q->withTrashed();
             }])
             ->with(['recipient' => function ($q) {

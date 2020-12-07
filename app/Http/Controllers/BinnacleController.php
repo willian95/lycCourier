@@ -19,7 +19,7 @@ class BinnacleController extends Controller
             $dataAmount = 20;
             $skip = ($request->page - 1) * $dataAmount;
 
-            $query = ShippingHistory::take($dataAmount)->skip($skip)->with("shipping", "shippingStatus")
+            $query = ShippingHistory::with("shipping", "shippingStatus")
             ->with(['shipping.box' => function ($q) {
                 $q->withTrashed();
             }])
@@ -32,7 +32,7 @@ class BinnacleController extends Controller
             ->orderBy("id", "desc");
 
             $logs = $query->get();
-            $logsCount = $query->count();
+            $logsCount = $query->take($dataAmount)->skip($skip)->count();
 
             return response()->json(["success" => true, "logs" => $logs, "logsCount" => $logsCount, "dataAmount" => $dataAmount]);
 

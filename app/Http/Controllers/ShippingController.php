@@ -191,7 +191,7 @@ class ShippingController extends Controller
             ->with(['recipient' => function ($q) {
                 $q->withTrashed();
             }])->get();
-            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories")->with(['box' => function ($q) {
+            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
                 $q->withTrashed();
             }])
             ->with(['recipient' => function ($q) {
