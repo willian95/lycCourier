@@ -139,6 +139,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<i class="menu-arrow"></i>
 										<ul class="menu-subnav">
 											
+											@if(\Auth::user()->role_id < 3)
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('shippings.create') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -147,6 +148,7 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text">Crear</span>
 												</a>
 											</li>
+											@endif
 										
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('shippings.list') }}" class="menu-link">
@@ -167,7 +169,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
-								
+								@if(\Auth::user()->role_id < 3)
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('recipient') }}" class="menu-link">
 										<i class="menu-icon far fa-address-book"></i>
@@ -181,6 +183,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<span class="menu-text">Paquetes</span>
 									</a>
 								</li>
+								@endif
 
 								@if(\Auth::user()->role_id == 1)
 								<li class="menu-item" aria-haspopup="true">

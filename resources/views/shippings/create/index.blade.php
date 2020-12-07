@@ -29,14 +29,7 @@
                 <div class="card-body">
                    <div class="container-fluid">
                         <div class="row">
-                            <!--<div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="agent">Agente</label>
-                                    <div style="display: flex;">
-                                        <input type="text" class="form-control"><button class="btn btn-success"><i class="fa fa-plus"></i></button>
-                                    </div>
-                                </div>
-                            </div>-->
+                            
                             <div class="col-md-12">
                                 <h3 class="text-center">Detalles del envío</h3>
                             </div>
@@ -67,6 +60,15 @@
                                     </div>
                                 </div>
                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address">Reseller</label>
+                                    <select class="form-control" v-model="resellerId">
+                                        <option value="">Sin reseller</option>
+                                        <option :value="reseller.id" v-for="reseller in resellers">@{{ reseller.name }}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <h3 class="text-center">Detalles del paquete</h3>
@@ -303,6 +305,8 @@
                     recipientAddress:"",
                     packageName:"",
                     errors:[],
+                    resellerId:"",
+                    resellers:[],
                     recipientErrors:[],
                     packageErrors:[],
                     address:"",
@@ -383,7 +387,7 @@
                 store(){
 
                     this.loading = true
-                    axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address})
+                    axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId})
                     .then(res => {
                         this.loading = false
                         if(res.data.success == true){
@@ -416,6 +420,15 @@
 
                         this.loading = false
                         this.errors = err.response.data.errors
+                    })
+
+                },
+                fetchResellers(){
+
+                    axios.get("{{ url('/resellers/fetch') }}").then(res => {
+
+                        this.resellers = res.data.resellers
+
                     })
 
                 },
@@ -536,7 +549,7 @@
             },
             created(){
 
-                
+                this.fetchResellers()
 
             }
 

@@ -45,6 +45,7 @@ class ShippingController extends Controller
             $shipping->height = $request->height;
             $shipping->weight = $request->weight;
             $shipping->width = $request->width;
+            $shipping->reseller_id = $request->resellerId;
             $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
             $shipping->is_finished = 1;
@@ -95,9 +96,13 @@ class ShippingController extends Controller
                 $shipping->height = $request->height;
                 $shipping->weight = $request->weight;
                 $shipping->width = $request->width;
+                $shipping->reseller_id = $request->resellerId;
                 $shipping->description = $request->description;
                 $shipping->address = $request->address;
                 $shipping->update();
+
+                $this->storeShippingHistory($shipping->id, $shipping->shipping_status_id);
+
             }else{
                 return response()->json(["success" => false, "msg" => "Este tracking ya lo posee otro envío"]);
             }
@@ -154,19 +159,28 @@ class ShippingController extends Controller
             $dataAmount = 20;
             $skip = ($request->page - 1) * $dataAmount;
 
-            $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")->with(['box' => function ($q) {
-                $q->withTrashed();
-            }])
-            ->with(['recipient' => function ($q) {
-                $q->withTrashed();
-            }])->get();
+            if(\Auth::user()->role_id < 3){
+                
+                $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
+                ->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->get();
+    
+                $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->count();
+            
+            }else{
 
-            $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
-                $q->withTrashed();
-            }])
-            ->with(['recipient' => function ($q) {
-                $q->withTrashed();
-            }])->count();
+
+
+            }
 
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
@@ -185,19 +199,40 @@ class ShippingController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("is_finished", 1)->with(['box' => function ($q) {
-                $q->withTrashed();
-            }])
-            ->with(['recipient' => function ($q) {
-                $q->withTrashed();
-            }])->get();
-            $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
-                $q->withTrashed();
-            }])
-            ->with(['recipient' => function ($q) {
-                $q->withTrashed();
-            }])->where("is_finished", 1)->count();
+            if(\Auth::user()->role_id < 3){
 
+                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("is_finished", 1)
+                ->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->get();
+                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->where("is_finished", 1)->count();
+
+            }else{
+
+                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->where("reseller_id", \Auth::user()->id)->get();
+
+                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->where("reseller_id", \Auth::user()->id)->count();
+
+            }
+            
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
         }catch(\Exception $e){
@@ -210,6 +245,9 @@ class ShippingController extends Controller
     
         $shipping = Shipping::where("tracking", $tracking)
                     ->with(['box' => function ($q) {
+                        $q->withTrashed();
+                    }])
+                    ->with(['reseller' => function ($q) {
                         $q->withTrashed();
                     }])
                     ->with(['recipient' => function ($q) {

@@ -78,95 +78,97 @@
 
                 </div>
 
+                @if(\Auth::user()->role_id < 3 )
                 <div class="col-xl-3">
-                <!--begin::Mixed Widget 15-->
-                <div class="card card-custom card-stretch gutter-b">
-                    <!--begin::Header-->
-                    <div class="card-header border-0 pt-5">
-                        <h3 class="card-title font-weight-bolder">Estadísticas</h3>
-                    </div>
-                    <!--end::Header-->
-                    <!--begin::Body-->
-                    <div class="card-body d-flex flex-column">
-                        
-                        <!--begin::Items-->
-                        <div class="mt-5">
-                            <!--begin::Item-->
-                            <div class="d-flex align-items-center justify-content-between mb-5">
-                                <!--begin::Section-->
-                                <div class="d-flex align-items-center mr-2">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                                        <div class="symbol-label">
-                                            <img src="assets/media/svg/misc/006-plurk.svg" class="h-50" alt="">
-                                        </div>
-                                    </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Title-->
-                                    <div>
-                                        <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Envíos</a>
-                                    </div>
-                                    <!--end::Title-->
-                                </div>
-                                <!--end::Section-->
-                                <!--begin::Label-->
-                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\Shipping::count() }}</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Widget Item-->
-                            <div class="d-flex align-items-center justify-content-between mb-5">
-                                <!--begin::Section-->
-                                <div class="d-flex align-items-center mr-2">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                                        <div class="symbol-label">
-                                            <img src="assets/media/svg/misc/015-telegram.svg" class="h-50" alt="">
-                                        </div>
-                                    </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Title-->
-                                    <div>
-                                        <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Destinatarios</a>
-                                    </div>
-                                    <!--end::Title-->
-                                </div>
-                                <!--end::Section-->
-                                <!--begin::Label-->
-                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\Recipient::count() }}</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Widget Item-->
-                            <!--begin::Widget Item-->
-                            <div class="d-flex align-items-center justify-content-between">
-                                <!--begin::Section-->
-                                <div class="d-flex align-items-center mr-2">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                                        <div class="symbol-label">
-                                            <img src="assets/media/svg/misc/003-puzzle.svg" class="h-50" alt="">
-                                        </div>
-                                    </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Title-->
-                                    <div>
-                                        <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Usuarios</a>
-                                    </div>
-                                    <!--end::Title-->
-                                </div>
-                                <!--end::Section-->
-                                <!--begin::Label-->
-                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\User::count() }}</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Widget Item-->
+                    <!--begin::Mixed Widget 15-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <!--begin::Header-->
+                        <div class="card-header border-0 pt-5">
+                            <h3 class="card-title font-weight-bolder">Estadísticas</h3>
                         </div>
-                        <!--end::Widget Items-->
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body d-flex flex-column">
+                            
+                            <!--begin::Items-->
+                            <div class="mt-5">
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center justify-content-between mb-5">
+                                    <!--begin::Section-->
+                                    <div class="d-flex align-items-center mr-2">
+                                        <!--begin::Symbol-->
+                                        <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
+                                            <div class="symbol-label">
+                                                <img src="assets/media/svg/misc/006-plurk.svg" class="h-50" alt="">
+                                            </div>
+                                        </div>
+                                        <!--end::Symbol-->
+                                        <!--begin::Title-->
+                                        <div>
+                                            <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Envíos</a>
+                                        </div>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Section-->
+                                    <!--begin::Label-->
+                                    <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\Shipping::count() }}</div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Widget Item-->
+                                <div class="d-flex align-items-center justify-content-between mb-5">
+                                    <!--begin::Section-->
+                                    <div class="d-flex align-items-center mr-2">
+                                        <!--begin::Symbol-->
+                                        <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
+                                            <div class="symbol-label">
+                                                <img src="assets/media/svg/misc/015-telegram.svg" class="h-50" alt="">
+                                            </div>
+                                        </div>
+                                        <!--end::Symbol-->
+                                        <!--begin::Title-->
+                                        <div>
+                                            <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Destinatarios</a>
+                                        </div>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Section-->
+                                    <!--begin::Label-->
+                                    <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\Recipient::count() }}</div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Widget Item-->
+                                <!--begin::Widget Item-->
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <!--begin::Section-->
+                                    <div class="d-flex align-items-center mr-2">
+                                        <!--begin::Symbol-->
+                                        <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
+                                            <div class="symbol-label">
+                                                <img src="assets/media/svg/misc/003-puzzle.svg" class="h-50" alt="">
+                                            </div>
+                                        </div>
+                                        <!--end::Symbol-->
+                                        <!--begin::Title-->
+                                        <div>
+                                            <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Usuarios</a>
+                                        </div>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Section-->
+                                    <!--begin::Label-->
+                                    <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">{{ App\User::count() }}</div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Widget Item-->
+                            </div>
+                            <!--end::Widget Items-->
+                        </div>
+                        <!--end::Body-->
                     </div>
-                    <!--end::Body-->
+                    <!--end::Mixed Widget 15-->
                 </div>
-                <!--end::Mixed Widget 15-->
-            </div>
+                @endif
         </div>
 
         <!-- Modal-->

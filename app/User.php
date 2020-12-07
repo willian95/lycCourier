@@ -43,4 +43,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function reseller(){
+        return $this->hasMany(Shipping::class, "reseller_id");
+    }
+
 }

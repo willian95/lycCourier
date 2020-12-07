@@ -60,23 +60,36 @@
                                     </div>
                                 </div>
                             @endif
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Dirección</label>
-                                    <input type="text" class="form-control" v-model="address">
+                                    <input type="text" class="form-control" v-model="address" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="reseller">Reseller: @{{ reseller }}</label>
+                                    @if(\Auth::user()->role_id == 1)
+                                    <select class="form-control" v-model="resellerId">
+                                        <option value="">Sin reseller</option>
+                                        <option :value="reseller.id" v-for="reseller in resellers">@{{ reseller.name }}</option>
+                                    </select>
+                                    @endif
+                                </div>
+                               
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
-                                    <textarea rows="4" id="description" class="form-control" v-model="description"></textarea>
+                                    <textarea rows="4" id="description" class="form-control" v-model="description" @if(\Auth::user()->role_id == 3) readonly @endif></textarea>
                                     <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="agent">Piezas</label>
-                                    <input type="text" class="form-control" v-model="pieces">
+                                    <input type="text" class="form-control" v-model="pieces" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
                             @if(\Auth::user()->role_id == 1)
@@ -106,30 +119,32 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Largo (cm)</label>
-                                    <input type="text" class="form-control" v-model="length">
+                                    <input type="text" class="form-control" v-model="length" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Alto (cm)</label>
-                                    <input type="text" class="form-control" v-model="height">
+                                    <input type="text" class="form-control" v-model="height" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Ancho (cm)</label>
-                                    <input type="text" class="form-control" v-model="width">
+                                    <input type="text" class="form-control" v-model="width" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Peso (kg)</label>
-                                    <input type="text" class="form-control" v-model="weight">
+                                    <input type="text" class="form-control" v-model="weight" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <p class="text-center">
-                                    <button class="btn btn-primary" @click="updateInfo()">Actualizar</button>
+                                    @if(\Auth::user()->role_id < 3)
+                                        <button class="btn btn-primary" @click="updateInfo()">Actualizar</button>
+                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -303,6 +318,9 @@
                     height:"{{ $shipping->height }}",
                     width:"{{ $shipping->width }}",
                     weight:"{{ $shipping->weight }}",
+                    resellers:[],
+                    resellerId:"{{ $shipping->reseller ? $shipping->reseller->id : '' }}",
+                    reseller:"{{ $shipping->reseller ? $shipping->reseller->name : '' }}",
                     recipientName:"",
                     recipientEmail:"",
                     recipientPhone:"",
@@ -317,7 +335,15 @@
             },
             methods: {
 
-                
+                fetchResellers(){
+
+                    axios.get("{{ url('/resellers/fetch') }}").then(res => {
+
+                        this.resellers = res.data.resellers
+
+                    })
+
+                },
                 recipientSearch(){
 
                 //if(this.recipientQuery.length > 0){
@@ -390,7 +416,7 @@
                 updateInfo(){
 
                     this.loading = true
-                    axios.post("{{ url('shippings/update-info') }}", {shippingId: this.shippingId, recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address})
+                    axios.post("{{ url('shippings/update-info') }}", {shippingId: this.shippingId, recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId})
                     .then(res => {
                         this.loading = false
                         if(res.data.success == true){
@@ -544,7 +570,7 @@
             },
             created(){
 
-                
+                this.fetchResellers()
 
             }
 

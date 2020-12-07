@@ -28,4 +28,8 @@ class Shipping extends Model
         return $this->hasMany(ShippingHistory::class);
     }
 
+    public function reseller(){
+        return $this->belongsTo(User::class, "reseller_id");
+    }
+
 }

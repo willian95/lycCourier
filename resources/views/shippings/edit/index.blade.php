@@ -58,6 +58,12 @@
                                     <small v-if="errors.hasOwnProperty('tracking')">@{{ errors['tracking'][0] }}</small>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tracking">Reseller</label>
+                                    <input type="text" class="form-control" v-model="reseller" readonly>
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <h3 class="text-center">Detalles del paquete</h3>
                             </div>
@@ -286,7 +292,8 @@
                     length:"{{ $shipping->length }}",
                     height:"{{ $shipping->height }}",
                     width:"{{ $shipping->width }}",
-                    weight:"{{ $shipping->wight }}",
+                    weight:"{{ $shipping->weight }}",
+                    reseller:"{{ $shipping->reseller->name }}",
                     recipientName:"",
                     recipientEmail:"",
                     recipientPhone:"",

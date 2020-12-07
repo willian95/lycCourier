@@ -56,6 +56,7 @@
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Acción</span>
                                     </th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +76,10 @@
                                     </td>
                                     <td class="datatable-cell">
                                         @{{ log.shipping_status.name }}
+                                        
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info"><i class="fas fa-eye" @click="show(log.description)" data-toggle="modal" data-target="#descriptionModal" @click="setShippingHistory(shipping.shipping_histories)"></i></button>
                                     </td>
                                 
                                 </tr>
@@ -109,6 +114,30 @@
                             </div>
                         </div>
 
+                        <!-- Modal-->
+                        <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true" class="ki ki-close"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                        <p v-for="attr in attributes">
+                                            @{{ attr }}
+                                        </p>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="shippingModalClose" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <!--end: Datatable-->
                 </div>
@@ -129,6 +158,7 @@
             el: '#logs-dev',
             data() {
                 return {
+                    attributes:[],
                     query:"",
                     logs:[],
                     pages:0,
@@ -158,6 +188,11 @@
 
                     
 
+                },
+                show(description){
+
+                    let attr = description.split(",")
+                    this.attributes = attr
                 },
                 dateFormatter(date){
                     
