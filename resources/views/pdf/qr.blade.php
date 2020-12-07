@@ -16,17 +16,17 @@
         <hr>
 
         <p style="margin-top: -20px; font-size: 12px;">SHIPPER</p>
-        <p style="margin-top: -10px; font-size: 14px">L & C Courier Inc</p>
+        <p style="margin-top: -10px; font-size: 17px">L & C Courier Inc</p>
 
         <hr style="margin-top: -10px;">
 
         <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
-        <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->recipient->name }}</p>
+        <p style="margin-top: -10px; font-size: 17px;">{{ $shipping->recipient->name }}</p>
 
         <hr>
 
-        <p style="margin-top: -20px; font-size: 11px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span><strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span></p>  
-        <h3 class="text-center" style="margin-top: -10px; font-weight: bolder;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h3>      
+        <p style="margin-top: -20px; font-size: 14px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span><strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span></p>  
+        <h2 class="text-center" style="margin-top: -10px; font-weight: bolder;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h2>      
 
         <table style="width: 100%; ">
             <tr style="line-height: 7px !important;">
