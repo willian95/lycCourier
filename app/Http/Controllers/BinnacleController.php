@@ -88,7 +88,7 @@ class BinnacleController extends Controller
 
         })
         ->orWhereHas("user", function($q) use($request){
-            $q->orWhere("name", "like", '%'.$request->search.'%');
+            $q->where("name", "like", '%'.$request->search.'%');
         })
         ->with(['user' => function ($q) {
             $q->withTrashed();
