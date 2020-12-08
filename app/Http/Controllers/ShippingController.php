@@ -178,7 +178,20 @@ class ShippingController extends Controller
             
             }else{
 
-
+                $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
+                ->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->where("reseller_id", \Auth::user()->id)->get();
+    
+                $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(['recipient' => function ($q) {
+                    $q->withTrashed();
+                }])->where("reseller_id", \Auth::user()->id)->count();
 
             }
 
@@ -370,6 +383,21 @@ class ShippingController extends Controller
         }
 
         return response()->json(["success" => true, "msg" => "Envío por lote realizado"]);
+    }
+
+    function receiptPdf($id){
+
+        $shipping = Shipping::where("id", $id)->with(['box' => function ($q) {
+            $q->withTrashed();
+        }])
+        ->with(['recipient' => function ($q) {
+            $q->withTrashed();
+        }])->first();
+        $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
+
+        $pdf = PDF::loadView('pdf.receipt', ["data" => $data, "shipping" => $shipping]);
+        return $pdf->stream('receipt'.$shipping->tracking.'.pdf');
+
     }
 
 }

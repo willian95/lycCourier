@@ -57,6 +57,7 @@ Route::post('/shippings/update', "ShippingController@update")->middleware("auth"
 Route::post('/shippings/update-info', "ShippingController@updateInfo")->middleware("auth");
 Route::post('/shippings/erase', "ShippingController@erase")->middleware("auth");
 Route::get("/shippings/qr/{id}", "ShippingController@downloadQR")->middleware("auth");
+Route::get("/shippings/receipt/{id}", "ShippingController@receiptPdf")->middleware("auth");
 Route::post("/shippings/search", "ShippingController@search")->middleware("auth");
 Route::get('/shippings/export/excel/{start_date}/{end_date}', "ShippingController@exportExcel")->middleware("auth");
 //Route::get('/shippings/export/pdf/{start_date}/{end_date}', "ShippingController@exportPDF")->middleware("auth");

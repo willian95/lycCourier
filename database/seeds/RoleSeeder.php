@@ -27,7 +27,7 @@ class RoleSeeder extends Seeder
 
         if(Role::where("id", 3)->count() <= 0){
             $role = new Role;
-            $role->name  = "reseller";
+            $role->name  = "socio";
             $role->save();
         }
 

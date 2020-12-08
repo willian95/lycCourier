@@ -24,7 +24,7 @@ class BoxStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|unique:boxes,name",
+            "name" => "required",
         ];
     }
 
