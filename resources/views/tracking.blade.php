@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>L&CCouier</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -677,7 +677,12 @@
                     <button class="footer-step-btn next is-show" style="visibility: hidden;">Next</button>
                     {{--<button class="footer-step-btn finished is-hide">Complete</button>--}}
                 </div>
+
+                @elseif
+                    <h3 class="text-center">Lo sentimos, este tracking no lo pudimos encontrar</h3>
                 @endif
+                
+                
             </div>
         </section>
 
