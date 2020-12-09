@@ -21,7 +21,7 @@ class TrackingController extends Controller
             }])
             ->with("shippingStatus")->first();
             if($shipping != null){
-                return view("tracking", ["shipping" => $shipping]);
+                return view("tracking", ["shipping" => $shipping, "email" => $request->email]);
             }else{
                 return view("tracking");
             }

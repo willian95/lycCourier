@@ -116,7 +116,6 @@ class ShippingController extends Controller
         
     }
 
-
     function update(ShippingUpdateRequest $request){
 
         try{

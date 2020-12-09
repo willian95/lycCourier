@@ -20,23 +20,23 @@ class ShippingStatusSeeder extends Seeder
             $status->name = "En Miami";
             $status->save();
 
-            $status = new ShippingStatus;
+            /*$status = new ShippingStatus;
             $status->id = 2;
             $status->name = "Camino a Lima";
-            $status->save();
+            $status->save();*/
 
             $status = new ShippingStatus;
-            $status->id = 3;
+            $status->id = 2;
             $status->name = "Lima (en transito)";
             $status->save();
 
             $status = new ShippingStatus;
-            $status->id = 4;
+            $status->id = 3;
             $status->name = "Delivery";
             $status->save();
 
             $status = new ShippingStatus;
-            $status->id = 5;
+            $status->id = 4;
             $status->name = "Entregado";
             $status->save();
 
