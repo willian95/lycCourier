@@ -79,7 +79,7 @@
                                         @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
+                                        <button class="btn btn-success" v-if="shipping.shipping_status_id < 4" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
                                         <a :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
                                         <a :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
                                         <button class="btn btn-info" data-toggle="modal" data-target="#shippingHistoryModal" @click="setShippingHistory(shipping.shipping_histories)"><i class="far fa-list-alt"></i></button>

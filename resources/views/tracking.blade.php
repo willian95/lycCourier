@@ -632,17 +632,6 @@
                                     <span></span>
                                 </div>
                                 <div class="des">
-                                    <span>Camino a Lima</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="process-item ">
-                            <div class="process-content">
-                                <div class="process-active-bar"></div>
-                                <div class="circle">
-                                    <span></span>
-                                </div>
-                                <div class="des">
                                     <span>Lima (en transito)</span>
                                 </div>
                             </div>
@@ -776,7 +765,6 @@
                 var y = 0;
                 var interval = setInterval(() => {
                     
-                    console.log("index", parseInt(shippingIndex))
                     if(y == shippingIndex - 2){
                         clearInterval(interval)
                     }
