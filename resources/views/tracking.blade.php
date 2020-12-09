@@ -678,7 +678,7 @@
                     {{--<button class="footer-step-btn finished is-hide">Complete</button>--}}
                 </div>
 
-                @elseif
+                @else
                     <h3 class="text-center">Lo sentimos, este tracking no lo pudimos encontrar</h3>
                 @endif
                 
