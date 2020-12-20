@@ -3,6 +3,10 @@
 @section('content')
     <div class="login_admin " id="register-dev">
 
+        <div class="loader-cover" v-if="loading == true">
+            <div class="loader"></div>
+        </div>
+
         <div class="row">
             <div class="login100-more mask col-md-6"
                 style="background-image: url('https://images.unsplash.com/photo-1568731053253-f99d388659f0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80');">
