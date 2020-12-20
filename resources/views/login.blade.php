@@ -49,6 +49,16 @@
 
 @push("scripts")
 
+    @if(session('alert'))
+        <script>
+            swal({
+             
+                text:"{{ session('alert') }}",
+                icon:"success"
+            })
+        </script>
+    @endif
+
     <script>
         const devArea = new Vue({
             el: '#login-dev',
