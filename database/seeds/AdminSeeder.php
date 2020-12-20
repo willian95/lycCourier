@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Carbon\Carbon;
 
 class AdminSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class AdminSeeder extends Seeder
             $user = new User;
             $user->name  = "Admin";
             $user->email = "admin@gmail.com";
-            $user->email_verified_at = "12-20-2020";
+            $user->email_verified_at = Carbon::now();
             $user->password = bcrypt("12345678");
             $user->role_id = 1;
             $user->save();
