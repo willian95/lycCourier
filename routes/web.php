@@ -22,7 +22,7 @@ Route::get("/logout", "LoginController@logout");
 Route::post("/login", "LoginController@login");
 
 Route::get("/register", "RegisterController@index");
-Route::get("/register/validate/{registerHash}", "RegisterController@index");
+Route::get("/register/validate/{registerHash}", "RegisterController@verify");
 Route::post("/register", "RegisterController@register");
 
 Route::get('/home', function(){
