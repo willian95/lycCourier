@@ -15,6 +15,7 @@
             <div class="login100-form validate-form col-md-6">
 
                 <p class="text-center"><img style="width: 230px;" src="{{ url('/img/logo2.png') }}" alt=""></p>
+                <h3 class="text-center">Login</h3>
 
                 <div class="wrap-input100 validate-input">
                     <input class="input100" type="text" v-model="email" v-on:keyup.enter="login()">

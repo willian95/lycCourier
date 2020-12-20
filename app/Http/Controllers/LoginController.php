@@ -18,9 +18,15 @@ class LoginController extends Controller
 
                 if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
 
-                    $url = redirect()->intended()->getTargetUrl();
+                    if($user->email_verified_at == null){
 
-                    return response()->json(["success" => true, "msg" => "Usuario autenticado", "role_id" => Auth::user()->role_id, "url" => $url]);
+                        return response()->json(["success" => false, "msg" => "Aún no has validado tu correo"]);
+
+                    }else{
+                        $url = redirect()->intended()->getTargetUrl();
+                        return response()->json(["success" => true, "msg" => "Usuario autenticado", "role_id" => Auth::user()->role_id, "url" => $url]);
+                    }
+
                 }
                     
                 return response()->json(["success" => false, "msg" => "Contraseña inválida"]);

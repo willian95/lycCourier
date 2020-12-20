@@ -506,7 +506,7 @@
     }
 
     .login_admin {
-        overflow: hidden;
+        overflow-x: hidden;
         height: 100vh;
     }
 

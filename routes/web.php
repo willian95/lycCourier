@@ -21,6 +21,10 @@ Route::get("/logout", "LoginController@logout");
 
 Route::post("/login", "LoginController@login");
 
+Route::get("/register", "RegisterController@index");
+Route::get("/register/validate/{registerHash}", "RegisterController@index");
+Route::post("/register", "RegisterController@register");
+
 Route::get('/home', function(){
     return view('welcome');
 })->middleware('auth');
@@ -83,6 +87,5 @@ Route::post('/binnacle/search', "BinnacleController@search")->middleware("admin"
 Route::get("/resellers/fetch", "ResellerController@fetch");
 
 Route::get("/tracking", "TrackingController@search");
-
 
 
