@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest
             "dni" => "required",
             "address" => "required",
             "email" => "required|unique:users",
-            "password" => "required|confirmed"
+            "password" => "required|confirmed|min:8"
         ];
     }
 
@@ -43,7 +43,8 @@ class RegisterRequest extends FormRequest
             "email.required" => "Email es requerido",
             "email.unique" => "Este email ya existe",
             "password.required" => "Contraseña es requerida",
-            "password.confirmed" => "Contraseñas no coinciden"
+            "password.confirmed" => "Contraseñas no coinciden",
+            "password.min" => "Contraseña debe tener al menos 8 caracteres"
         ];
     }
 }
