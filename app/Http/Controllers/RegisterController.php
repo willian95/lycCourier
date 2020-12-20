@@ -36,7 +36,7 @@ class RegisterController extends Controller
         
             $data = ["messageMail" => "Hola ".$user->name.", haz click en el siguiente enlace para validar tu cuenta", "registerHash" => $registerHash];
     
-            \Mail::send("emails.register", $data, function($message) use ($to_name, $to_email, $shipping) {
+            \Mail::send("emails.register", $data, function($message) use ($to_name, $to_email) {
     
                 $message->to($to_email, $to_name)->subject("¡Valida tu correo!");
                 $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
