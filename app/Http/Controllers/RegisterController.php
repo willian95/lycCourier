@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\User;
 
 class RegisterController extends Controller
