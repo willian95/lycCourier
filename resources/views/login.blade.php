@@ -26,6 +26,7 @@
                     <span class="focus-input100"></span>
                     <span class="label-input100">Email</span>
                 </div>
+                <small style="color: red;" v-if="errors.hasOwnProperty('email')">@{{ errors['email'][0] }}</small>
 
 
                 <div class="wrap-input100 validate-input">
@@ -33,6 +34,7 @@
                     <span class="focus-input100"></span>
                     <span class="label-input100">Password</span>
                 </div>
+                <small style="color: red;" v-if="errors.hasOwnProperty('password')">@{{ errors['password'][0] }}</small>
 
 
 
@@ -70,6 +72,7 @@
                 return {
                     email: "",
                     password: "",
+                    errors:[],
                     loading:false
                 }
             },
@@ -101,6 +104,14 @@
 
                         }
 
+                    })
+                    .catch(err => {
+                        this.loading = false
+                        swal({
+                            text:"Hay unos campos que debe revisar",
+                            icon:"error"
+                        })
+                        this.errors = err.response.data.errors
                     })
 
                 }

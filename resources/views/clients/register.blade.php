@@ -132,7 +132,7 @@
                     
                     this.loading = true
                     axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation}).then(res => {
-
+                        this.loading = false
                         if(res.data.success){
 
                             swal({
@@ -164,13 +164,11 @@
 
                     })
                     .catch(err => {
-
+                        this.loading = false
                         swal({
                             text:"Hay unos campos que debe revisar",
                             icon:"error"
                         })
-
-                        this.loading = false
                         this.errors = err.response.data.errors
                     })
 
