@@ -129,7 +129,7 @@
                 register(){
                     
                     this.loading = true
-                    axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.adress, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation}).then(res => {
+                    axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation}).then(res => {
 
                         if(res.data.success){
 
