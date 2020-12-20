@@ -57,13 +57,14 @@ class RegisterController extends Controller
         try{
 
             $user = User::where("register_code", $registerHash)->firstOrFail();
-            $user->register_hash = null;
+            $user->register_code = null;
             $user->email_verified_at = Carbon::now();
             $user->update();
             
             return redirect()->to('/')->with('alert', 'Haz validado tu cuenta, puedes ingresar a la plataforma');
 
         }catch(\Exception $e){
+            
             abort(403);
         }
 
