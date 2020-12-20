@@ -3,8 +3,8 @@
 @section('content')
     <div class="login_admin " id="register-dev">
 
-        <div class="loader-cover" v-if="loading == true">
-            <div class="loader"></div>
+        <div class="loader-cover-custom" v-if="loading == true">
+            <div class="loader-custom"></div>
         </div>
 
         <div class="row">
