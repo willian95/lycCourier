@@ -64,6 +64,7 @@ Route::get("/shippings/qr/{id}", "ShippingController@downloadQR")->middleware("a
 Route::get("/shippings/receipt/{id}", "ShippingController@receiptPdf")->middleware("auth");
 Route::post("/shippings/search", "ShippingController@search")->middleware("auth");
 Route::get('/shippings/export/excel/{start_date}/{end_date}', "ShippingController@exportExcel")->middleware("auth");
+Route::post('/shippings/process', "ShippingController@process")->middleware("auth");
 //Route::get('/shippings/export/pdf/{start_date}/{end_date}', "ShippingController@exportPDF")->middleware("auth");
 
 Route::post("shippings/mass/update", "ShippingController@massUpdate")->middleware("auth");
@@ -88,4 +89,18 @@ Route::get("/resellers/fetch", "ResellerController@fetch");
 
 Route::get("/tracking", "TrackingController@search");
 
+Route::get("profile", "ProfileController@index")->name("profile");
+Route::post("profile/update", "ProfileController@update");
+
+Route::get("clients/shipping/create", "ClientShippingController@create")->name("client.shippings.create");
+Route::post("clients/shipping/store", "ClientShippingController@store");
+Route::get("clients/shipping/list", "ClientShippingController@list")->name("client.shippings.list");
+Route::get("clients/shipping/fetch/{page}", "ClientShippingController@fetch");
+Route::post('/clients/shipping/search', "ClientShippingController@search");
+
+Route::get("/admin-email", "AdminMailController@index")->name("admin.email");
+Route::post("admin-email/store", "AdminMailController@store");
+Route::get("/admin-email/fetch", "AdminMailController@fetch");
+Route::post("/admin-email/update", "AdminMailController@update");
+Route::post("/admin-email/delete", "AdminMailController@delete");
 

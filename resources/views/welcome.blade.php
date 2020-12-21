@@ -202,11 +202,22 @@
             </div>
         </div>
 
+
     </div>
 
 @endsection
 
 @push("scripts")
+
+    @if(\Auth::user()->role_id == 4 && (\Auth::user()->dni_picture == null || \Auth::user()->address == null || \Auth::user()->dni == null))
+        <script>
+            swal({
+                title:"Sugerencia",
+                text:"Para poder crear envíos debes completar los datos en tu perfil",
+                icon: "warning"
+            })
+        </script>
+    @endif
 
     <script>
         const devArea = new Vue({

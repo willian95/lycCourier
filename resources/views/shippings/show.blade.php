@@ -27,19 +27,35 @@
                         <div class="row">
                             @if(\Auth::user()->role_id == 1)
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group" v-if="userId">
+                                        <label for="recipient">Destinatario</label>
+                                        <div style="display: flex;">
+                                            <p>@{{ userName }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" v-else>
+                                        
                                         <label for="recipient">Destinatario</label>
                                         <div style="display: flex;">
                                             <input type="text" class="form-control" @click="showRecipientSearch()" id="recipient" autocomplete="off" v-model="recipientShowName">
                                             <button class="btn btn-success" data-toggle="modal" data-target="#recipientModal"><i class="fa fa-plus"></i></button>
                                         </div>
-                                        <small v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
+                                        <small style="color:red;" v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
                                     </div>
                                 
                                 </div>
                             @else
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group" v-if="userId">
+                                        <label for="recipient">Destinatario</label>
+                                        <div style="display: flex;">
+                                            <p>@{{ userName }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" v-else>
+                                        
+
                                         <label for="recipient">Destinatario</label>
                                         <input type="text" class="form-control" readonly v-model="recipientShowName">
                                     </div>
@@ -49,7 +65,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tracking">Tracking number</label>
-                                        <input type="text" class="form-control" v-model="tracking">
+                                        <input type="text" class="form-control" v-model="tracking" :readonly="userId">
                                     </div>
                                 </div>
                             @else
@@ -64,7 +80,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Dirección</label>
-                                    <input type="text" class="form-control" v-model="address" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="address":readonly="userId"  @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -83,7 +99,7 @@
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
                                     <textarea rows="4" id="description" class="form-control" v-model="description" @if(\Auth::user()->role_id == 3) readonly @endif></textarea>
-                                    <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
+                                    <small style="color:red;" v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -92,29 +108,19 @@
                                     <input type="text" class="form-control" v-model="pieces" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
-                            @if(\Auth::user()->role_id == 1)
+                         
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="recipient">Tipo de paquete</label>
-                                        <div style="display: flex;">
-                                            <input type="text" class="form-control" v-model="packageShowName" @click="showPackageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
-                                        </div>
-                                        <small v-if="errors.hasOwnProperty('packageId')">@{{ errors['packageId'][0] }}</small>
-
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="recipient">Tipo de paquete</label>
+                                    <div style="display: flex;">
+                                        <input type="text" class="form-control" v-model="packageShowName" @click="showPackageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
                                     </div>
+                                    <small style="color:red;" style="color:red;" v-if="errors.hasOwnProperty('packageId')">@{{ errors['packageId'][0] }}</small>
+
                                 </div>
+                            </div>
 
-                            @else
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="recipient">Tipo de paquete</label>
-                                        <input type="text" class="form-control" v-model="packageShowName" readonly>
-                                    </div>
-                                </div>
-
-                            @endif
                             
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -141,9 +147,34 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Producto</th>
+                                            <th>Precio</th>
+                                            <th style="width: 250px;">Factura</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(product, index) in shippingProducts">
+                                            <td>@{{ index + 1 }}</td>
+                                            <td>@{{ product.name }}</td>
+                                            <td>@{{ product.price }}</td>
+                                            <td>
+                                                <img style="width: 100%;" :src="product.image" alt="">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12">
                                 <p class="text-center">
                                     @if(\Auth::user()->role_id < 3)
                                         <button class="btn btn-primary" @click="updateInfo()">Actualizar</button>
+                                        @if($shipping->is_finished == 0)
+                                        <button class="btn btn-secondary" @click="process()">Procesar</button>
+                                        @endif
                                     @endif
                                 </p>
                             </div>
@@ -164,22 +195,22 @@
                                     <div class="form-group">
                                         <label for="recipientName">Nombre</label>
                                         <input type="text" class="form-control" id="recipientName" v-model="recipientName">
-                                        <small v-if="recipientErrors.hasOwnProperty('name')">@{{ recipientErrors['name'][0] }}</small>
+                                        <small style="color:red;" v-if="recipientErrors.hasOwnProperty('name')">@{{ recipientErrors['name'][0] }}</small>
                                     </div>
                                     <div class="form-group">
                                         <label for="recipientEmail">Email</label>
                                         <input type="text" class="form-control" id="recipientEmail" v-model="recipientEmail">
-                                        <small v-if="recipientErrors.hasOwnProperty('email')">@{{ recipientErrors['email'][0] }}</small>
+                                        <small style="color:red;" v-if="recipientErrors.hasOwnProperty('email')">@{{ recipientErrors['email'][0] }}</small>
                                     </div>
                                     <div class="form-group">
                                         <label for="recipientPhone">Teléfono</label>
                                         <input type="text" class="form-control" id="recipientPhone" v-model="recipientPhone">
-                                        <small v-if="recipientErrors.hasOwnProperty('phone')">@{{ recipientErrors['phone'][0] }}</small>
-                                    </div>
+                                        <small style="color:red;" v-if="recipientErrors.hasOwnProperty('phone')">@{{ recipientErrors['phone'][0] }}</small>
+                                    </div> 
                                     <div class="form-group">
                                         <label for="recipientAddress">Dirección</label>
                                         <input type="text" class="form-control" id="recipientAddress" v-model="recipientAddress">
-                                        <small v-if="recipientErrors.hasOwnProperty('address')">@{{ recipientErrors['address'][0] }}</small>
+                                        <small style="color:red;" v-if="recipientErrors.hasOwnProperty('address')">@{{ recipientErrors['address'][0] }}</small>
                                     </div>
                                     
                                 </div>
@@ -205,7 +236,7 @@
                                     <div class="form-group">
                                         <label for="packageName">Nombre</label>
                                         <input type="text" class="form-control" id="packageName" v-model="packageName">
-                                        <small v-if="packageErrors.hasOwnProperty('name')">@{{ packageErrors['name'][0] }}</small>
+                                        <small style="color:red;" v-if="packageErrors.hasOwnProperty('name')">@{{ packageErrors['name'][0] }}</small>
                                     </div>
                                     
                                 </div>
@@ -304,13 +335,15 @@
                 return {
                     shippingId:"{{ $shipping->id }}",
                     recipients:[],
-                    recipientId:"{{ $shipping->recipient->id }}",
+                    userId:"{{ $shipping->client ? $shipping->client->id : ''  }}",
+                    userName:"{{ $shipping->client ? $shipping->client->name.' '.$shipping->client->lastname : '' }}",
+                    recipientId:"{{ $shipping->recipient ? $shipping->recipient->id : '' }}",
                     recipientQuery:"",
-                    recipientShowName:"{{ $shipping->recipient->name }}",
+                    recipientShowName:"{{ $shipping->recipient ? $shipping->recipient->name : '' }}",
                     packages:[],
-                    packageId:"{{ $shipping->box->id }}",
+                    packageId:"{{ $shipping->box ? $shipping->box->id : '' }}",
                     packageQuery:"",
-                    packageShowName:"{{ $shipping->box->name }}",
+                    packageShowName:"{{ $shipping->box ? $shipping->box->name : '' }}",
                     tracking:"{{ $shipping->tracking }}",
                     description:"{{ $shipping->description }}",
                     pieces:"{{ $shipping->pieces }}",
@@ -330,6 +363,7 @@
                     recipientErrors:[],
                     packageErrors:[],
                     address:"{{ $shipping->address }}",
+                    shippingProducts:JSON.parse('{!! $shipping->shippingProducts !!}'),
                     loading:false
                 }
             },
@@ -536,6 +570,57 @@
                         this.loading = false
                         this.packageErrors = err.response.data.errors
                     })
+
+                },
+                process(){
+
+                    swal({
+                        title: "¿Estás seguro?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            
+                            this.loading = true
+                            axios.post("{{ url('shippings/process') }}", {shippingId: this.shippingId, packageId: this.packageId, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId})
+                            .then(res => {
+                                this.loading = false
+                                if(res.data.success == true){
+
+                                    swal({
+                                        title: "Perfecto!",
+                                        text: res.data.msg,
+                                        icon: "success"
+                                    }).then(res => {
+
+                                        window.location.href="{{ url('/home') }}"
+
+                                    });
+                                    
+                                    
+                                }else{
+
+                                    swal({
+                                        title: "Lo sentimos!",
+                                        text: res.data.msg,
+                                        icon: "error"
+                                    });
+
+                                }
+
+                            })
+                            .catch(err => {
+
+                                alertify.error("Hay algunos campos que debe revisar")
+
+                                this.loading = false
+                                this.errors = err.response.data.errors
+                            })
+
+                        } 
+                    });
 
                 },
                 showRecipientSearch(){

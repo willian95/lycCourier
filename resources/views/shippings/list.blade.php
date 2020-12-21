@@ -141,11 +141,20 @@
                                     <td class="datatable-cell" v-if="shipping.recipient">
                                         @{{ shipping.recipient.name }}
                                     </td>
-                                    <td class="datatable-cell">
+                                    <td class="datatable-cell" v-if="shipping.client">
+                                        @{{ shipping.client.name }}
+                                    </td>
+                                    <td class="datatable-cell" v-if="shipping.shipped_at">
                                         @{{ dateFormatter(shipping.shipped_at) }} 
                                     </td>
-                                    <td class="datatable-cell" v-if="shipping.shipping_status">
-                                        @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
+                                    <td class="datatable-cell" v-else>
+                                        Aún no enviado
+                                    </td>
+                                    <td class="datatable-cell" v-if="shipping.shipping_status_id == 1 && shipping.shipped_at != ''">
+                                        Envío aún no procesado
+                                    </td>
+                                    <td class="datatable-cell" v-else>
+                                        @{{ shipping.shipping_status.name }}
                                     </td>
                                     <td>
                                         

@@ -138,26 +138,50 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="menu-submenu">
 										<i class="menu-arrow"></i>
 										<ul class="menu-subnav">
+
+											@if(\Auth::user()->role_id < 4)
+												@if(\Auth::user()->role_id < 3)
+												<li class="menu-item" aria-haspopup="true">
+													<a href="{{ route('shippings.create') }}" class="menu-link">
+														<i class="menu-bullet menu-bullet-line">
+															<span></span>
+														</i>
+														<span class="menu-text">Crear</span>
+													</a>
+												</li>
+												@endif
 											
-											@if(\Auth::user()->role_id < 3)
-											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ route('shippings.create') }}" class="menu-link">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text">Crear</span>
-												</a>
-											</li>
+												<li class="menu-item" aria-haspopup="true">
+													<a href="{{ route('shippings.list') }}" class="menu-link">
+														<i class="menu-bullet menu-bullet-line">
+															<span></span>
+														</i>
+														<span class="menu-text">Listado</span>
+													</a>
+												</li>
+
+											@else
+
+												<li class="menu-item" aria-haspopup="true">
+													<a href="{{ route('client.shippings.create') }}" class="menu-link">
+														<i class="menu-bullet menu-bullet-line">
+															<span></span>
+														</i>
+														<span class="menu-text">Crear</span>
+													</a>
+												</li>
+
+												<li class="menu-item" aria-haspopup="true">
+													<a href="{{ route('client.shippings.list') }}" class="menu-link">
+														<i class="menu-bullet menu-bullet-line">
+															<span></span>
+														</i>
+														<span class="menu-text">Listado</span>
+													</a>
+												</li>
+
 											@endif
-										
-											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ route('shippings.list') }}" class="menu-link">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text">Listado</span>
-												</a>
-											</li>
+
 											{{--<li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('shippings.pending') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -196,9 +220,27 @@ License: You must have a valid license purchased only from themeforest(the above
 
 								@if(\Auth::user()->role_id == 1)
 								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('admin.email') }}" class="menu-link">
+										<i class="menu-icon far fa-compass"></i>
+										<span class="menu-text">Admin Mails</span>
+									</a>
+								</li>
+								@endif
+
+								@if(\Auth::user()->role_id == 1)
+								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('user') }}" class="menu-link">
 										<i class="menu-icon fas fa-user-shield"></i>
 										<span class="menu-text">Usuarios</span>
+									</a>
+								</li>
+								@endif
+
+								@if(\Auth::user()->role_id == 4)
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('profile') }}" class="menu-link">
+										<i class="menu-icon fas fa-user-shield"></i>
+										<span class="menu-text">Perfil</span>
 									</a>
 								</li>
 								@endif

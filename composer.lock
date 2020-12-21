@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73465f31ac6685e207ab5702b2c44251",
+    "content-hash": "0b7af34bfe20ae2f592a1312676d615e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -159,62 +159,6 @@
                 "math"
             ],
             "time": "2020-08-18T23:57:15+00:00"
-        },
-        {
-            "name": "composer/ca-bundle",
-            "version": "1.2.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "8a7ecad675253e4654ea05505233285377405215"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/8a7ecad675253e4654ea05505233285377405215",
-                "reference": "8a7ecad675253e4654ea05505233285377405215",
-                "shasum": ""
-            },
-            "require": {
-                "ext-openssl": "*",
-                "ext-pcre": "*",
-                "php": "^5.3.2 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 8",
-                "psr/log": "^1.0",
-                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\CaBundle\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
-                }
-            ],
-            "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
-            "keywords": [
-                "cabundle",
-                "cacert",
-                "certificate",
-                "ssl",
-                "tls"
-            ],
-            "time": "2020-08-23T12:54:47+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -1185,6 +1129,76 @@
             "time": "2019-07-01T23:21:34+00:00"
         },
         {
+            "name": "intervention/image",
+            "version": "2.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "abbf18d5ab8367f96b3205ca3c89fb2fa598c69e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/abbf18d5ab8367f96b3205ca3c89fb2fa598c69e",
+                "reference": "abbf18d5ab8367f96b3205ca3c89fb2fa598c69e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "^4.8 || ^5.7"
+            },
+            "suggest": {
+                "ext-gd": "to use GD library based image processing.",
+                "ext-imagick": "to use Imagick based image processing.",
+                "intervention/imagecache": "Caching extension for the Intervention Image library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Image\\ImageServiceProvider"
+                    ],
+                    "aliases": {
+                        "Image": "Intervention\\Image\\Facades\\Image"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.com",
+                    "homepage": "http://olivervogel.com/"
+                }
+            ],
+            "description": "Image handling and manipulation library with support for Laravel integration",
+            "homepage": "http://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "laravel",
+                "thumbnail",
+                "watermark"
+            ],
+            "time": "2019-11-02T09:15:47+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v7.28.3",
             "source": {
@@ -1460,69 +1474,6 @@
                 "ui"
             ],
             "time": "2020-09-22T16:51:51+00:00"
-        },
-        {
-            "name": "lcobucci/jwt",
-            "version": "3.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "958a9873a63b0244a72f6e354ccc86019ee674a5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/958a9873a63b0244a72f6e354ccc86019ee674a5",
-                "reference": "958a9873a63b0244a72f6e354ccc86019ee674a5",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "ext-openssl": "*",
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "~1.5",
-                "phpmd/phpmd": "~2.2",
-                "phpunit/php-invoker": "~1.1",
-                "phpunit/phpunit": "^5.7 || ^7.3",
-                "squizlabs/php_codesniffer": "~2.3"
-            },
-            "suggest": {
-                "lcobucci/clock": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lcobucci\\JWT\\": "src"
-                },
-                "files": [
-                    "compat/class-aliases.php",
-                    "compat/json-exception-polyfill.php",
-                    "compat/lcobucci-clock-polyfill.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Luís Otávio Cobucci Oblonczyk",
-                    "email": "lcobucci@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple library to work with JSON Web Token and JSON Web Signature",
-            "keywords": [
-                "JWS",
-                "jwt"
-            ],
-            "time": "2020-11-27T01:17:14+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2089,131 +2040,6 @@
                 "psr-3"
             ],
             "time": "2020-07-23T08:41:23+00:00"
-        },
-        {
-            "name": "mvdnbrk/dhlparcel-php-api",
-            "version": "v1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mvdnbrk/dhlparcel-php-api.git",
-                "reference": "b933316d1799d894c6fd5e77aab5d2bb8aa26595"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mvdnbrk/dhlparcel-php-api/zipball/b933316d1799d894c6fd5e77aab5d2bb8aa26595",
-                "reference": "b933316d1799d894c6fd5e77aab5d2bb8aa26595",
-                "shasum": ""
-            },
-            "require": {
-                "composer/ca-bundle": "^1.2",
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "^6.4 || ^7.0.1",
-                "lcobucci/jwt": "^3.3",
-                "php": "^7.2",
-                "ramsey/uuid": "^4.0",
-                "tightenco/collect": "^5.8 || ^6.0 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0 || ^9.3",
-                "symfony/var-dumper": "^5.0",
-                "vlucas/phpdotenv": "^5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mvdnbrk\\DhlParcel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark van den Broek",
-                    "email": "mvdnbrk@gmail.com",
-                    "homepage": "https://github.com/mvdnbrk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "DHL Parcel API client for PHP",
-            "homepage": "https://github.com/mvdnbrk/dhlparcel-php-api",
-            "keywords": [
-                "api",
-                "dhl",
-                "parcel"
-            ],
-            "time": "2020-09-17T20:27:13+00:00"
-        },
-        {
-            "name": "mvdnbrk/laravel-dhlparcel",
-            "version": "v1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mvdnbrk/laravel-dhlparcel.git",
-                "reference": "2cbe6e7dc0aa0cb6d68e794b10d92935656dcc12"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mvdnbrk/laravel-dhlparcel/zipball/2cbe6e7dc0aa0cb6d68e794b10d92935656dcc12",
-                "reference": "2cbe6e7dc0aa0cb6d68e794b10d92935656dcc12",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^6.0 || ^7.0 || ^8.0",
-                "mvdnbrk/dhlparcel-php-api": "^1.0",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "nunomaduro/collision": "^3.0 || ^4.2",
-                "orchestra/testbench": "^3.8 || ^4.0 || ^5.0 || ^6.0",
-                "phpunit/phpunit": "^8.0 || ^9.0",
-                "symfony/var-dumper": "^4.3 || ^5.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Mvdnbrk\\Laravel\\DhlParcelServiceProvider"
-                    ],
-                    "aliases": {
-                        "DhlParcel": "Mvdnbrk\\Laravel\\Facades\\DhlParcel"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mvdnbrk\\Laravel\\": "src"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark van den Broek",
-                    "email": "mvdnbrk@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "DHL Parcel API client for Laravel",
-            "homepage": "https://github.com/mvdnbrk/laravel-dhlparcel",
-            "keywords": [
-                "api",
-                "dhl",
-                "laravel",
-                "parcel"
-            ],
-            "time": "2020-08-07T14:18:25+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -5192,56 +5018,6 @@
             "time": "2020-08-17T07:42:30+00:00"
         },
         {
-            "name": "tightenco/collect",
-            "version": "v8.17.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tighten/collect.git",
-                "reference": "1ca0266eac4b245375d81e05f4d81bd00cb8197f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tighten/collect/zipball/1ca0266eac4b245375d81e05f4d81bd00cb8197f",
-                "reference": "1ca0266eac4b245375d81e05f4d81bd00cb8197f",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2|^8.0",
-                "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "nesbot/carbon": "^2.23.0",
-                "phpunit/phpunit": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/Collect/Support/helpers.php",
-                    "src/Collect/Support/alias.php"
-                ],
-                "psr-4": {
-                    "Tightenco\\Collect\\": "src/Collect"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
-                }
-            ],
-            "description": "Collect - Illuminate Collections as a separate package.",
-            "keywords": [
-                "collection",
-                "laravel"
-            ],
-            "time": "2020-12-04T18:20:44+00:00"
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.3",
             "source": {
@@ -5404,6 +5180,62 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "composer/ca-bundle",
+            "version": "1.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/ca-bundle.git",
+                "reference": "8a7ecad675253e4654ea05505233285377405215"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/8a7ecad675253e4654ea05505233285377405215",
+                "reference": "8a7ecad675253e4654ea05505233285377405215",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "ext-pcre": "*",
+                "php": "^5.3.2 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 8",
+                "psr/log": "^1.0",
+                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\CaBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+            "keywords": [
+                "cabundle",
+                "cacert",
+                "certificate",
+                "ssl",
+                "tls"
+            ],
+            "time": "2020-08-23T12:54:47+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.3.1",
@@ -5796,6 +5628,69 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "lcobucci/jwt",
+            "version": "3.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/jwt.git",
+                "reference": "958a9873a63b0244a72f6e354ccc86019ee674a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/958a9873a63b0244a72f6e354ccc86019ee674a5",
+                "reference": "958a9873a63b0244a72f6e354ccc86019ee674a5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "~1.5",
+                "phpmd/phpmd": "~2.2",
+                "phpunit/php-invoker": "~1.1",
+                "phpunit/phpunit": "^5.7 || ^7.3",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "suggest": {
+                "lcobucci/clock": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lcobucci\\JWT\\": "src"
+                },
+                "files": [
+                    "compat/class-aliases.php",
+                    "compat/json-exception-polyfill.php",
+                    "compat/lcobucci-clock-polyfill.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Luís Otávio Cobucci Oblonczyk",
+                    "email": "lcobucci@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to work with JSON Web Token and JSON Web Signature",
+            "keywords": [
+                "JWS",
+                "jwt"
+            ],
+            "time": "2020-11-27T01:17:14+00:00"
+        },
+        {
             "name": "mockery/mockery",
             "version": "1.4.2",
             "source": {
@@ -5862,6 +5757,131 @@
                 "testing"
             ],
             "time": "2020-08-11T18:10:13+00:00"
+        },
+        {
+            "name": "mvdnbrk/dhlparcel-php-api",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mvdnbrk/dhlparcel-php-api.git",
+                "reference": "b933316d1799d894c6fd5e77aab5d2bb8aa26595"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mvdnbrk/dhlparcel-php-api/zipball/b933316d1799d894c6fd5e77aab5d2bb8aa26595",
+                "reference": "b933316d1799d894c6fd5e77aab5d2bb8aa26595",
+                "shasum": ""
+            },
+            "require": {
+                "composer/ca-bundle": "^1.2",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.4 || ^7.0.1",
+                "lcobucci/jwt": "^3.3",
+                "php": "^7.2",
+                "ramsey/uuid": "^4.0",
+                "tightenco/collect": "^5.8 || ^6.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.3",
+                "symfony/var-dumper": "^5.0",
+                "vlucas/phpdotenv": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mvdnbrk\\DhlParcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark van den Broek",
+                    "email": "mvdnbrk@gmail.com",
+                    "homepage": "https://github.com/mvdnbrk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "DHL Parcel API client for PHP",
+            "homepage": "https://github.com/mvdnbrk/dhlparcel-php-api",
+            "keywords": [
+                "api",
+                "dhl",
+                "parcel"
+            ],
+            "time": "2020-09-17T20:27:13+00:00"
+        },
+        {
+            "name": "mvdnbrk/laravel-dhlparcel",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mvdnbrk/laravel-dhlparcel.git",
+                "reference": "2cbe6e7dc0aa0cb6d68e794b10d92935656dcc12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mvdnbrk/laravel-dhlparcel/zipball/2cbe6e7dc0aa0cb6d68e794b10d92935656dcc12",
+                "reference": "2cbe6e7dc0aa0cb6d68e794b10d92935656dcc12",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0",
+                "mvdnbrk/dhlparcel-php-api": "^1.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^3.0 || ^4.2",
+                "orchestra/testbench": "^3.8 || ^4.0 || ^5.0 || ^6.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "symfony/var-dumper": "^4.3 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mvdnbrk\\Laravel\\DhlParcelServiceProvider"
+                    ],
+                    "aliases": {
+                        "DhlParcel": "Mvdnbrk\\Laravel\\Facades\\DhlParcel"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mvdnbrk\\Laravel\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark van den Broek",
+                    "email": "mvdnbrk@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "DHL Parcel API client for Laravel",
+            "homepage": "https://github.com/mvdnbrk/laravel-dhlparcel",
+            "keywords": [
+                "api",
+                "dhl",
+                "laravel",
+                "parcel"
+            ],
+            "time": "2020-08-07T14:18:25+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7351,6 +7371,56 @@
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "time": "2020-07-12T23:59:07+00:00"
+        },
+        {
+            "name": "tightenco/collect",
+            "version": "v8.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tighten/collect.git",
+                "reference": "1ca0266eac4b245375d81e05f4d81bd00cb8197f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tighten/collect/zipball/1ca0266eac4b245375d81e05f4d81bd00cb8197f",
+                "reference": "1ca0266eac4b245375d81e05f4d81bd00cb8197f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0",
+                "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "nesbot/carbon": "^2.23.0",
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Collect/Support/helpers.php",
+                    "src/Collect/Support/alias.php"
+                ],
+                "psr-4": {
+                    "Tightenco\\Collect\\": "src/Collect"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "Collect - Illuminate Collections as a separate package.",
+            "keywords": [
+                "collection",
+                "laravel"
+            ],
+            "time": "2020-12-04T18:20:44+00:00"
         },
         {
             "name": "webmozart/assert",

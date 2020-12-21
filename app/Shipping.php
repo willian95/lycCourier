@@ -32,4 +32,16 @@ class Shipping extends Model
         return $this->belongsTo(User::class, "reseller_id");
     }
 
+    public function products(){
+        return $this->hasMany(ShippingProduct::class);
+    }
+
+    public function client(){
+        return $this->belongsTo(User::class, "client_id");
+    }
+
+    public function shippingProducts(){
+        return $this->hasMany(ShippingProduct::class);
+    }
+
 }

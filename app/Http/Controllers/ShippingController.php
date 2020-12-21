@@ -15,6 +15,8 @@ use App\Recipient;
 use PDF;
 use Carbon\Carbon;
 use App\Jobs\SendUpdateEmail;
+use App\Http\Requests\ShippingProcessRequest;
+use App\User;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ShippingsExport;
@@ -160,7 +162,7 @@ class ShippingController extends Controller
 
             if(\Auth::user()->role_id < 3){
                 
-                $shippings = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
+                $shippings = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -168,7 +170,7 @@ class ShippingController extends Controller
                     $q->withTrashed();
                 }])->get();
     
-                $shippingsCount = Shipping::where("is_finished", 1)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                $shippingsCount = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
                 ->with(['recipient' => function ($q) {
@@ -213,19 +215,26 @@ class ShippingController extends Controller
 
             if(\Auth::user()->role_id < 3){
 
-                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("is_finished", 1)
+                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")
                 ->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(["client" => function($q){
                     $q->withTrashed();
                 }])
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
                 }])->get();
+
                 $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(["client" => function($q){
                     $q->withTrashed();
                 }])
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
-                }])->where("is_finished", 1)->count();
+                }])->count();
 
             }else{
 
@@ -265,6 +274,10 @@ class ShippingController extends Controller
                     ->with(['recipient' => function ($q) {
                         $q->withTrashed();
                     }])
+                    ->with(['client' => function($q){
+                        $q->withTrashed();
+                    }])
+                    ->with('shippingProducts')
                     ->first();
 
         return view("shippings.show", ["shipping" => $shipping]);
@@ -396,6 +409,50 @@ class ShippingController extends Controller
 
         $pdf = PDF::loadView('pdf.receipt', ["data" => $data, "shipping" => $shipping]);
         return $pdf->stream('receipt'.$shipping->tracking.'.pdf');
+
+    }
+
+    function process(ShippingProcessRequest $request){
+
+        try{
+
+            $shipping = Shipping::find($request->shippingId);
+            $shipping->box_id = $request->packageId;
+            $shipping->pieces = $request->pieces;
+            $shipping->length = $request->length;
+            $shipping->height = $request->height;
+            $shipping->weight = $request->weight;
+            $shipping->width = $request->width;
+            $shipping->reseller_id = $request->resellerId;
+            $shipping->description = $request->description;
+            $shipping->address = $request->address;
+            $shipping->is_finished = 1;
+            $shipping->shipping_status_id = 1;
+            $shipping->update();
+
+            $shipping->warehouse_number = "WRI".str_pad($shipping->id, 10, "0", STR_PAD_LEFT);
+            $shipping->update();
+    
+            $this->storeShippingHistory($shipping->id, 1);
+
+            $client = User::where("id", $shipping->client_id)->first();
+            $to_name = $client->name;
+            $to_email = $client->email;
+            
+            $status = ShippingStatus::find($shipping->shipping_status_id);
+
+            $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
+    
+            \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
+    
+                $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." actualizado!");
+                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+    
+            });
+
+        }catch(\Exception $e){
+            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+        }
 
     }
 
