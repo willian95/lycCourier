@@ -14,8 +14,8 @@ trait SendEmail
             $recipient = Recipient::find($shipping->recipient_id);
             $to_name = $recipient->name;
             $to_email = $recipient->email;
-        }else if($shipping->user_id != null){
-            $recipient = User::find($shipping->user_id);
+        }else if($shipping->client_id != null){
+            $recipient = User::find($shipping->client_id);
             $to_name = $recipient->name;
             $to_email = $recipient->email;
         }
