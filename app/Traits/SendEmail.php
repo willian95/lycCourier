@@ -4,14 +4,21 @@ namespace App\Traits;
 use App\Shipping;
 use App\Recipient;
 use App\ShippingStatus;
+use App\User;
 
 trait SendEmail
 {
     public function sendEmail($shipping)
     {   
-        $recipient = Recipient::find($shipping->recipient_id);
-        $to_name = $recipient->name;
-        $to_email = $recipient->email;
+        if($shipping->recipient_id != null){
+            $recipient = Recipient::find($shipping->recipient_id);
+            $to_name = $recipient->name;
+            $to_email = $recipient->email;
+        }else if($shipping->user_id != null){
+            $recipient = User::find($shipping->user_id);
+            $to_name = $recipient->name;
+            $to_email = $recipient->email;
+        }
         
         $status = ShippingStatus::find($shipping->shipping_status_id);
 
