@@ -92,7 +92,7 @@
                 
                 <h5>Nombre: {{ $product->name }}</h5>
                 <h5>Precio: USD {{ $product->price }}</h5>
-                <img src="{{ $product->image }}" alt="" style="width: 60%;">
+                <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
                 <div style="page-break: always;"></div>
                 
             @endforeach
