@@ -15,7 +15,7 @@
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">Crear envío
+                        <h3 class="card-label">Editar envío
                     </div>
                     
                     <div class="card-toolbar">
@@ -85,19 +85,23 @@
                                         <td>@{{ index + 1 }}</td>
                                         <td>@{{ product.name }}</td>
                                         <td>$ @{{ product.price }}</td>
-                                        <td><img :src="product.imagePreview" alt="" style="width: 70%;"></td>
+                                        <td>
+                                            <img :src="product.image" alt="" style="width: 70%;" v-if="product.id">
+                                            <img :src="product.imagePreview" alt="" style="width: 70%;" v-else>
+                                        </td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target="#articleModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
                                             <button class="btn btn-secondary" @click="erase(index)"><i class="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
+          
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="col-12">
                             <p class="text-center">
-                                <button class="btn btn-primary" @click="store()">Crear</button>
+                                <button class="btn btn-primary" @click="updateShipping()">Actualizar</button>
                             </p>
                         </div>
                     </div>
@@ -135,9 +139,11 @@
                         </div>
                        
                         <div class="form-group">
-                            <label for="imagePreview">Copia Factura</label>
+                            <label for="imagePreview">Copia Factura @{{ productId }}</label>
                             <input type="file" id="imagePreview-input" class="form-control" @change="onImageChange">
-                            <img :src="product.imagePreview" style="width: 60%" />
+                            
+                            <img :src="product.imagePreview" alt="" style="width: 60%;">
+                            
                         </div>
                         
                         
@@ -163,20 +169,22 @@
             el: '#shipping-dev',
             data() {
                 return {
-                    address:"{{ \Auth::user()->address }}",
+                    address:"{{ $shipping->address }}",
                     total:0,
                     action:"create",
                     productIndex:"",
+                    productId:"",
                     product:{
                         name:"",
                         price:"",
-                        image:"",
                         imagePreview:"",
+                        image:"",
                         description:""
                     },
                     description:"",
-                    tracking:"",
-                    products:[],
+                    shippingId:"{{ $shipping->id }}",
+                    tracking:"{{ $shipping->tracking }}",
+                    products:JSON.parse('{!! $shipping->shippingProducts !!}'),
                     errors:[],
                     loading:false
                 }
@@ -253,6 +261,7 @@
                     this.product.image = e.target.files[0];
 
                     this.product.imagePreview = URL.createObjectURL(this.product.image);
+                    
                     let files = e.target.files || e.dataTransfer.files;
                     if (!files.length)
                         return;
@@ -268,6 +277,7 @@
                     reader.readAsDataURL(file);
                 },
                 create(){
+                    this.productId = ""
                     this.action = "create"
                     this.product.name=""
                     this.product.description=""
@@ -277,14 +287,21 @@
                     $("#imagePreview-input").val(null)
                 },
                 edit(product, index){
+                    
                     this.action = "edit"
+                    this.productId = product.id
                     this.productIndex = index
                     this.product.name = product.name
                     this.product.description= product.description
                     this.product.price= product.price
-                    this.product.image= product.image
-                    this.product.imagePreview = product.imagePreview
-
+                    if(this.productId != '' && this.productId != null){
+                        this.product.imagePreview = product.image
+                    }else{
+                        this.product.image = product.image
+                        this.product.imagePreview = product.imagePreview
+                    }
+                    
+                    
                 },
                 update(){
 
@@ -308,14 +325,7 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.image == ""){
-
-                        swal({
-                            text:"Debe agregar la imagen de la factura del producto",
-                            icon:"error"
-                        })
-
-                    }else{
+                    else{
 
                         this.products[this.productIndex].name = this.product.name
                         this.products[this.productIndex].description = this.product.description
@@ -349,10 +359,10 @@
                         icon:"success"
                     })
                 },
-                store(){
+                updateShipping(){
                     this.loading = true
                     this.errors = []
-                    axios.post("{{ url('clients/shipping/store') }}", {tracking: this.tracking, address: this.address, products: this.products}).then(res => {
+                    axios.post("{{ url('clients/shipping/update') }}", {tracking: this.tracking, address: this.address, products: this.products, id:this.shippingId }).then(res => {
                         this.loading = false
                         if(res.data.success == true){
 

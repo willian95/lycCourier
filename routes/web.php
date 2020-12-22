@@ -96,7 +96,9 @@ Route::get("clients/shipping/create", "ClientShippingController@create")->name("
 Route::post("clients/shipping/store", "ClientShippingController@store");
 Route::get("clients/shipping/list", "ClientShippingController@list")->name("client.shippings.list");
 Route::get("clients/shipping/fetch/{page}", "ClientShippingController@fetch");
+Route::get("clients/shipping/{tracking}", "ClientShippingController@edit");
 Route::post('/clients/shipping/search', "ClientShippingController@search");
+Route::post("clients/shipping/update", "ClientShippingController@update");
 
 Route::get("/admin-email", "AdminMailController@index")->name("admin.email");
 Route::post("admin-email/store", "AdminMailController@store");

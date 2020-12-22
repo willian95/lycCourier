@@ -52,7 +52,7 @@ class ShippingController extends Controller
             $shipping->description = $request->description;
             $shipping->is_finished = 1;
             $shipping->shipped_at = Carbon::now();
-            $shipping->address = $request->address;
+            $shipping->address = str_replace("'", "", $request->address);
             $shipping->save();
 
             $shipping->warehouse_number = "WRI".str_pad($shipping->id, 10, "0", STR_PAD_LEFT);
@@ -99,8 +99,8 @@ class ShippingController extends Controller
                 $shipping->weight = $request->weight;
                 $shipping->width = $request->width;
                 $shipping->reseller_id = $request->resellerId;
-                $shipping->description = $request->description;
-                $shipping->address = $request->address;
+                $shipping->description = str_replace("'", "", $request->description);
+                $shipping->address = str_replace("'", "", $request->address);
                 $shipping->update();
 
                 $this->storeShippingHistory($shipping->id, $shipping->shipping_status_id);
@@ -431,8 +431,8 @@ class ShippingController extends Controller
             $shipping->weight = $request->weight;
             $shipping->width = $request->width;
             $shipping->reseller_id = $request->resellerId;
-            $shipping->description = $request->description;
-            $shipping->address = $request->address;
+            $shipping->description = str_replace("'", "", $request->description);
+            $shipping->address = str_replace("'", "", $request->address);
             $shipping->is_finished = 1;
             $shipping->shipped_at = Carbon::now();
             $shipping->shipping_status_id = 1;
