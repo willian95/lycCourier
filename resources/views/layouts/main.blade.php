@@ -162,14 +162,16 @@ License: You must have a valid license purchased only from themeforest(the above
 
 											@else
 
+												@if(\Auth::user()->dni_picture != null)
 												<li class="menu-item" aria-haspopup="true">
-													<a href="{{ route('client.shippings.create') }}" class="menu-link">
+													<a href="{{ route('client.shippings.create') }}" class="menu-link" disabled>
 														<i class="menu-bullet menu-bullet-line">
 															<span></span>
 														</i>
 														<span class="menu-text">Crear</span>
 													</a>
 												</li>
+												@endif
 
 												<li class="menu-item" aria-haspopup="true">
 													<a href="{{ route('client.shippings.list') }}" class="menu-link">
