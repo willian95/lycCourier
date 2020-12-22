@@ -65,7 +65,11 @@
                                                 @if(\Auth::user()->role_id < 3)
                                                 <button v-if="shipping.shipping_status_id < 4" title="Actualizar Status" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
                                                 @endif
+                                                @if(\Auth::user()->role_id < 3)
                                                 <a title="Editar" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
+                                                @else
+                                                <a title="Editar" :href="'{{ url('clients/shipping/') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
+                                                @endif
                                                 <a title="Etiqueta" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
                                                 {{--<button class="btn btn-secondary"><i class="far fa-trash-alt"></i></button>--}}
                                             </td>
