@@ -87,11 +87,13 @@
 
             
         </table>
-
+            
+            @if($shipping->client)
             <div style="page-break-after: always;"></div>
             <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%; margin-top: 20px;">
             
             <div style="page-break-after: always;"></div>
+            @endif
 
             @foreach(App\ShippingProduct::where("shipping_id", $shipping->id)->get() as $product)
                 
