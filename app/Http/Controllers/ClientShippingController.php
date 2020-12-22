@@ -80,7 +80,7 @@ class ClientShippingController extends Controller
 
                 \Mail::send("emails.adminNotification", $data, function($message) use ($to_email) {
     
-                    $message->to($to_email)->subject("¡Valida tu correo!");
+                    $message->to($to_email)->subject("¡Un usuario ha creado un envío!");
                     $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
         
                 });

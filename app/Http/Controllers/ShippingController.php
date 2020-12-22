@@ -450,6 +450,8 @@ class ShippingController extends Controller
     
             });
 
+            return response()->json(["success" => true, "msg" => "Paquete procesado exitosamente"]);
+
         }catch(\Exception $e){
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
         }
