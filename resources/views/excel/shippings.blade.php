@@ -23,9 +23,16 @@
                 <td>
                     {{ $shipping->warehouse_number }}
                 </td>
+                @if($shipping->recipient)
                 <td>
                     {{ $shipping->recipient->name }}
                 </td>
+                @endif
+                @if($shipping->client)
+                <td>
+                    {{ $shipping->client->name }} {{ $shipping->client->lastname }}
+                </td>
+                @endif
                 <td>
                     {{ $shipping->address }}
                 </td>
