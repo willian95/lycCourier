@@ -95,7 +95,7 @@
                     </td>
                     @elseif($shipping->client)
                     <td style="border: 1px solid #000;" colspan="4">
-                        <p>{{ $shipping->client->name }}</p>
+                        <p>{{ $shipping->client->name }} {{ $shipping->client->lastname }}</p>
                         <p>{{ $shipping->client->email }}</p>
                     </td>
                     @endif

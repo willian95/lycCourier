@@ -24,12 +24,12 @@
         @if($shipping->recipient)
         <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->recipient->name }}</p>
         @elseif($shipping->client)
-        <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->client->name }}</p>
+        <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->client->name }} {{ $shipping->client->lastname }}</p>
         @endif
 
         <hr>
 
-        <p style="margin-top: -20px; font-size: 11px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span><strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span></p>  
+        <p style="margin-top: -20px; font-size: 11px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span>@if($shipping->shipped_at)<strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span>@endif</p>  
         <h1 class="text-center" style="margin-top: -10px; font-weight: bolder; font-size: 65px;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h1>      
 
         <table style="width: 100%; ">
