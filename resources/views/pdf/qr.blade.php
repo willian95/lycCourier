@@ -85,6 +85,13 @@
                 height="70" />
             </p>
 
+            @foreach(App\ShippingProduct::where("shipping_id", $shipping->id)->get() as $product)
+
+                <h3>Nombre: {{ $product->name }}</h3>
+                <h3>Precio: USD {{ $product->price }}</h3>
+                <img src="{{ $product->image }}" alt="" style="width: 60%;">
+                <div style="page-break: always;"></div>
+            @endforeach
 
             
         </table></body></html>
