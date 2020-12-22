@@ -49,8 +49,11 @@
                                             <td class="datatable-cell">
                                                 @{{ shipping.tracking }}
                                             </td>
-                                            <td class="datatable-cell">
+                                            <td class="datatable-cell" v-if="shipping.recipient">
                                                 @{{ shipping.recipient.name }}
+                                            </td>
+                                            <td class="datatable-cell" v-if="shipping.client">
+                                                @{{ shipping.client.name }} @{{ shipping.client.lastname }}
                                             </td>
                                             <td class="datatable-cell">
                                                 @{{ dateFormatter(shipping.created_at) }}
