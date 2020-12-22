@@ -88,10 +88,17 @@
                     </td>
                 </tr>
                 <tr>
+                    @if($shipping->recipient)
                     <td style="border: 1px solid #000;" colspan="4">
                         <p>{{ $shipping->recipient->name }}</p>
                         <p>{{ $shipping->recipient->email }}</p>
                     </td>
+                    @elseif($shipping->client)
+                    <td style="border: 1px solid #000;" colspan="4">
+                        <p>{{ $shipping->client->name }}</p>
+                        <p>{{ $shipping->client->email }}</p>
+                    </td>
+                    @endif
                     <td style="border: 1px solid #000;" colspan="4">
                         <p style="font-size: 10px;"><span style="margin-right: 25px;">DATE IN: {{ $shipping->created_at->format('m/d/Y') }}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>TIME IN: {{ $shipping->created_at->format('H:i:s A') }}</span></p>

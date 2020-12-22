@@ -21,7 +21,11 @@
         <hr style="margin-top: -10px;">
 
         <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
+        @if($shipping->recipient)
         <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->recipient->name }}</p>
+        @elseif($shipping->client)
+        <p style="margin-top: -10px; font-size: 14px;">{{ $shipping->client->name }}</p>
+        @endif
 
         <hr>
 
