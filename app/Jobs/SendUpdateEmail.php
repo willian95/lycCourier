@@ -40,7 +40,7 @@ class SendUpdateEmail implements ShouldQueue
         try{
 
             $shipping = Shipping::find($this->shippingId);
-            //Log::info($this->shippingId);
+            Log::info($this->shippingId);
 
             if($shipping->recipient_id != null){
                 $recipient = Recipient::find($shipping->recipient_id);
