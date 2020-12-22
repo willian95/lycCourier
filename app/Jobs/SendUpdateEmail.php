@@ -48,7 +48,7 @@ class SendUpdateEmail implements ShouldQueue
                 $to_name = $recipient->name;
                 $to_email = $recipient->email;
             }else if($shipping->client_id != null){
-                $recipient = User::find($shipping->user_id);
+                $recipient = User::find($shipping->client_id);
                 $to_name = $recipient->name;
                 $to_email = $recipient->email;
             }
