@@ -113,9 +113,6 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="recipient">Tipo de paquete</label>
-                                    <div style="display: flex;">
-                                        <input type="text" class="form-control" v-model="packageShowName" @click="showPackageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
-                                    </div>
                                     <small style="color:red;" style="color:red;" v-if="errors.hasOwnProperty('packageId')">@{{ errors['packageId'][0] }}</small>
 
                                 </div>
