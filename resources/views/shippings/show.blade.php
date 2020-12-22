@@ -169,7 +169,9 @@
                                             <td>@{{ product.name }}</td>
                                             <td>@{{ product.price }}</td>
                                             <td>
-                                                <img style="width: 100%;" :src="product.image" alt="">
+                                                <a :href="product.image" target="_blank">
+                                                    <img style="width: 100%;" :src="product.image" alt="">
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
