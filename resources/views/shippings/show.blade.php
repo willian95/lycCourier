@@ -43,6 +43,10 @@
                                         </div>
                                         <small style="color:red;" v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
                                     </div>
+
+                                    @if($shipping->client)
+                                    <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%;">
+                                    @endif
                                 
                                 </div>
                             @else
@@ -60,9 +64,7 @@
                                         <input type="text" class="form-control" readonly v-model="recipientShowName">
                                     </div>
 
-                                    @if($shipping->client)
-                                    <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%;">
-                                    @endif
+                                    
 
                                 </div>
                             @endif
