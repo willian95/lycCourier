@@ -72,7 +72,7 @@ class ClientShippingController extends Controller
 
             }
 
-            $data = ["messageTitle" => "Nuevo envío creado", "messageMail" => "El cliente ".\Auth::user()->name." ".\Auth::user()->lastname." ha creado un nuevo envío con el tracking: <strong>".$request->tracking."</strong>", "shippingId" => $shipping->id];
+            $data = ["messageTitle" => "Nuevo envío creado", "messageMail" => "El cliente ".\Auth::user()->name." ".\Auth::user()->lastname." ha creado un nuevo envío con el tracking: <strong>".$request->tracking."</strong>", "shippingId" => $shipping->tracking];
 
             foreach(AdminMail::all() as $admin){
 
