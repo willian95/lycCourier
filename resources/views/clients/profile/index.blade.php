@@ -137,6 +137,7 @@
                             this.password = ""
                             this.passwordConfirmation = ""
                             this.fetch()
+                            window.location.reload()
                         }else{
 
                             swal({

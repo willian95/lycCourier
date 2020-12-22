@@ -59,6 +59,11 @@
                                         <label for="recipient">Destinatario</label>
                                         <input type="text" class="form-control" readonly v-model="recipientShowName">
                                     </div>
+
+                                    @if($shipping->client)
+                                    <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%;">
+                                    @endif
+
                                 </div>
                             @endif
                             @if(\Auth::user()->role_id == 1)
