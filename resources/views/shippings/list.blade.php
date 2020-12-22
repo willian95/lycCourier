@@ -150,7 +150,7 @@
                                     <td class="datatable-cell" v-else>
                                         Aún no enviado
                                     </td>
-                                    <td class="datatable-cell" v-if="shipping.shipping_status_id == 1 && shipping.shipped_at != ''">
+                                    <td class="datatable-cell" v-if="shipping.shipping_status_id == 1 && shipping.shipped_at == ''">
                                         Envío aún no procesado
                                     </td>
                                     <td class="datatable-cell" v-else>
