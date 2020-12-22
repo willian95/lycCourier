@@ -40,7 +40,7 @@ class SendUpdateEmail implements ShouldQueue
         try{
 
             $shipping = Shipping::find($this->shippingId);
-            Log::info($this->shippingId);
+            
 
             if($shipping->recipient_id != null){
                 $recipient = Recipient::find($shipping->recipient_id);
@@ -55,7 +55,9 @@ class SendUpdateEmail implements ShouldQueue
             $status = ShippingStatus::find($shipping->shipping_status_id);
     
             $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
-    
+            
+            Log::info($to_name);
+
             \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping, $status) {
     
                 $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." en ".$status->name."!");
