@@ -84,13 +84,13 @@
                 width="70" 
                 height="70" />
             </p>
-
+            <div style="page-break: always;"></div>
             @foreach(App\ShippingProduct::where("shipping_id", $shipping->id)->get() as $product)
-
+                <div style="page-break: always;"></div>
                 <h3>Nombre: {{ $product->name }}</h3>
                 <h3>Precio: USD {{ $product->price }}</h3>
                 <img src="{{ $product->image }}" alt="" style="width: 60%;">
-                <div style="page-break: always;"></div>
+                
             @endforeach
 
             
