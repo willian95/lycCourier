@@ -93,7 +93,7 @@ class UserController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $users = User::skip($skip)->with("role")->where("role")->take($dataAmount)->get();
+            $users = User::skip($skip)->with("role")->take($dataAmount)->get();
             $usersCount = User::with("role")->count();
 
             return response()->json(["success" => true, "users" => $users, "usersCount" => $usersCount, "dataAmount" => $dataAmount]);
