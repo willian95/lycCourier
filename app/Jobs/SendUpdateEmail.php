@@ -12,6 +12,7 @@ use App\Shipping;
 use App\Recipient;
 use App\ShippingStatus;
 use Illuminate\Support\Facades\Log;
+use App\User;
 
 class SendUpdateEmail implements ShouldQueue
 {
@@ -40,9 +41,16 @@ class SendUpdateEmail implements ShouldQueue
 
             $shipping = Shipping::find($this->shippingId);
             //Log::info($this->shippingId);
-            $recipient = Recipient::find($shipping->recipient_id);
-            $to_name = $recipient->name;
-            $to_email = $recipient->email;
+
+            if($shipping->recipient_id != null){
+                $recipient = Recipient::find($shipping->recipient_id);
+                $to_name = $recipient->name;
+                $to_email = $recipient->email;
+            }else if($shipping->user_id != null){
+                $recipient = User::find($shipping->user_id);
+                $to_name = $recipient->name;
+                $to_email = $recipient->email;
+            }
             
             $status = ShippingStatus::find($shipping->shipping_status_id);
     
