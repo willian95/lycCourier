@@ -248,16 +248,12 @@ class ShippingController extends Controller
                 $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
-                ->with(['recipient' => function ($q) {
-                    $q->withTrashed();
-                }])->where("reseller_id", \Auth::user()->id)->get();
+                ->where("client_id", \Auth::user()->id)->get();
 
                 $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
-                ->with(['recipient' => function ($q) {
-                    $q->withTrashed();
-                }])->where("reseller_id", \Auth::user()->id)->count();
+                ->where("client_id", \Auth::user()->id)->count();
 
             }
             
@@ -269,6 +265,7 @@ class ShippingController extends Controller
         }
 
     }
+
     function show($tracking){
     
         $shipping = Shipping::where("tracking", $tracking)
