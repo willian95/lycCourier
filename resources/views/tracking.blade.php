@@ -589,19 +589,28 @@
                     <div class="col-md-6">
                         <div class="card_content">
                             <div class="card_content-title">
+                                @if($shipping->shipped_at)
                                 <p><i class="fa fa-calendar-o" aria-hidden="true"></i>
                                     Fecha de creación</p>
                                 <p class="subtitle">{{ $shipping->shipped_at->format('d-m-Y') }}</p>
+                                @endif
                             </div>
 
                             <div class="card_content-body">
                                 <div class="card_content-title">
                                     <p>Hasta</p>
                                     <ul class="p-0">
-                                        <li>{{ $shipping->recipient->name }}</li>
-                                        <li>{{ $shipping->recipient->email }}</li>
-                                        <li>{{ $shipping->recipient->phone }}</li>
-                                        <li>{{ $shipping->recipient->address }}</li>
+                                        @if($shipping->recipient)
+                                            <li>{{ $shipping->recipient->name }}</li>
+                                            <li>{{ $shipping->recipient->email }}</li>
+                                            <li>{{ $shipping->recipient->phone }}</li>
+                                            <li>{{ $shipping->recipient->address }}</li>
+                                        @elseif($shipping->client)
+                                            <li>{{ $shipping->client->name }} {{ $shipping->client->lastname }}</li>
+                                            <li>{{ $shipping->client->email }}</li>
+                                            <li>{{ $shipping->client->phone }}</li>
+                                            <li>{{ $shipping->client->address }}</li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
