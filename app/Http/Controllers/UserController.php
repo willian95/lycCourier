@@ -7,6 +7,7 @@ use App\Role;
 use App\User;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -22,6 +23,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->role_id = $request->roleId;
+            $user->email_verified_at = Carbon::now();
             $user->password = bcrypt($request->password);
             $user->save();
 
@@ -91,7 +93,7 @@ class UserController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $users = User::skip($skip)->with("role")->take($dataAmount)->get();
+            $users = User::skip($skip)->with("role")->where("role")->take($dataAmount)->get();
             $usersCount = User::with("role")->count();
 
             return response()->json(["success" => true, "users" => $users, "usersCount" => $usersCount, "dataAmount" => $dataAmount]);

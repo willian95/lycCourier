@@ -65,8 +65,8 @@
                                         @{{ user.role.name }}
                                     </td>
                                     <td>
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#userModal" @click="edit(user)" ><i class="far fa-edit"></i></button>
-                                        <button class="btn btn-secondary" @click="erase(user.id)"><i class="far fa-trash-alt"></i></button>
+                                        <button v-if="user.role_id < 4" class="btn btn-info" data-toggle="modal" data-target="#userModal" @click="edit(user)" ><i class="far fa-edit"></i></button>
+                                        <button v-if="user.role_id < 4" class="btn btn-secondary" @click="erase(user.id)"><i class="far fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
 
@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label for="name">Rol</label>
                             <select class="form-control" V-model="role">
-                                <option :value="role.id" v-for="role in roles">@{{ role.name }}</option>
+                                <option :value="role.id" v-for="role in roles" v-if="role.id != 4">@{{ role.name }}</option>
                             </select>
                             <small v-if="errors.hasOwnProperty('roleId')">@{{ errors['roleId'][0] }}</small>
                         </div>
