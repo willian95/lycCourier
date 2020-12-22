@@ -98,7 +98,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
-                                    <textarea rows="4" id="description" class="form-control" v-model="description" @if(\Auth::user()->role_id == 3) readonly @endif></textarea>
+                                    <textarea rows="4" id="description" class="form-control" v-model="description" readonly></textarea>
                                     <small style="color:red;" v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                                 </div>
                             </div>
