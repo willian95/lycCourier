@@ -248,9 +248,15 @@ class ShippingController extends Controller
                 $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->with(["client" => function($q){
+                    $q->withTrashed();
+                }])
                 ->where("client_id", \Auth::user()->id)->get();
 
                 $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(["client" => function($q){
                     $q->withTrashed();
                 }])
                 ->where("client_id", \Auth::user()->id)->count();
