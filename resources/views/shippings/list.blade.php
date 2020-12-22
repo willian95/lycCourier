@@ -163,7 +163,7 @@
                                       
 
                                         <a title="Editar" v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
-                                        <a title="Etiqueta" v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
+                                        <a title="Etiqueta" v-if="shipping.is_finished == 1"  v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
                                         <a title="Recibo" v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/receipt') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
                                         <button title="Listado de actualizaciones" v-if="selectedShippings.length == 0" class="btn btn-info" data-toggle="modal" data-target="#shippingHistoryModal" @click="setShippingHistory(shipping.shipping_histories)"><i class="far fa-list-alt"></i></button>
                                         
