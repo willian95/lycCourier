@@ -43,6 +43,9 @@
                     <button class="login100-form-btn" @click="login()">
                         Entrar
                     </button>
+                    <button class="login100-form-btn" @click="goToRegister()" style="margin-left: 10px;">
+                        Registrate
+                    </button>
                 </div>
 
             </div>
@@ -114,6 +117,9 @@
                         this.errors = err.response.data.errors
                     })
 
+                },
+                goToRegister(){
+                    window.location.href="{{ url('/register') }}"
                 }
 
             }
