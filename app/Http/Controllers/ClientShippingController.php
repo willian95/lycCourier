@@ -76,9 +76,11 @@ class ClientShippingController extends Controller
 
             foreach(AdminMail::all() as $admin){
 
+                $to_email = $admin->email;
+
                 \Mail::send("emails.adminNotification", $data, function($message) use ($to_name, $to_email) {
     
-                    $message->to($to_email, $to_name)->subject("¡Valida tu correo!");
+                    $message->to($to_email)->subject("¡Valida tu correo!");
                     $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
         
                 });
