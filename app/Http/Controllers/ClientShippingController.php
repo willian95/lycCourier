@@ -113,9 +113,11 @@ class ClientShippingController extends Controller
                 foreach($shippingProducts as $shippingProduct){
                     $exists = false;
                     foreach($request->products as $product){
-
-                        if($shippingProduct->id == $product["id"]){
-                            $exists = true;
+                        if(isset($product["id"]))
+                        {
+                            if($shippingProduct->id == $product["id"]){
+                                $exists = true;
+                            }
                         }
 
                     }
