@@ -78,7 +78,7 @@ class ClientShippingController extends Controller
 
                 $to_email = $admin->email;
 
-                \Mail::send("emails.adminNotification", $data, function($message) use ($to_name, $to_email) {
+                \Mail::send("emails.adminNotification", $data, function($message) use ($to_email) {
     
                     $message->to($to_email)->subject("¡Valida tu correo!");
                     $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
