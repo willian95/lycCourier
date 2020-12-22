@@ -434,6 +434,7 @@ class ShippingController extends Controller
             $shipping->description = $request->description;
             $shipping->address = $request->address;
             $shipping->is_finished = 1;
+            $shipping->shipped_at = Carbon::now();
             $shipping->shipping_status_id = 1;
             $shipping->update();
 
