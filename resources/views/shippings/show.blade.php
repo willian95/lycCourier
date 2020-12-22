@@ -105,7 +105,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
-                                    <textarea rows="4" id="description" class="form-control" v-model="description" readonly></textarea>
+                                    <textarea rows="4" id="description" class="form-control" v-model="description"></textarea>
                                     <small style="color:red;" v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                 <div class="form-group">
                                     <label for="recipient">Tipo de paquete</label>
                                     <div style="display: flex;">
-                                        <input type="text" class="form-control" v-model="packageShowName" readonly>
+                                        <input type="text" class="form-control" v-model="packageShowName" @click="showPackageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
                                     </div>
                                     <small style="color:red;" style="color:red;" v-if="errors.hasOwnProperty('packageId')">@{{ errors['packageId'][0] }}</small>
 
