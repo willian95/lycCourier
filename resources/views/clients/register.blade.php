@@ -97,6 +97,9 @@
                         <button class="login100-form-btn" type="submit">
                             Registrate
                         </button>
+                        <button class="login100-form-btn" type="button" @click="goToRegister()">
+                            Iniciar sesión
+                        </button>
                     </div>
                 </form>
 
@@ -128,6 +131,9 @@
             },
             methods: {
 
+                goToRegister(){
+                    window.location.href="{{ url('/') }}"
+                },
                 register(){
                     
                     this.loading = true

@@ -41,7 +41,7 @@
 
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn" @click="login()">
-                        Entrar
+                        Iniciar sesión
                     </button>
                     <button class="login100-form-btn" @click="goToRegister()" style="margin-left: 10px;">
                         Registrate
