@@ -72,7 +72,13 @@ class BinnacleController extends Controller
             ->orWhereHas("shipping.recipient", function($q) use($request){
                 $q->where("name", "like", '%'.$request->search.'%');
             })
+            ->orWhereHas("shipping.client", function($q) use($request){
+                $q->where("name", "like", '%'.$request->search.'%');
+            })
             ->with(['user' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['client' => function ($q) {
                 $q->withTrashed();
             }])
             ->with(['shipping.box' => function ($q) {
@@ -91,6 +97,9 @@ class BinnacleController extends Controller
 
         })
         ->orWhereHas("user", function($q) use($request){
+            $q->where("name", "like", '%'.$request->search.'%');
+        })
+        ->orWhereHas("shipping.client", function($q) use($request){
             $q->where("name", "like", '%'.$request->search.'%');
         })
         ->with(['user' => function ($q) {
