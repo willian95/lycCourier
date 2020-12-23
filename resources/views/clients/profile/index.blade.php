@@ -133,11 +133,13 @@
                                 title: "Perfecto!",
                                 text: res.data.msg,
                                 icon: "success"
+                            }).then(() => {
+
+                                window.location.reload()
                             });
-                            this.password = ""
-                            this.passwordConfirmation = ""
-                            this.fetch()
-                            window.location.reload()
+                            
+                            
+                           
                         }else{
 
                             swal({
