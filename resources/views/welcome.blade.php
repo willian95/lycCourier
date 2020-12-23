@@ -33,7 +33,7 @@
                                                 <span style="width: 250px;">Destinatario</span>
                                             </th>
                                             <th class="datatable-cell datatable-cell-sort">
-                                                <span style="width: 250px;">Fecha de creación</span>
+                                                <span style="width: 250px;">Fecha de envío</span>
                                             </th>
                                             <th class="datatable-cell datatable-cell-sort">
                                                 <span style="width: 250px;">Status</span>
@@ -55,10 +55,16 @@
                                             <td class="datatable-cell" v-if="shipping.client">
                                                 @{{ shipping.client.name }} @{{ shipping.client.lastname }}
                                             </td>
-                                            <td class="datatable-cell">
+                                            <td class="datatable-cell" v-if="shipping.shipped_at">
                                                 @{{ dateFormatter(shipping.created_at) }}
                                             </td>
-                                            <td class="datatable-cell">
+                                            <td class="datatable-cell" v-else>
+                                                Aún no enviado
+                                            </td>
+                                            <td class="datatable-cell" v-if="shipping.shipping_status_id == 1 && shipping.shipped_at == null">
+                                                Envío aún no procesado
+                                            </td>
+                                            <td class="datatable-cell" v-else>
                                                 @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                             </td>
                                             <td>

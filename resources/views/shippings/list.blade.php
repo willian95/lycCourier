@@ -116,7 +116,7 @@
                                         <span style="width: 250px;">Destinatario</span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
-                                        <span style="width: 250px;">Fecha de creación</span>
+                                        <span style="width: 250px;">Fecha de envío</span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Status</span>
@@ -154,7 +154,7 @@
                                         Envío aún no procesado
                                     </td>
                                     <td class="datatable-cell" v-else>
-                                        @{{ shipping.shipping_status.name }}
+                                        @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                     </td>
                                     <td>
                                         
