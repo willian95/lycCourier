@@ -53,7 +53,7 @@ class ProfileController extends Controller
             if($request->get('image') != null){
                 $user->dni_picture = url('/img/clients')."/".$fileName;
             }
-            if($request->has("password")){
+            if($request->has("password") && $request->password != ""){
                 $user->password = bcrypt($request->password);
             }
             $user->update();
