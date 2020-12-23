@@ -76,7 +76,9 @@
                                                 @else
                                                     <a title="Editar" v-if="shipping.is_finished == 0" :href="'{{ url('clients/shipping/') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
                                                 @endif
+                                                @if(\Auth::user()->role_id < 3)
                                                 <a title="Etiqueta" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
+                                                @endif
                                                 {{--<button class="btn btn-secondary"><i class="far fa-trash-alt"></i></button>--}}
                                             </td>
                                         </tr>
