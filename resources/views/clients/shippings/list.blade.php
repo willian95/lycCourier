@@ -18,7 +18,7 @@
                         <h3 class="card-label">Envíos
                     </div>
                     <div class="card-toolbar">
-                        
+                        @if(\Auth::user()->dni_picture != null)
                         <a href="{{ route('client.shippings.create') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -31,6 +31,7 @@
                             </svg>
                             <!--end::Svg Icon-->
                         </span>Nuevo Envío</a>
+                        @endif
                      
                         <!--end::Button-->
                     </div>
