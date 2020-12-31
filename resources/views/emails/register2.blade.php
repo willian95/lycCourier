@@ -54,7 +54,7 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-m-txt-c" align="left">
-                                                                                        <h1 style="color: #ffffff; line-height: 100%; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif;">LycCourier</h1>
+                                                                                        <h1 style="color: #ffffff; line-height: 100%; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif; padding-left: 15px">LycCourier</h1>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -105,7 +105,7 @@
                                                                                 
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-p15t es-p10b" align="left">
-                                                                                        <p style="font-size: 16px; color: #000; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif; margin-top: 80px; margin-bottom: 80p;">{{ $messageMail }}</p>
+                                                                                        <p style="font-size: 16px; color: #000; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif; margin-top: 60px; margin-bottom: 60px; padding-left: 15px;">{{ $messageMail }}</p>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
