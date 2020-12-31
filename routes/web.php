@@ -112,7 +112,7 @@ Route::get("test-email", function(){
     
     \Mail::send("emails.register2", $data, function($message) {
 
-        $message->to("fexeca5556@1092df.com")->subject("¡Valida tu correo!");
+        $message->to("test-78cgl8e0p@srv1.mail-tester.com")->subject("¡Valida tu correo!");
         $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
 
     });
