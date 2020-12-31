@@ -105,7 +105,7 @@
                                                                                 
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-p15t es-p10b" align="left">
-                                                                                        <p style="font-size: 16px; color: #777777; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif;">{{ $messageMail }}</p>
+                                                                                        <p style="font-size: 16px; color: #000; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif; margin-top: 80px; margin-bottom: 80p;">{{ $messageMail }}</p>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -136,7 +136,7 @@
                                                                         <table width="100%" cellspacing="0" cellpadding="0">
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td class="esd-block-button es-p30t es-p15b" align="center"><span class="es-button-border" style="background: #ed8e20 none repeat scroll 0% 0%;"><a href="{{ url('/register/validate/'.$registerHash) }}" class="es-button" target="_blank" style="font-weight: normal; border-width: 15px 30px; background: #ed8e20 none repeat scroll 0% 0%; border-color: #ed8e20; color: #ffffff; font-size: 18px;">Confirm account</a></span></td>
+                                                                                    <td class="esd-block-button es-p30t es-p15b" align="center"><span class="es-button-border" style="background: #ed8e20 none repeat scroll 0% 0%;"><a href="{{ url('/register/validate/'.$registerHash) }}" class="es-button" target="_blank" style="font-weight: normal; border-width: 15px 30px; background: #ed8e20 none repeat scroll 0% 0%; border-color: #ed8e20; color: #ffffff; font-size: 18px;">Confirma tu cuenta</a></span></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
