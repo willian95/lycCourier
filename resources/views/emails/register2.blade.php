@@ -94,39 +94,7 @@
                                     <td class="esd-stripe" align="center">
                                         <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
                                             <tbody>
-                                                <tr>
-                                                    <td class="esd-structure es-p40t es-p35r es-p35l" esd-custom-block-id="7685" align="left">
-                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="esd-container-frame" width="530" valign="top" align="center">
-                                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                                            <tbody>
-                                                                                
-                                                                                <tr>
-                                                                                    <td class="esd-block-text es-p15t es-p10b" align="left">
-                                                                                        <p style="font-size: 16px; color: #000; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif; margin-top: 60px; margin-bottom: 60px; padding-left: 15px;">{{ $messageMail }}</p>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td class="esd-block-spacer es-p20t es-p15b" align="center" style="font-size:0">
-                                                                                        <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td style="border-bottom: 3px solid #eeeeee; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; height: 1px; width: 100%; margin: 0px;"></td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                </tr>
+                                                
                                                 <tr>
                                                     <td class="esd-structure es-p30t es-p35b es-p35r es-p35l" esd-custom-block-id="7685" align="left">
                                                         <table width="100%" cellspacing="0" cellpadding="0">
@@ -136,7 +104,7 @@
                                                                         <table width="100%" cellspacing="0" cellpadding="0">
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td class="esd-block-button es-p30t es-p15b" align="center"><span class="es-button-border" style="background: #ed8e20 none repeat scroll 0% 0%;"><a href="{{ url('/register/validate/'.$registerHash) }}" class="es-button" target="_blank" style="font-weight: normal; border-width: 15px 30px; background: #ed8e20 none repeat scroll 0% 0%; border-color: #ed8e20; color: #ffffff; font-size: 18px; padding-top: 1rem; padding-bottom: 1rem; padding-left: .5rem; padding-right: .5rem;">Confirma tu cuenta</a></span></td>
+                                                                                    <td class="esd-block-button es-p30t es-p15b" align="center"><span class="es-button-border" style="background: #ed8e20 none repeat scroll 0% 0%;"><a href="{{ url('/register/validate/'.$registerHash) }}" class="es-button" target="_blank" style="font-weight: normal; border-width: 15px 30px; background: #ed8e20 none repeat scroll 0% 0%; border-color: #ed8e20; color: #ffffff; font-size: 18px; padding-top: 1rem; padding-bottom: 1rem; padding-left: .5rem; padding-right: .5rem; margin-bottom: 2rem;">Confirma tu cuenta</a></span></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
