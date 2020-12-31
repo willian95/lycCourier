@@ -94,7 +94,29 @@
                                     <td class="esd-stripe" align="center">
                                         <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
                                             <tbody>
-                                                
+                                                <tr>
+                                                    <td class="esd-structure es-p40t es-p35r es-p35l" esd-custom-block-id="7685" align="left">
+                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="esd-container-frame" width="530" valign="top" align="center">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                
+                                                                                <tr>
+                                                                                    <td class="esd-block-text es-p15t es-p10b" align="left">
+                                                                                        <p style="font-size: 16px; color: #000; font-family: 'open sans', 'helvetica neue', helvetica, arial, sans-serif; margin-top: 60px; margin-bottom: 60px; padding-left: 15px;">{{ $messageMail }}</p>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td class="esd-structure es-p30t es-p35b es-p35r es-p35l" esd-custom-block-id="7685" align="left">
                                                         <table width="100%" cellspacing="0" cellpadding="0">
