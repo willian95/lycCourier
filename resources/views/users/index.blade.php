@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label for="name">Rol</label>
                             <select class="form-control" V-model="role">
-                                <option :value="role.id" v-for="role in roles" v-if="role.id != 4">@{{ role.name }}</option>
+                                <option :value="role.id" v-for="role in roles">@{{ role.name }}</option>
                             </select>
                             <small v-if="errors.hasOwnProperty('roleId')">@{{ errors['roleId'][0] }}</small>
                         </div>
