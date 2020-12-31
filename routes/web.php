@@ -110,7 +110,7 @@ Route::get("test-email", function(){
 
     $data = ["messageMail" => "Hola User, haz click en el siguiente enlace para validar tu cuenta", "registerHash" => "sdfsdf"];
     
-    \Mail::send("emails.register", function($message) use ($to_name, $to_email) {
+    \Mail::send("emails.register", function($message) {
 
         $message->to("test-5rzkt51ct@srv1.mail-tester.com")->subject("¡Valida tu correo!");
         $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
