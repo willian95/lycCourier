@@ -195,13 +195,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td class="esd-container-frame" width="530" valign="top" align="center">
-                                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td class="esd-block-image" align="center" style="font-size:0"><a target="_blank"><img src="https://tlr.stripocdn.email/content/guids/CABINET_75694a6fc3c4633b3ee8e3c750851c02/images/18501522065897895.png" alt style="display: block;" width="46"></a></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
+                                                                        
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -249,37 +243,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="esd-footer-popover es-content" cellspacing="0" cellpadding="0" align="center">
-                            <tbody>
-                                <tr>
-                                    <td class="esd-stripe" align="center">
-                                        <table class="es-content-body" style="background-color: transparent;" width="600" cellspacing="0" cellpadding="0" align="center">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="esd-structure es-p30t es-p30b es-p20r es-p20l" align="left">
-                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="esd-container-frame" width="560" valign="top" align="center">
-                                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td class="esd-block-image es-infoblock made_with" align="center" style="font-size:0"><a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=accessory&utm_content=trigger_newsletter5"><img src="https://tlr.stripocdn.email/content/guids/CABINET_9df86e5b6c53dd0319931e2447ed854b/images/64951510234941531.png" alt width="125"></a></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        
                     </td>
                 </tr>
             </tbody>
