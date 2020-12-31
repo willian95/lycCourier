@@ -106,3 +106,16 @@ Route::get("/admin-email/fetch", "AdminMailController@fetch");
 Route::post("/admin-email/update", "AdminMailController@update");
 Route::post("/admin-email/delete", "AdminMailController@delete");
 
+Route::get("test-email", function(){
+
+    $data = ["messageMail" => "Hola User, haz click en el siguiente enlace para validar tu cuenta", "registerHash" => "sdfsdf"];
+    
+    \Mail::send("emails.register", function($message) use ($to_name, $to_email) {
+
+        $message->to("test-5rzkt51ct@srv1.mail-tester.com")->subject("¡Valida tu correo!");
+        $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+
+    });
+
+});
+
