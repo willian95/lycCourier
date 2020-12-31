@@ -65,8 +65,8 @@
                                         @{{ user.role.name }}
                                     </td>
                                     <td>
-                                        <button v-if="user.role_id < 4" class="btn btn-info" data-toggle="modal" data-target="#userModal" @click="edit(user)" ><i class="far fa-edit"></i></button>
-                                        <button v-if="user.role_id < 4" class="btn btn-secondary" @click="erase(user.id)"><i class="far fa-trash-alt"></i></button>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#userModal" @click="edit(user)" ><i class="far fa-edit"></i></button>
+                                        <button class="btn btn-secondary" @click="erase(user.id)"><i class="far fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
 
