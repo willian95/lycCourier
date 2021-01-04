@@ -60,7 +60,7 @@ class ShippingController extends Controller
     
             $this->storeShippingHistory($shipping->id, 1);
             //$this->sendEmail($shipping);
-            $recipient = User::find($shipping->recipient_id);
+            $recipient = User::find($shipping->client_id);
             $to_name = $recipient->name;
             $to_email = $recipient->email;
             
