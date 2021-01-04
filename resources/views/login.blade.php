@@ -108,6 +108,7 @@
 
                 login(){
                     this.loading = true
+                    this.errors = []
                     axios.post("{{ url('/login') }}", {email: this.email, password: this.password}).then(res => {
                         this.loading = false
                         if(res.data.success == true){
@@ -144,7 +145,7 @@
 
                 },
                 passwordRestore(){
-
+                    this.restoreErrors = []
                     axios.post("{{ url('/password/verify') }}", {email: this.emailRestore}).then(res => {
                         
                         this.loading = false

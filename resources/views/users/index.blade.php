@@ -107,7 +107,7 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" v-model="email">
+                            <input type="text" class="form-control" id="email" v-model="email" :readonly="role.id == 4">
                             <small v-if="errors.hasOwnProperty('email')">@{{ errors['email'][0] }}</small>
                         </div>
                         <div class="form-group">
@@ -119,12 +119,12 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Contraseña</label>
-                            <input type="text" class="form-control" id="password" v-model="password">
+                            <input type="text" class="form-control" id="password" v-model="password" :readonly="role.id == 4">
                             <small v-if="errors.hasOwnProperty('password')">@{{ errors['password'][0] }}</small>
                         </div>
                         <div class="form-group">
                             <label for="passwordConfirmation">Repetir Contraseña</label>
-                            <input type="text" class="form-control" id="passwordConfirmation" v-model="passwordConfirmation">
+                            <input type="text" class="form-control" id="passwordConfirmation" v-model="passwordConfirmation" :readonly="role.id == 4">
                         </div>
                         
                     </div>
