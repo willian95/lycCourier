@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('login');
 })->middleware("guest")->name("login");
 
-Route::get("/logout", "LoginController@logout")->middleware("guest");
+Route::get("/logout", "LoginController@logout")->middleware("auth");
 
 Route::post("/login", "LoginController@login");
 
