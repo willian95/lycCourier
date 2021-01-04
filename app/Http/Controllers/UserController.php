@@ -73,7 +73,7 @@ class UserController extends Controller
         try{
             
             $user = User::find($request->id);
-            $user->email = uniqid();
+            $user->email = $user->email.uniqid();
             $user->update();
             $user->delete();
             return response()->json(["success" => true, "msg" => "Usuario eliminado"]);

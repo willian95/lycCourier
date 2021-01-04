@@ -62,6 +62,40 @@
                         </div>
 
                         <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Departamento</label>
+                                    <select class="form-control" @change="fetchProvinces()" v-model="department">
+                                        <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>
+                            
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Provincia</label>
+                                    <select class="form-control" v-model="province" @change="fetchDistricts()">
+                                        <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('province')">@{{ errors['province'][0] }}</small>
+                            
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Distrito</label>
+                                    <select class="form-control" v-model="district">
+                                        <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('district')">@{{ errors['district'][0] }}</small>
+                            
+                            </div>
+
                             <div class="col-lg-12">
                                 <div class="wrap-input100 validate-input">
                                     <input class="input100" type="text" v-model="address">
@@ -126,6 +160,12 @@
                     password: "",
                     passwordConfirmation:"",
                     errors:"",
+                    departments:[],
+                    department:"",
+                    provinces:[],
+                    province:"",
+                    districts:[],
+                    district:"",
                     loading:false
                 }
             },
@@ -137,7 +177,8 @@
                 register(){
                     
                     this.loading = true
-                    axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation}).then(res => {
+                    this.errors = []
+                    axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, department: this.department, province: this.province, district: this.district}).then(res => {
                         this.loading = false
                         if(res.data.success){
 
@@ -178,8 +219,38 @@
                         this.errors = err.response.data.errors
                     })
 
+                },
+                fetchDepartments(){
+
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+
+                    })
+
+                },
+                fetchProvinces(){
+
+                    axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                        this.provinces = res.data.provinces
+
+                    })
+
+                },
+                fetchDistricts(){
+
+                    axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                        this.districts = res.data.districts
+
+                    })
+
                 }
 
+            },
+            created(){
+                this.fetchDepartments()
             }
 
         })

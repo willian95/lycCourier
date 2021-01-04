@@ -29,7 +29,10 @@ class RegisterRequest extends FormRequest
             "dni" => "required",
             "address" => "required",
             "email" => "required|unique:users",
-            "password" => "required|confirmed|min:8"
+            "password" => "required|confirmed|min:8",
+            "department" => "required|exists:departments,id",
+            "province" => "required|exists:provinces,id",
+            "district" => "required|exists:districts,id",
         ];
     }
 
@@ -44,7 +47,13 @@ class RegisterRequest extends FormRequest
             "email.unique" => "Este email ya existe",
             "password.required" => "Contraseña es requerida",
             "password.confirmed" => "Contraseñas no coinciden",
-            "password.min" => "Contraseña debe tener al menos 8 caracteres"
+            "password.min" => "Contraseña debe tener al menos 8 caracteres",
+            "department.required" => "Departamento es requerido",
+            "department.exists" => "Departamento no es válido",
+            "province.required" => "Provincia es requerida",
+            "province.exists" => "Provincia no es válida",
+            "district.required" => "Distrito es requerido",
+            "district.exists" => "Distrito no es válido",
         ];
     }
 }

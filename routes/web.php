@@ -29,6 +29,10 @@ Route::post("/password/verify", "PasswordRestoreController@verifyEmail")->middle
 Route::get("/password/restore/{recovery_hash}", "PasswordRestoreController@index")->middleware("guest");
 Route::post("/password/change", "PasswordRestoreController@change")->middleware("guest");
 
+Route::get("/departments", "DepartmentController@fetch");
+Route::get("/provinces/{department_id}", "ProvinceController@fetch");
+Route::get("/districts/{department_id}/{province_id}", "DistrictController@fetch");
+
 Route::get('/home', function(){
     return view('welcome');
 })->middleware('auth');

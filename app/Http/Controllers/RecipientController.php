@@ -94,6 +94,8 @@ class RecipientController extends Controller
         try{
 
             $recipient = User::find($request->id);
+            $recipient->email = $recipient->email.uniqid();
+            $recipien->update();
             $recipient->delete();
             
             return response()->json(["success" => true, "msg" => "Destinatario eliminado"]);

@@ -84,12 +84,48 @@
                                 </div>
                             @endif
                             
+                            
+                            
+                            <div class="col-lg-6" v-if="department != '' && department != null">
+                                <div class="form-group">
+                                    <label for="">Departamento</label>
+                                    <select class="form-control" @change="fetchProvinces()" v-model="department" disabled>
+                                        <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>
+                            
+                            </div>
+
+                            <div class="col-lg-6" v-if="department != '' && department != null">
+                                <div class="form-group">
+                                    <label for="">Provincia</label>
+                                    <select class="form-control" v-model="province" @change="fetchDistricts()" disabled>
+                                        <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('province')">@{{ errors['province'][0] }}</small>
+                            
+                            </div>
+
+                            <div class="col-lg-6" v-if="department != '' && department != null">
+                                <div class="form-group">
+                                    <label for="">Distrito</label>
+                                    <select class="form-control" v-model="district" disabled>
+                                        <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('district')">@{{ errors['district'][0] }}</small>
+                            
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Dirección</label>
                                     <input type="text" class="form-control" v-model="address":readonly="userId"  @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="reseller">Reseller: @{{ reseller }}</label>
@@ -216,6 +252,9 @@
                                         <input type="text" class="form-control" id="recipientPhone" v-model="recipientPhone">
                                         <small style="color:red;" v-if="recipientErrors.hasOwnProperty('phone')">@{{ recipientErrors['phone'][0] }}</small>
                                     </div> 
+
+
+
                                     <div class="form-group">
                                         <label for="recipientAddress">Dirección</label>
                                         <input type="text" class="form-control" id="recipientAddress" v-model="recipientAddress">
@@ -373,6 +412,12 @@
                     packageErrors:[],
                     address:"{{ $shipping->address }}",
                     shippingProducts:JSON.parse('{!! $shipping->shippingProducts !!}'),
+                    departments:[],
+                    department:"{{ $shipping->client->department_id }}",
+                    provinces:[],
+                    province:"{{ $shipping->client->province_id }}",
+                    districts:[],
+                    district:"{{ $shipping->client->district_id }}",
                     loading:false
                 }
             },
@@ -659,12 +704,57 @@
 
                     $("#packageModal").modal("show")
 
+                },
+                fetchDepartments(){
+
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+
+                    })
+
+                },
+                fetchProvinces(){
+
+                    axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                        this.provinces = res.data.provinces
+
+                    })
+
+                },
+                fetchDistricts(){
+
+                    axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                        this.districts = res.data.districts
+
+                    })
+
+                },
+                createdFetchDeparments(){
+                    
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+                        axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                            this.provinces = res.data.provinces
+                            axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                                this.districts = res.data.districts
+
+                            })
+                        })
+                    })
+
                 }
                 
             },
             created(){
 
                 this.fetchResellers()
+                this.createdFetchDeparments()
 
             }
 

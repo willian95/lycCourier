@@ -29,6 +29,9 @@ class RegisterController extends Controller
             $user->address = $request->address;
             $user->role_id = 4;
             $user->password = bcrypt($request->password);
+            $user->province_id = $request->province;
+            $user->department_id = $request->department;
+            $user->district_id = $request->district;
             $user->register_code = $registerHash;
             $user->save();
 

@@ -37,6 +37,7 @@
                                 <small style="color: red;" v-if="errors.hasOwnProperty('lastname')">@{{ errors['lastname'][0] }}</small>
                             </div>
                         </div>
+                        
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="lastname">Email</label>
@@ -56,6 +57,38 @@
                                 <input type="text" class="form-control" id="phone" v-model="phone">
                                 <small style="color: red;" v-if="errors.hasOwnProperty('phone')">@{{ errors['phone'][0] }}</small>
                             </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Departamento</label>
+                                <select class="form-control" @change="fetchProvinces()" v-model="department">
+                                    <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
+                                </select>
+                            </div>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>
+                        
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Provincia</label>
+                                <select class="form-control" v-model="province" @change="fetchDistricts()">
+                                    <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                </select>
+                            </div>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('province')">@{{ errors['province'][0] }}</small>
+                        
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Distrito</label>
+                                <select class="form-control" v-model="district">
+                                    <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
+                                </select>
+                            </div>
+                            <small style="color: red;" v-if="errors.hasOwnProperty('district')">@{{ errors['district'][0] }}</small>
+                        
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
@@ -122,6 +155,12 @@
                     phone:"{{ \Auth::user()->phone }}",
                     passwordConfirmation:"",
                     errors:[],
+                    departments:[],
+                    department:"{{ \Auth::user()->department_id }}",
+                    provinces:[],
+                    province:"{{ \Auth::user()->province_id }}",
+                    districts:[],
+                    district:"{{ \Auth::user()->district_id }}",
                     loading:false
                 }
             },
@@ -131,7 +170,7 @@
 
                     this.loading = true
                     this.errors = []
-                    axios.post("{{ url('profile/update') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, image: this.image, password: this.password, password_confirmation: this.passwordConfirmation, phone: this.phone})
+                    axios.post("{{ url('profile/update') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, image: this.image, password: this.password, password_confirmation: this.passwordConfirmation, phone: this.phone, department: this.department, province: this.province, district: this.district})
                     .then(res => {
                         
                         this.loading = false
@@ -183,7 +222,56 @@
                     };
                     reader.readAsDataURL(file);
                 },
+                fetchDepartments(){
+
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+
+                    })
+
+                },
+                fetchProvinces(){
+
+                    axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                        this.provinces = res.data.provinces
+
+                    })
+
+                },
+                fetchDistricts(){
+
+                    axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                        this.districts = res.data.districts
+
+                    })
+
+                },
+                createdFetchDeparments(){
+                    
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+                        axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                            this.provinces = res.data.provinces
+                            axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                                this.districts = res.data.districts
+
+                            })
+                        })
+                    })
+
+                }
                 
+
+            },
+            created(){
+
+                this.createdFetchDeparments()
 
             }
 

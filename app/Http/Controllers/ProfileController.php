@@ -51,6 +51,9 @@ class ProfileController extends Controller
             $user->phone = $request->phone;
             $user->dni = $request->dni;
             $user->address = $request->address;
+            $user->department_id = $request->department;
+            $user->district_id = $request->district;
+            $user->province_id = $request->province;
             if($request->get('image') != null){
                 $user->dni_picture = url('/img/clients')."/".$fileName;
             }
