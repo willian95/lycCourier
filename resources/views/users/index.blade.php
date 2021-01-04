@@ -34,6 +34,14 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--begin: Datatable-->
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="search">Búsqueda</label>
+                            <input type="text" class="form-control" id="search" v-model="query" @keyup="search()" placeholder="nombre o email">
+                        </div>
+                    </div>
+
                     <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded table-responsive" id="kt_datatable" style="">
                         <table class="table">
                             <thead>
@@ -152,6 +160,7 @@
                     pages:0,
                     page:1,
                     role:"",
+                    query:"",
                     roles:JSON.parse('{!! $roles !!}'),
                     loading:false
                 }
@@ -251,14 +260,36 @@
                 fetch(page = 1){
 
                     this.page = page
+                    if(this.query == ""){
+                        axios.get("{{ url('users/fetch') }}"+"/"+page)
+                        .then(res => {
 
-                    axios.get("{{ url('users/fetch') }}"+"/"+page)
-                    .then(res => {
+                            this.users = res.data.users
+                            this.pages = Math.ceil(res.data.usersCount / res.data.dataAmount)
 
-                        this.users = res.data.users
-                        this.pages = Math.ceil(res.data.usersCount / res.data.dataAmount)
+                        })
+                    }else{
+                        this.search()
+                    }
 
-                    })
+                },
+                search(){
+                    
+                    
+                    if(this.query == ""){
+                        
+                        this.fetch()
+
+                    }else{
+                        
+                        axios.post("{{ url('/users/search') }}", {search: this.query, page: this.page}).then(res =>{
+
+                            this.users = res.data.users
+                            this.pages = Math.ceil(res.data.usersCount / res.data.dataAmount)
+                            //this.setCheckbox()
+                        })
+
+                    }
 
                 },
                 erase(id){

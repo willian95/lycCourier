@@ -17,13 +17,17 @@ Route::get('/', function () {
     return view('login');
 })->middleware("guest")->name("login");
 
-Route::get("/logout", "LoginController@logout");
+Route::get("/logout", "LoginController@logout")->middleware("guest");
 
 Route::post("/login", "LoginController@login");
 
-Route::get("/register", "RegisterController@index");
-Route::get("/register/validate/{registerHash}", "RegisterController@verify");
+Route::get("/register", "RegisterController@index")->middleware("guest");
+Route::get("/register/validate/{registerHash}", "RegisterController@verify")->middleware("guest");
 Route::post("/register", "RegisterController@register");
+
+Route::post("/password/verify", "PasswordRestoreController@verifyEmail")->middleware("guest");
+Route::get("/password/restore/{recovery_hash}", "PasswordRestoreController@index")->middleware("guest");
+Route::post("/password/change", "PasswordRestoreController@change")->middleware("guest");
 
 Route::get('/home', function(){
     return view('welcome');
@@ -80,6 +84,7 @@ Route::post("/users/store", "UserController@store")->middleware("auth");
 Route::post("/users/update", "UserController@update")->middleware("auth");
 Route::post("/users/erase", "UserController@delete")->middleware("auth");
 Route::get('/users/fetch/{page}', "UserController@fetch")->middleware("auth");
+Route::post('/users/search', "UserController@search")->middleware("auth");
 
 Route::get('/binnacle', "BinnacleController@index")->name("binnacle")->middleware("admin");
 Route::post('/binnacle/fetch', "BinnacleController@fetch")->middleware("admin");
@@ -89,16 +94,16 @@ Route::get("/resellers/fetch", "ResellerController@fetch");
 
 Route::get("/tracking", "TrackingController@search");
 
-Route::get("profile", "ProfileController@index")->name("profile");
-Route::post("profile/update", "ProfileController@update");
+Route::get("profile", "ProfileController@index")->name("profile")->middleware("auth");
+Route::post("profile/update", "ProfileController@update")->middleware("auth");
 
-Route::get("clients/shipping/create", "ClientShippingController@create")->name("client.shippings.create");
-Route::post("clients/shipping/store", "ClientShippingController@store");
-Route::get("clients/shipping/list", "ClientShippingController@list")->name("client.shippings.list");
-Route::get("clients/shipping/fetch/{page}", "ClientShippingController@fetch");
-Route::get("clients/shipping/{tracking}", "ClientShippingController@edit");
-Route::post('/clients/shipping/search', "ClientShippingController@search");
-Route::post("clients/shipping/update", "ClientShippingController@update");
+Route::get("clients/shipping/create", "ClientShippingController@create")->name("client.shippings.create")->middleware("auth");
+Route::post("clients/shipping/store", "ClientShippingController@store")->middleware("auth");
+Route::get("clients/shipping/list", "ClientShippingController@list")->name("client.shippings.list")->middleware("auth");
+Route::get("clients/shipping/fetch/{page}", "ClientShippingController@fetch")->middleware("auth");
+Route::get("clients/shipping/{tracking}", "ClientShippingController@edit")->middleware("auth");
+Route::post('/clients/shipping/search', "ClientShippingController@search")->middleware("auth");
+Route::post("clients/shipping/update", "ClientShippingController@update")->middleware("auth");
 
 Route::get("/admin-email", "AdminMailController@index")->name("admin.email");
 Route::post("admin-email/store", "AdminMailController@store");

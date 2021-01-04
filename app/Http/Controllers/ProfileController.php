@@ -48,6 +48,7 @@ class ProfileController extends Controller
             $user = User::find(\Auth::user()->id);
             $user->name = $request->name;
             $user->lastname = $request->lastname;
+            $user->phone = $request->phone;
             $user->dni = $request->dni;
             $user->address = $request->address;
             if($request->get('image') != null){

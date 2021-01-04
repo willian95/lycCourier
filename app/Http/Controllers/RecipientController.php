@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RecipientStoreRequest;
 use App\Http\Requests\RecipientUpdateRequest;
-use App\Recipient;
+use App\User;
 use App\Shipping;
-
+use Carbon\Carbon;
 use PDF;
 
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,11 +23,14 @@ class RecipientController extends Controller
 
         try{
 
-            $recipient = new Recipient;
+            $recipient = new User;
             $recipient->name = $request->name;
             $recipient->email  = $request->email;
+            $recipient->password = bcrypt(uniqid());
             $recipient->phone = $request->phone;
+            $recipient->email_verified_at = Carbon::now();
             $recipient->address = $request->address;
+            $recipient->role_id = 4;
             $recipient->save();
             
             return response()->json(["success" => true, "msg" => "Destinatario registrado", "recipient" => $recipient]);
@@ -44,9 +47,9 @@ class RecipientController extends Controller
 
         try{
 
-            if(Recipient::where("email", $request->email)->where("id", "<>", $request->id)->count() <= 0){
+            if(User::where("email", $request->email)->where("id", "<>", $request->id)->count() <= 0){
 
-                $recipient = Recipient::find($request->id);
+                $recipient = User::find($request->id);
                 $recipient->name = $request->name;
                 $recipient->email  = $request->email;
                 $recipient->phone = $request->phone;
@@ -75,8 +78,8 @@ class RecipientController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $recipients = Recipient::skip($skip)->take($dataAmount)->get();
-            $recipientsCount = Recipient::count();
+            $recipients = User::where("role_id", 4)->skip($skip)->take($dataAmount)->get();
+            $recipientsCount = User::where("role_id", 4)->count();
 
             return response()->json(["success" => true, "recipients" => $recipients, "recipientsCount" => $recipientsCount, "dataAmount" => $dataAmount]);
 
@@ -90,8 +93,7 @@ class RecipientController extends Controller
     function erase(Request $request){
         try{
 
-            $recipient = Recipient::find($request->id);
-            $recipient->update();
+            $recipient = User::find($request->id);
             $recipient->delete();
             
             return response()->json(["success" => true, "msg" => "Destinatario eliminado"]);
@@ -106,7 +108,7 @@ class RecipientController extends Controller
     function search(Request $request){
         try{
 
-            $recipients = Recipient::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take(20)->get();
+            $recipients = User::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take(20)->where("role_id", 4)->get();
             return response()->json(["success" => true, "recipients" => $recipients]);
 
         }catch(\Exception $e){
@@ -122,8 +124,8 @@ class RecipientController extends Controller
             $dataAmount = 20;
             $skip = ($request->page - 1) * $dataAmount;
 
-            $recipients = Recipient::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take($dataAmount)->skip($skip)->get();
-            $recipientsCount = Recipient::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->count();
+            $recipients = User::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take($dataAmount)->skip($skip)->where("role_id", 4)->get();
+            $recipientsCount = User::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->where("role_id", 4)->count();
 
             return response()->json(["success" => true, "recipients" => $recipients, "recipientsCount" => $recipientsCount, "dataAmount" => $dataAmount]);
 
@@ -177,14 +179,14 @@ class RecipientController extends Controller
             $shippings = Shipping::skip($skip)->take($dataAmount)->with(['box' => function ($q) {
                 $q->withTrashed();
             }])
-            ->with(['recipient' => function ($q) {
+            ->with(['client' => function ($q) {
                 $q->withTrashed();
-            }])->with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("recipient_id", $recipient)->get();
+            }])->with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->where("client_id", $recipient)->get();
             
-            $shippingsCount = Shipping::with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->where("recipient_id", $recipient)->with(['box' => function ($q) {
+            $shippingsCount = Shipping::with("shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->where("client_id", $recipient)->with(['box' => function ($q) {
                 $q->withTrashed();
             }])
-            ->with(['recipient' => function ($q) {
+            ->with(['client' => function ($q) {
                 $q->withTrashed();
             }])->count();
 

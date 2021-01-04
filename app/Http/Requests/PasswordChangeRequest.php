@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileUpdateRequest extends FormRequest
+class PasswordChangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,26 +24,16 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required",
-            "lastname" => "required",
-            "dni" => "required",
-            "address" => "required",
-            "phone" => "required",
-            "password" => "nullable|confirmed|min:8"
+            "password" => "required|confirmed|min:8"
         ];
     }
 
     public function messages()
     {
         return [
-            "name.required" => "Nombre es requerido",
-            "lastname.required" => "Apellido es requerido",
-            "dni.required" => "DNI es requerido",
-            "address.required" => "Dirección es requerida",
+            "password.required" => "Contraseña es requerida",
             "password.confirmed" => "Contraseñas no coinciden",
-            "phone.required" => "Teléfono es requerido",
             "password.min" => "Contraseña debe tener al menos 8 caracteres"
         ];
     }
-
 }

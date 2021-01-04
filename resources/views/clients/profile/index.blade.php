@@ -50,6 +50,13 @@
                                 <small style="color: red;" v-if="errors.hasOwnProperty('dni')">@{{ errors['dni'][0] }}</small>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="phone">Teléfono</label>
+                                <input type="text" class="form-control" id="phone" v-model="phone">
+                                <small style="color: red;" v-if="errors.hasOwnProperty('phone')">@{{ errors['phone'][0] }}</small>
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="address">Dirección</label>
@@ -112,6 +119,7 @@
                     name:"{{ \Auth::user()->name }}",
                     imagePreview:"{{ \Auth::user()->dni_picture }}",
                     password:"",
+                    phone:"{{ \Auth::user()->phone }}",
                     passwordConfirmation:"",
                     errors:[],
                     loading:false
@@ -123,7 +131,7 @@
 
                     this.loading = true
                     this.errors = []
-                    axios.post("{{ url('profile/update') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, image: this.image, password: this.password, password_confirmation: this.passwordConfirmation})
+                    axios.post("{{ url('profile/update') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, image: this.image, password: this.password, password_confirmation: this.passwordConfirmation, phone: this.phone})
                     .then(res => {
                         
                         this.loading = false

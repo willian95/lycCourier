@@ -105,6 +105,24 @@ class UserController extends Controller
         }
     }
 
+    function search(Request $request){
+        try{
+
+            $dataAmount = 20;
+            $skip = ($request->page - 1) * $dataAmount;
+
+            $users = User::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take($dataAmount)->with("role")->skip($skip)->get();
+            $usersCount = User::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->with("role")->count();
+
+            return response()->json(["success" => true, "users" => $users, "usersCount" => $usersCount, "dataAmount" => $dataAmount]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }
+    }
+
     
 
 }

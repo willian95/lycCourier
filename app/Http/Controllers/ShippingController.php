@@ -40,7 +40,7 @@ class ShippingController extends Controller
 
             $shipping = new Shipping;
             $shipping->tracking = $request->tracking;
-            $shipping->recipient_id = $request->recipientId;
+            $shipping->client_id = $request->recipientId;
             $shipping->box_id = $request->packageId;
             $shipping->pieces = $request->pieces;
             $shipping->length = $request->length;
@@ -60,7 +60,7 @@ class ShippingController extends Controller
     
             $this->storeShippingHistory($shipping->id, 1);
             //$this->sendEmail($shipping);
-            $recipient = Recipient::find($shipping->recipient_id);
+            $recipient = User::find($shipping->recipient_id);
             $to_name = $recipient->name;
             $to_email = $recipient->email;
             
@@ -91,7 +91,7 @@ class ShippingController extends Controller
             if(Shipping::where("tracking", $request->tracking)->where("id", "<>", $request->shippingId)->count() == 0){
                 $shipping = Shipping::find($request->shippingId);
                 $shipping->tracking = $request->tracking;
-                $shipping->recipient_id = $request->recipientId;
+                $shipping->client_id = $request->recipientId;
                 $shipping->box_id = $request->packageId;
                 $shipping->pieces = $request->pieces;
                 $shipping->length = $request->length;

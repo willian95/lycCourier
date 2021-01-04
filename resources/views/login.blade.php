@@ -36,7 +36,7 @@
                 </div>
                 <small style="color: red;" v-if="errors.hasOwnProperty('password')">@{{ errors['password'][0] }}</small>
 
-
+                <a href="#" class="text-center" data-toggle="modal" data-target="#forgotPasswordModal">¿Olvidaste tu contraseña?</a>
 
 
                 <div class="container-login100-form-btn">
@@ -46,6 +46,32 @@
                     <button class="login100-form-btn" @click="goToRegister()" style="margin-left: 10px;">
                         Registrate
                     </button>
+                </div>
+
+
+                <!-- Modal-->
+                <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i aria-hidden="true" class="ki ki-close"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="emailRestore">Ingresa tu correo</label>
+                                    <input type="text" class="form-control" id="emailRestore" v-model="emailRestore">
+                                    <small v-if="restoreErrors.hasOwnProperty('email')">@{{ restoreErrors['email'][0] }}</small>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary font-weight-bold"  @click="passwordRestore()">Recuperar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -76,6 +102,8 @@
                     email: "",
                     password: "",
                     errors:[],
+                    emailRestore:"",
+                    restoreErrors:[],
                     loading:false
                 }
             },
@@ -111,10 +139,47 @@
                     .catch(err => {
                         this.loading = false
                         swal({
-                            text:"Hay unos campos que debe revisar",
+                            text:"Hay unos campos que debes revisar",
                             icon:"error"
                         })
                         this.errors = err.response.data.errors
+                    })
+
+                },
+                passwordRestore(){
+
+                    axios.post("{{ url('/password/verify') }}", {email: this.emailRestore}).then(res => {
+                        
+                        this.loading = false
+                        this.emailRestore = ""
+
+                        if(res.data.success == true){
+
+                            swal({
+                                title: "Excelente!",
+                                text: res.data.msg,
+                                icon: "success"
+                            })
+                            
+
+                        }else{
+                            
+                            swal({
+                                title:"Lo sentimos",
+                                text:res.data.msg,
+                                icon:"error"
+                            })
+
+                        }
+
+                    })
+                    .catch(err => {
+                        this.loading = false
+                        swal({
+                            text:"Hay unos campos que debes revisar",
+                            icon:"error"
+                        })
+                        this.restoreErrors = err.response.data.errors
                     })
 
                 },

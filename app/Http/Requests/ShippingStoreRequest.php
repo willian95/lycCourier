@@ -25,7 +25,7 @@ class ShippingStoreRequest extends FormRequest
     {
         return [
             "tracking" => "required|unique:shippings,tracking",
-            "recipientId" => "required|exists:recipients,id",
+            "recipientId" => "required|exists:users,id",
             "packageId" => "required|exists:boxes,id",
             "description" => "required",
             "pieces" => "nullable|integer|min:1",
