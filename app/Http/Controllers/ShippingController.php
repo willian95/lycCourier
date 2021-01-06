@@ -53,7 +53,7 @@ class ShippingController extends Controller
             $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
             $shipping->is_finished = 1;
-            $shipping->user_id = \Auth::user()->id;
+            //$shipping->user_id = \Auth::user()->id;
             $shipping->shipped_at = Carbon::now();
             $shipping->address = str_replace("'", "", $request->address);
             $shipping->save();
