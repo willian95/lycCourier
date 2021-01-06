@@ -10,11 +10,13 @@ use App\Http\Requests\ShippingPendingUpdateRequest;
 use App\Traits\StoreShippingHistory;
 use App\Traits\SendEmail;
 use App\Shipping;
+use App\ShippingProduct;
 use App\ShippingStatus;
 use App\Recipient;
 use PDF;
 use Carbon\Carbon;
 use App\Jobs\SendUpdateEmail;
+use Intervention\Image\Facades\Image;
 use App\Http\Requests\ShippingProcessRequest;
 use App\User;
 
@@ -51,12 +53,90 @@ class ShippingController extends Controller
             $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
             $shipping->is_finished = 1;
+            $shipping->user_id = \Auth::user()->id;
             $shipping->shipped_at = Carbon::now();
             $shipping->address = str_replace("'", "", $request->address);
             $shipping->save();
 
             $shipping->warehouse_number = "WRI".str_pad($shipping->id, 10, "0", STR_PAD_LEFT);
             $shipping->update();
+
+            foreach($request->products as $product){
+
+                if($product["image"] != null){
+                    try{
+            
+                        $imageData = $product["image"];
+    
+                        if(strpos($imageData, "svg+xml") > 0){
+    
+                            $data = explode( ',', $imageData);
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                            $ifp = fopen($fileName, 'wb' );
+                            fwrite($ifp, base64_decode( $data[1] ) );
+                            rename($fileName, 'img/bills/'.$fileName);
+            
+                        }else{
+    
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                            Image::make($product['image'])->save(public_path('img/bills/').$fileName);
+                        }
+            
+                    }catch(\Exception $e){
+            
+                        return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+            
+                    }
+                }
+
+                $shippingProduct = new ShippingProduct;
+                $shippingProduct->name = str_replace("'", "", $product["name"]);
+                $shippingProduct->description = str_replace("'", "", $product["description"]);
+                $shippingProduct->price = $product["price"];
+                $shippingProduct->shipping_id = $shipping->id;
+                if($product["image"] != null){
+                    $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                }
+                $shippingProduct->save();
+
+
+            }
+
+            if($request->get('dniPicture') != null){
+                try{
+        
+                    $imageData = $request->get('dniPicture');
+
+                    if(strpos($imageData, "svg+xml") > 0){
+
+                        $data = explode( ',', $imageData);
+                        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                        $ifp = fopen($fileName, 'wb' );
+                        fwrite($ifp, base64_decode( $data[1] ) );
+                        rename($fileName, 'img/clients/'.$fileName);
+        
+                    }else{
+
+                        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                        Image::make($request->get('dniPicture'))->save(public_path('img/clients/').$fileName);
+                    }
+        
+                }catch(\Exception $e){
+        
+                    return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+        
+                }
+            }
+
+            $client = User::find($request->recipientId);
+            if($request->get('dniPicture') != null){
+                $client->dni_picture = url('img/clients')."/".$fileName;
+            }
+            $client->department_id = $request->department;
+            $client->province_id = $request->province;
+            $client->district_id = $request->district;
+            $client->address = $request->address;
+            $client->update();
     
             $this->storeShippingHistory($shipping->id, 1);
             //$this->sendEmail($shipping);
@@ -90,7 +170,6 @@ class ShippingController extends Controller
 
             if(Shipping::where("tracking", $request->tracking)->where("id", "<>", $request->shippingId)->count() == 0){
                 $shipping = Shipping::find($request->shippingId);
-                $shipping->tracking = $request->tracking;
                 $shipping->client_id = $request->recipientId;
                 $shipping->box_id = $request->packageId;
                 $shipping->pieces = $request->pieces;
@@ -99,11 +178,157 @@ class ShippingController extends Controller
                 $shipping->weight = $request->weight;
                 $shipping->width = $request->width;
                 $shipping->reseller_id = $request->resellerId;
+                $shipping->description = $request->description;
                 $shipping->description = str_replace("'", "", $request->description);
                 $shipping->address = str_replace("'", "", $request->address);
                 $shipping->update();
 
                 $this->storeShippingHistory($shipping->id, $shipping->shipping_status_id);
+
+                $shippingProducts = ShippingProduct::where("shipping_id", $shipping->id)->get();
+                foreach($shippingProducts as $shippingProduct){
+                    $exists = false;
+                    foreach($request->products as $product){
+                        if(isset($product["id"]))
+                        {
+                            if($shippingProduct->id == $product["id"]){
+                                $exists = true;
+                            }
+                        }
+
+                    }
+
+                    if($exists == false){
+
+                        ShippingProduct::where("id", $shippingProduct->id)->first()->delete();
+
+                    }
+
+                }
+
+                foreach($request->products as $product){
+
+                    if(isset($product["id"])){
+
+                        if($product["image"] != null){
+
+                            $imageData = $product["image"];
+                            if(base64_encode(base64_decode($imageData, true)) === $imageData){
+
+                                try{
+                
+                                    if(strpos($imageData, "svg+xml") > 0){
+                
+                                        $data = explode( ',', $imageData);
+                                        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                        $ifp = fopen($fileName, 'wb' );
+                                        fwrite($ifp, base64_decode( $data[1] ) );
+                                        rename($fileName, 'img/bills/'.$fileName);
+                        
+                                    }else{
+                
+                                        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                                        Image::make($product['image'])->save(public_path('img/bills/').$fileName);
+                                    }
+                        
+                                }catch(\Exception $e){
+                        
+                                    return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+                        
+                                }
+
+                            }
+
+                        }
+
+                        $shippingProduct = ShippingProduct::where("id", $product["id"])->first();
+                        $shippingProduct->name = str_replace("'", "", $product["name"]);
+                        $shippingProduct->description = str_replace("'", "", $product["description"]);
+                        $shippingProduct->price = $product["price"];
+                        $shippingProduct->shipping_id = $shipping->id;
+                        if(base64_encode(base64_decode($imageData, true)) === $product["image"]){
+                            $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                        }
+                        $shippingProduct->update();
+
+                    }else{
+                        
+                        if($product["image"] != null){
+                            try{
+                    
+                                $imageData = $product["image"];
+            
+                                if(strpos($imageData, "svg+xml") > 0){
+            
+                                    $data = explode( ',', $imageData);
+                                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                    $ifp = fopen($fileName, 'wb' );
+                                    fwrite($ifp, base64_decode( $data[1] ) );
+                                    rename($fileName, 'img/bills/'.$fileName);
+                    
+                                }else{
+            
+                                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                                    Image::make($product['image'])->save(public_path('img/bills/').$fileName);
+                                }
+                    
+                            }catch(\Exception $e){
+                    
+                                return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+                    
+                            }
+                        }
+    
+                        $shippingProduct = new ShippingProduct;
+                        $shippingProduct->name = str_replace("'", "", $product["name"]);
+                        $shippingProduct->description = str_replace("'", "", $product["description"]);
+                        $shippingProduct->price = $product["price"];
+                        $shippingProduct->shipping_id = $shipping->id;
+                        if($product["image"] != null){
+                            $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                        }
+                        $shippingProduct->save();
+
+                    }
+
+                }
+
+                if($request->get('dniPicture') != null){
+                    try{
+            
+                        $imageData = $request->get('dniPicture');
+    
+                        if(strpos($imageData, "svg+xml") > 0){
+    
+                            $data = explode( ',', $imageData);
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                            $ifp = fopen($fileName, 'wb' );
+                            fwrite($ifp, base64_decode( $data[1] ) );
+                            rename($fileName, 'img/clients/'.$fileName);
+            
+                        }else{
+    
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                            Image::make($request->get('dniPicture'))->save(public_path('img/clients/').$fileName);
+                        }
+            
+                    }catch(\Exception $e){
+            
+                        return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+            
+                    }
+                }
+    
+                $client = User::find($request->recipientId);
+                if($request->get('dniPicture') != null){
+                    $client->dni_picture = url('img/clients')."/".$fileName;
+                }
+                $client->department_id = $request->department;
+                $client->province_id = $request->province;
+                $client->district_id = $request->district;
+                $client->address = $request->address;
+                $client->update();
+
 
             }else{
                 return response()->json(["success" => false, "msg" => "Este tracking ya lo posee otro envío"]);

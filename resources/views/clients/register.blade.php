@@ -131,7 +131,7 @@
                         <button class="login100-form-btn" type="submit">
                             Registrate
                         </button>
-                        <button class="login100-form-btn" type="button" @click="goToRegister()" style="margin-left: 10px;">
+                        <button class="login100-form-btn" type="button" @click="goToRegister()" style="margin-left: 10px; background: #eee !important; color: #000;">
                             Iniciar sesión
                         </button>
                     </div>

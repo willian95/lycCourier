@@ -67,6 +67,14 @@
                                 <small style="color: red;" v-if="errors.hasOwnProperty('tracking')">@{{ errors['tracking'][0] }}</small>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <p class="text-center">
+                                <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="create()">
+                                    Agregar producto
+                                </button>
+                            </p>
+                        </div> 
                         
                         <div class="col-lg-12">
                             

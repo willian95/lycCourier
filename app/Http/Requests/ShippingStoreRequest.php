@@ -32,7 +32,10 @@ class ShippingStoreRequest extends FormRequest
             "length" => "nullable|numeric|min:0",
             "height" => "nullable|numeric|min:0",
             "width" => "nullable|numeric|min:0",
-            "weight" => "nullable|numeric|min:0"
+            "weight" => "nullable|numeric|min:0",
+            "department" => "required|exists:departments,id",
+            "province" => "required|exists:provinces,id",
+            "district" => "required|exists:districts,id"
         ];
     }
 
@@ -62,7 +65,12 @@ class ShippingStoreRequest extends FormRequest
             "weight.required" => "Peso es requerido",
             "weight.numeric" => "Peso debe ser un número",
             "weight.min" => "Peso debe ser mayor a 0",
-
+            "department.required" => "Departamento es requerido",
+            "department.exists" => "Departamento no es válido",
+            "province.required" => "Provincia es requerida",
+            "province.exists" => "Provincia no es válida",
+            "district.required" => "Distrito es requerido",
+            "district.exists" => "Distrito no es válido",
         ];
 
 

@@ -25,16 +25,9 @@
                    
                     <div class="container-fluid">
                         <div class="row">
-                            @if(\Auth::user()->role_id == 1)
+                            
                                 <div class="col-md-6">
-                                    <div class="form-group" v-if="userId">
-                                        <label for="recipient">Destinatario</label>
-                                        <div style="display: flex;">
-                                            <p>@{{ userName }}</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group" v-else>
+                                    <div class="form-group">
                                         
                                         <label for="recipient">Destinatario</label>
                                         <div style="display: flex;">
@@ -43,53 +36,32 @@
                                         </div>
                                         <small style="color:red;" v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
                                     </div>
-
-                                    @if($shipping->client)
-                                    <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%;">
-                                    @endif
                                 
                                 </div>
-                            @else
-                                <div class="col-md-6">
-                                    <div class="form-group" v-if="userId">
-                                        <label for="recipient">Destinatario</label>
-                                        <div style="display: flex;">
-                                            <p>@{{ userName }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" v-else>
-                                        
-
-                                        <label for="recipient">Destinatario</label>
-                                        <input type="text" class="form-control" readonly v-model="recipientShowName">
-                                    </div>
-
-                                    
-
-                                </div>
-                            @endif
-                            @if(\Auth::user()->role_id == 1)
+ 
+                            
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tracking">Tracking number</label>
                                         <input type="text" class="form-control" v-model="tracking" :readonly="userId">
                                     </div>
                                 </div>
-                            @else
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="tracking">Tracking number</label>
-                                        <input type="text" class="form-control" readonly v-model="tracking">
+                                        <label for="recipient">Imagen DNI</label>
+                                        <input type="file" class="form-control" @change="onImageChange" style="overflow:hidden;">
+                                        <img :src="imagePreview" style="width: 40%" />
                                     </div>
+                                
                                 </div>
-                            @endif
                             
                             
                             
-                            <div class="col-lg-6" v-if="department != '' && department != null">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Departamento</label>
-                                    <select class="form-control" @change="fetchProvinces()" v-model="department" disabled>
+                                    <select class="form-control" @change="fetchProvinces()" v-model="department">
                                         <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
                                     </select>
                                 </div>
@@ -97,10 +69,10 @@
                             
                             </div>
 
-                            <div class="col-lg-6" v-if="department != '' && department != null">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Provincia</label>
-                                    <select class="form-control" v-model="province" @change="fetchDistricts()" disabled>
+                                    <select class="form-control" v-model="province" @change="fetchDistricts()">
                                         <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                                     </select>
                                 </div>
@@ -108,10 +80,10 @@
                             
                             </div>
 
-                            <div class="col-lg-6" v-if="department != '' && department != null">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Distrito</label>
-                                    <select class="form-control" v-model="district" disabled>
+                                    <select class="form-control" v-model="district">
                                         <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
                                     </select>
                                 </div>
@@ -129,12 +101,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="reseller">Reseller: @{{ reseller }}</label>
-                                    @if(\Auth::user()->role_id == 1)
+                                  
                                     <select class="form-control" v-model="resellerId">
                                         <option value="">Sin reseller</option>
                                         <option :value="reseller.id" v-for="reseller in resellers">@{{ reseller.name }}</option>
                                     </select>
-                                    @endif
+                            
                                 </div>
                                
                             </div>
@@ -189,25 +161,35 @@
                                     <input type="text" class="form-control" v-model="weight" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>
+
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="create()">
+                                        Agregar producto
+                                    </button>
+                                </p>
+                            </div> 
+
                             <div class="col-md-12">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Producto</th>
+                                            <th>Nombre</th>
                                             <th>Precio</th>
                                             <th style="width: 250px;">Factura</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(product, index) in shippingProducts">
+                                        <tr v-for="(product, index) in products">
                                             <td>@{{ index + 1 }}</td>
                                             <td>@{{ product.name }}</td>
-                                            <td>@{{ product.price }}</td>
+                                            <td>$ @{{ product.price }}</td>
+                                            <td><img :src="product.image" alt="" style="width: 70%;"></td>
                                             <td>
-                                                <a :href="product.image" target="_blank">
-                                                    <img style="width: 100%;" :src="product.image" alt="">
-                                                </a>
+                                                <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-secondary" @click="erase(index)"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -359,7 +341,63 @@
                         </div>
                     </div>
 
-                    <!-- Modal Recipients Search-->                     
+                    <!-- Modal Recipients Search-->
+
+                    <!-- Product Modal -->
+
+                    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Articulo</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <i aria-hidden="true" class="ki ki-close"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Nombre</label>
+                                                <input class="form-control" v-model="product.name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Descripción</label>
+                                                <textarea class="form-control" rows="4" v-model="product.description"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Precio (USD)</label>
+                                                <input class="form-control" v-model="product.price" @keypress="isNumberDot($event)">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="imagePreview">Copia Factura</label>
+                                                <input type="file" style="overflow: hidden;" id="imagePreview-input" class="form-control" @change="onImageProductChange">
+                                                <img :src="product.imagePreview" style="width: 60%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary font-weight-bold"  @click="addProduct()" v-if="action == 'create'">Crear</button>
+                                    <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit'">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Modal -->                  
 
                 </div>
                 <!--end::Body-->
@@ -385,9 +423,9 @@
                     recipients:[],
                     userId:"{{ $shipping->client ? $shipping->client->id : ''  }}",
                     userName:"{{ $shipping->client ? $shipping->client->name.' '.$shipping->client->lastname : '' }}",
-                    recipientId:"{{ $shipping->recipient ? $shipping->recipient->id : '' }}",
+                    recipientId:"{{ $shipping->client ? $shipping->client->id : '' }}",
                     recipientQuery:"",
-                    recipientShowName:"{{ $shipping->recipient ? $shipping->recipient->name : '' }}",
+                    recipientShowName:"{{ $shipping->client ? $shipping->client->name : '' }}",
                     packages:[],
                     packageId:"{{ $shipping->box ? $shipping->box->id : '' }}",
                     packageQuery:"",
@@ -411,18 +449,128 @@
                     recipientErrors:[],
                     packageErrors:[],
                     address:"{{ $shipping->address }}",
-                    shippingProducts:JSON.parse('{!! $shipping->shippingProducts !!}'),
+                    image:"",
+                    imagePreview:"{{ $shipping->client->dni_picture }}",
                     departments:[],
                     department:"{{ $shipping->client->department_id }}",
                     provinces:[],
                     province:"{{ $shipping->client->province_id }}",
                     districts:[],
                     district:"{{ $shipping->client->district_id }}",
+                    products:JSON.parse('{!! $shipping->shippingProducts !!}'),
+                    action:"create",
+                    product:{
+                        name:"",
+                        price:"",
+                        image:"",
+                        imagePreview:"",
+                        description:""
+                    },
                     loading:false
                 }
             },
             methods: {
 
+                addProduct(){
+
+                    if(this.product.name == ""){
+                        swal({
+                            text:"Debe agregar un nombre al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.description == ""){
+
+                        swal({
+                            text:"Debe agregar la descripción del producto",
+                            icon:"error"
+                        })
+
+                    }
+                    else if(this.product.price == ""){
+                        swal({
+                            text:"Debe agregar un precio al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.image == ""){
+
+                        swal({
+                            text:"Debe agregar la imagen de la factura del producto",
+                            icon:"error"
+                        })
+
+                    }else{
+
+                        swal({
+                            title:"¡Genial!",
+                            text:"Producto agregado",
+                            icon:"success"
+                        }).then(() => {
+
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
+
+                            this.product.name=""
+                            this.product.description=""
+                            this.product.price=""
+                            this.product.image=""
+                            this.product.imagePreview = ""
+                            $("#imagePreview-input").val(null)
+
+                        })
+
+                    }
+                },
+                addProduct(){
+
+                    if(this.product.name == ""){
+                        swal({
+                            text:"Debe agregar un nombre al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.description == ""){
+
+                        swal({
+                            text:"Debe agregar la descripción del producto",
+                            icon:"error"
+                        })
+
+                    }
+                    else if(this.product.price == ""){
+                        swal({
+                            text:"Debe agregar un precio al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.image == ""){
+
+                        swal({
+                            text:"Debe agregar la imagen de la factura del producto",
+                            icon:"error"
+                        })
+
+                    }else{
+
+                        swal({
+                            title:"¡Genial!",
+                            text:"Producto agregado",
+                            icon:"success"
+                        }).then(() => {
+
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
+
+                            this.product.name=""
+                            this.product.description=""
+                            this.product.price=""
+                            this.product.image=""
+                            this.product.imagePreview = ""
+                            $("#imagePreview-input").val(null)
+
+                        })
+
+                    }
+                },
                 fetchResellers(){
 
                     axios.get("{{ url('/resellers/fetch') }}").then(res => {
@@ -504,7 +652,7 @@
                 updateInfo(){
 
                     this.loading = true
-                    axios.post("{{ url('shippings/update-info') }}", {shippingId: this.shippingId, recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId})
+                    axios.post("{{ url('shippings/update-info') }}", {shippingId: this.shippingId, recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, products: this.products, department: this.department, province: this.province, district: this.district})
                     .then(res => {
                         this.loading = false
                         if(res.data.success == true){
@@ -732,7 +880,7 @@
                     })
 
                 },
-                createdFetchDeparments(){
+                createdFetchDepartments(){
                     
                     axios.get("{{ url('/departments') }}").then(res => {
 
@@ -748,13 +896,130 @@
                         })
                     })
 
-                }
+                },
+                edit(product, index){
+                    
+                    this.action = "edit"
+                    this.productId = product.id
+                    this.productIndex = index
+                    this.product.name = product.name
+                    this.product.description= product.description
+                    this.product.price= product.price
+                    if(this.productId != '' && this.productId != null){
+                        this.product.imagePreview = product.image
+                    }else{
+                        this.product.image = product.image
+                        this.product.imagePreview = product.imagePreview
+                    }
+                    
+                    
+                },
+                update(){
+
+                    if(this.product.name == ""){
+                        swal({
+                            text:"Debe agregar un nombre al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.description == ""){
+
+                        swal({
+                            text:"Debe agregar la descripción del producto",
+                            icon:"error"
+                        })
+
+                    }
+                    else if(this.product.price == ""){
+                        swal({
+                            text:"Debe agregar un precio al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.image == ""){
+
+                        swal({
+                            text:"Debe agregar la imagen de la factura del producto",
+                            icon:"error"
+                        })
+
+                    }else{
+
+                        this.products[this.productIndex].name = this.product.name
+                        this.products[this.productIndex].description = this.product.description
+                        this.products[this.productIndex].price = this.product.price
+                        this.products[this.productIndex].image = this.product.image
+                        this.products[this.productIndex].imagePreview = this.product.imagePreview
+
+                        swal({
+                            title:"¡Genial!",
+                            text:"Producto actualizado",
+                            icon:"success"
+                        })
+
+                    }
+
+                },
+                erase(index){
+                    console.log("index", index)
+                    this.products.splice(index, 1)
+                    swal({
+                        title:"¡Genial!",
+                        text:"Producto eliminado",
+                        icon:"success"
+                    })
+                },
+                create(){
+                    this.action = "create"
+                    this.product.name=""
+                    this.product.description=""
+                    this.product.price=""
+                    this.product.image=""
+                    this.product.imagePreview = ""
+                    $("#imagePreview-input").val(null)
+                },
+                onImageChange(e){
+                    this.image = e.target.files[0];
+
+                    this.imagePreview = URL.createObjectURL(this.image);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createImage(files[0]);
+                },
+                createImage(file) {
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.image = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                onImageProductChange(e){
+                    this.product.image = e.target.files[0];
+
+                    this.product.imagePreview = URL.createObjectURL(this.product.image);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createProductImage(files[0]);
+                },
+                createProductImage(file) {
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.product.image = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
                 
             },
             created(){
 
                 this.fetchResellers()
-                this.createdFetchDeparments()
+                this.createdFetchDepartments()
 
             }
 

@@ -45,6 +45,7 @@
                                
                             </div>
                             
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="tracking">Tracking number</label>
@@ -52,6 +53,49 @@
                                     <small v-if="errors.hasOwnProperty('tracking')">@{{ errors['tracking'][0] }}</small>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient">Imagen DNI</label>
+                                    <input type="file" class="form-control" @change="onImageChange" style="overflow:hidden;">
+                                    <img :src="imagePreview" style="width: 40%" />
+                                </div>
+                               
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Departamento</label>
+                                    <select class="form-control" @change="fetchProvinces()" v-model="department">
+                                        <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>
+                            
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Provincia</label>
+                                    <select class="form-control" v-model="province" @change="fetchDistricts()">
+                                        <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('province')">@{{ errors['province'][0] }}</small>
+                            
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Distrito</label>
+                                    <select class="form-control" v-model="district">
+                                        <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
+                                    </select>
+                                </div>
+                                <small style="color: red;" v-if="errors.hasOwnProperty('district')">@{{ errors['district'][0] }}</small>
+                            
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address">Dirección</label>
@@ -125,6 +169,41 @@
                                     <small v-if="errors.hasOwnProperty('weight')">@{{ errors['weight'][0] }}</small>
                                 </div>
                             </div>
+
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="create()">
+                                        Agregar producto
+                                    </button>
+                                </p>
+                            </div>  
+
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                            <th style="width: 250px;">Factura</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(product, index) in products">
+                                            <td>@{{ index + 1 }}</td>
+                                            <td>@{{ product.name }}</td>
+                                            <td>$ @{{ product.price }}</td>
+                                            <td><img :src="product.imagePreview" alt="" style="width: 70%;"></td>
+                                            <td>
+                                                <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-secondary" @click="erase(index)"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div class="col-12">
 
                                 <p class="text-center">
@@ -273,6 +352,62 @@
 
         <!-- Modal Recipients Search-->
 
+        <!-- Product Modal -->
+
+        <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Articulo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Nombre</label>
+                                    <input class="form-control" v-model="product.name">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Descripción</label>
+                                    <textarea class="form-control" rows="4" v-model="product.description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Precio (USD)</label>
+                                    <input class="form-control" v-model="product.price" @keypress="isNumberDot($event)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="imagePreview">Copia Factura</label>
+                                    <input type="file" style="overflow: hidden;" id="imagePreview-input" class="form-control" @change="onImageProductChange">
+                                    <img :src="product.imagePreview" style="width: 60%" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary font-weight-bold"  @click="addProduct()" v-if="action == 'create'">Crear</button>
+                        <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit'">Actualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Modal -->
+
     </div>
 
 @endsection
@@ -310,7 +445,24 @@
                     recipientErrors:[],
                     packageErrors:[],
                     address:"",
-                    loading:false
+                    loading:false,
+                    image:"",
+                    imagePreview:"",
+                    products:[],
+                    action:"create",
+                    product:{
+                        name:"",
+                        price:"",
+                        image:"",
+                        imagePreview:"",
+                        description:""
+                    },
+                    departments:[],
+                    department:"",
+                    provinces:[],
+                    province:"",
+                    districts:[],
+                    district:"",
                 }
             },
             methods: {
@@ -333,7 +485,13 @@
                     this.recipientShowName = recipient.name
                     this.address = recipient.address
                     this.recipientQuery = ""
+                    this.imagePreview = recipient.dni_picture
                     this.recipients = []
+                    this.department = recipient.department_id
+                    this.province = recipient.province_id
+                    this.district = recipient.district_id
+
+                    this.createdFetchDeparments()
 
                     $("#recipientModalSearch").click();
                     $('body').removeClass('modal-open');
@@ -386,41 +544,61 @@
                 },
                 store(){
 
-                    this.loading = true
-                    axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId})
-                    .then(res => {
-                        this.loading = false
-                        if(res.data.success == true){
+                    if(this.imagePreview == "" || this.imagePreview == null){
+                        swal({
+                            text:"Debes agregar una copia del DNI del destinatario",
+                            icon:"error"
+                        })
+                    }
 
-                            swal({
-                                title: "Perfecto!",
-                                text: res.data.msg,
-                                icon: "success"
-                            }).then(res => {
+                    else if(this.products.length <= 0){
+                        swal({
+                            text:"Debes agregar productos a tu envío",
+                            icon:"error"
+                        })
+                    }
 
-                                window.location.href="{{ url('/home') }}"
+                    else{
 
-                            });
-                            
-                            
-                        }else{
+                        this.loading = true
+                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, products: this.products, department: this.department, province: this.province, district: this.district})
+                        .then(res => {
+                            this.loading = false
+                            if(res.data.success == true){
 
-                            swal({
-                                title: "Lo sentimos!",
-                                text: res.data.msg,
-                                icon: "error"
-                            });
+                                swal({
+                                    title: "Perfecto!",
+                                    text: res.data.msg,
+                                    icon: "success"
+                                }).then(res => {
 
-                        }
+                                    window.location.href="{{ url('/home') }}"
 
-                    })
-                    .catch(err => {
+                                });
+                                
+                                
+                            }else{
 
-                        alertify.error("Hay algunos campos que debe revisar")
+                                swal({
+                                    title: "Lo sentimos!",
+                                    text: res.data.msg,
+                                    icon: "error"
+                                });
 
-                        this.loading = false
-                        this.errors = err.response.data.errors
-                    })
+                            }
+
+                        })
+                        .catch(err => {
+
+                            alertify.error("Hay algunos campos que debe revisar")
+
+                            this.loading = false
+                            this.errors = err.response.data.errors
+                        })
+
+                    }
+
+                    
 
                 },
                 fetchResellers(){
@@ -545,11 +723,217 @@
 
                     $("#packageModal").modal("show")
 
+                },
+                addProduct(){
+
+                    if(this.product.name == ""){
+                        swal({
+                            text:"Debe agregar un nombre al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.description == ""){
+
+                        swal({
+                            text:"Debe agregar la descripción del producto",
+                            icon:"error"
+                        })
+
+                    }
+                    else if(this.product.price == ""){
+                        swal({
+                            text:"Debe agregar un precio al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.image == ""){
+
+                        swal({
+                            text:"Debe agregar la imagen de la factura del producto",
+                            icon:"error"
+                        })
+
+                    }else{
+
+                        swal({
+                            title:"¡Genial!",
+                            text:"Producto agregado",
+                            icon:"success"
+                        }).then(() => {
+
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
+
+                            this.product.name=""
+                            this.product.description=""
+                            this.product.price=""
+                            this.product.image=""
+                            this.product.imagePreview = ""
+                            $("#imagePreview-input").val(null)
+
+                        })
+
+                    }
+                },
+                onImageChange(e){
+                    this.image = e.target.files[0];
+
+                    this.imagePreview = URL.createObjectURL(this.image);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createImage(files[0]);
+                },
+                createImage(file) {
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.image = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                onImageProductChange(e){
+                    this.product.image = e.target.files[0];
+
+                    this.product.imagePreview = URL.createObjectURL(this.product.image);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createProductImage(files[0]);
+                },
+                createProductImage(file) {
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.product.image = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                create(){
+                    this.action = "create"
+                    this.product.name=""
+                    this.product.description=""
+                    this.product.price=""
+                    this.product.image=""
+                    this.product.imagePreview = ""
+                    $("#imagePreview-input").val(null)
+                },
+                edit(product, index){
+                    this.action = "edit"
+                    this.productIndex = index
+                    this.product.name = product.name
+                    this.product.description= product.description
+                    this.product.price= product.price
+                    this.product.image= product.image
+                    this.product.imagePreview = product.imagePreview
+                },
+                update(){
+
+                    if(this.product.name == ""){
+                        swal({
+                            text:"Debe agregar un nombre al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.description == ""){
+
+                        swal({
+                            text:"Debe agregar la descripción del producto",
+                            icon:"error"
+                        })
+
+                    }
+                    else if(this.product.price == ""){
+                        swal({
+                            text:"Debe agregar un precio al producto",
+                            icon:"error"
+                        })
+                    }
+                    else if(this.product.image == ""){
+
+                        swal({
+                            text:"Debe agregar la imagen de la factura del producto",
+                            icon:"error"
+                        })
+
+                    }else{
+
+                        this.products[this.productIndex].name = this.product.name
+                        this.products[this.productIndex].description = this.product.description
+                        this.products[this.productIndex].price = this.product.price
+                        this.products[this.productIndex].image = this.product.image
+                        this.products[this.productIndex].imagePreview = this.product.imagePreview
+
+                        swal({
+                            title:"¡Genial!",
+                            text:"Producto actualizado",
+                            icon:"success"
+                        })
+
+                    }
+
+                },
+                erase(index){
+                    this.products.splice(index, 1)
+                    swal({
+                        title:"¡Genial!",
+                        text:"Producto eliminado",
+                        icon:"success"
+                    })
+                },
+                fetchDepartments(){
+                    
+                    
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+
+                    })
+
+                },
+                fetchProvinces(){
+                    this.province = ""
+                    this.district = ""
+                    axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                        this.provinces = res.data.provinces
+
+                    })
+
+                },
+                fetchDistricts(){
+
+                    axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                        this.districts = res.data.districts
+
+                    })
+
+                },
+                createdFetchDeparments(){
+                    
+                    axios.get("{{ url('/departments') }}").then(res => {
+
+                        this.departments = res.data.departments
+                        axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+
+                            this.provinces = res.data.provinces
+                            axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+
+                                this.districts = res.data.districts
+
+                            })
+                        })
+                    })
+
                 }
             },
             created(){
 
                 this.fetchResellers()
+                this.fetchDepartments()
+
 
             }
 
