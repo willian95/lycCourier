@@ -33,6 +33,9 @@
                             <div class="col-md-12">
                                 <h3 class="text-center">Detalles del envío</h3>
                             </div>
+                            <div class="col-12">
+                                <h3>Warehouse #: {{ "WRI".str_pad(DB::select("SHOW TABLE STATUS LIKE 'shippings'")[0]->Auto_increment, 10, "0", STR_PAD_LEFT) }}</h3>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Destinatario</label>
