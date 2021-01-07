@@ -450,7 +450,7 @@
                     packageErrors:[],
                     address:"{{ $shipping->address }}",
                     image:"",
-                    imagePreview:"{{ $shipping->client->dni_picture }}",
+                    imagePreview:"{{ $shipping->client->dni_picture ? $shipping->client->dni_picture : '' }}",
                     departments:[],
                     department:"{{ $shipping->client->department_id }}",
                     provinces:[],
