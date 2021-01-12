@@ -102,7 +102,7 @@
                 @if($product->file_type == 'image')
                     <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
                 @else
-                    <p style="font-size: 12px;">
+                    <p style="font-size: 10px;">
                     <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
                     </p>
                 @endif
