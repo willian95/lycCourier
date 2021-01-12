@@ -91,6 +91,7 @@
             @if($shipping->client)
                 <div style="page-break-after: always;"></div>
                 <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%; margin-top: 20px;">
+                <img src="{{ $shipping->client->dni_picture_back }}" alt="" style="width: 60%; margin-top: 20px;">
                 
                 <div style="page-break-after: always;"></div>
             @endif
