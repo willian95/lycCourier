@@ -57,11 +57,20 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="recipient">Imagen DNI</label>
+                                    <label for="recipient">Imagen DNI (parte delantera)</label>
                                     <input type="file" class="form-control" @change="onImageChange" style="overflow:hidden;">
                                     <img :src="imagePreview" style="width: 40%" />
+                                </div>
+                               
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="imagePreviewBack">Imagen DNI (parte trasera)</label>
+                                    <input type="file" class="form-control" @change="onImageChangeBack" style="overflow:hidden;">
+                                    <img :src="imagePreviewBack" style="width: 40%" />
                                 </div>
                                
                             </div>
@@ -466,6 +475,8 @@
                     province:"",
                     districts:[],
                     district:"",
+                    imageBack:"",
+                    imagePreviewBack:""
                 }
             },
             methods: {
@@ -489,6 +500,7 @@
                     this.address = recipient.address
                     this.recipientQuery = ""
                     this.imagePreview = recipient.dni_picture
+                    this.imagePreviewBack = recipient.dni_picture_back
                     this.recipients = []
                     this.department = recipient.department_id
                     this.province = recipient.province_id
@@ -564,7 +576,7 @@
                     else{
 
                         this.loading = true
-                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, products: this.products, department: this.department, province: this.province, district: this.district})
+                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district})
                         .then(res => {
                             this.loading = false
                             if(res.data.success == true){
@@ -792,6 +804,24 @@
                     let vm = this;
                     reader.onload = (e) => {
                         vm.image = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                onImageChangeBack(e){
+                    this.imageBack = e.target.files[0];
+
+                    this.imagePreviewBack = URL.createObjectURL(this.imageBack);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createImageBack(files[0]);
+                },
+                createImageBack(file) {
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.imageBack = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 },

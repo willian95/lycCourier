@@ -112,9 +112,17 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="imagePreview">Copia DNI</label>
-                                <input type="file" class="form-control" @change="onImageChange">
+                                <label for="imagePreview">Copia DNI (parte delantera)</label>
+                                <input type="file" class="form-control" @change="onImageChange" accept="image/*">
                                 <img :src="imagePreview" style="width: 60%" />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="imagePreviewBack">Copia DNI (parte trasera)</label>
+                                <input type="file" class="form-control" @change="onImageChangeBack" accept="image/*">
+                                <img :src="imagePreviewBack" style="width: 60%" />
                             </div>
                         </div>
 
@@ -149,8 +157,10 @@
                     address:"{{ \Auth::user()->address }}",
                     email:"{{ \Auth::user()->email }}",
                     image:"",
+                    imageBack:"",
                     name:"{{ \Auth::user()->name }}",
                     imagePreview:"{{ \Auth::user()->dni_picture }}",
+                    imagePreviewBack:"{{ \Auth::user()->dni_picture_back }}",
                     password:"",
                     phone:"{{ \Auth::user()->phone }}",
                     passwordConfirmation:"",
@@ -170,7 +180,7 @@
 
                     this.loading = true
                     this.errors = []
-                    axios.post("{{ url('profile/update') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, image: this.image, password: this.password, password_confirmation: this.passwordConfirmation, phone: this.phone, department: this.department, province: this.province, district: this.district})
+                    axios.post("{{ url('profile/update') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, image: this.image,imageBack: this.imageBack, password: this.password, password_confirmation: this.passwordConfirmation, phone: this.phone, department: this.department, province: this.province, district: this.district})
                     .then(res => {
                         
                         this.loading = false
@@ -219,6 +229,24 @@
                     let vm = this;
                     reader.onload = (e) => {
                         vm.image = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                onImageChangeBack(e){
+                    this.imageBack = e.target.files[0];
+
+                    this.imagePreviewBack = URL.createObjectURL(this.imageBack);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createImageBack(files[0]);
+                },
+                createImageBack(file) {
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.imageBack = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 },

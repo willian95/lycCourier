@@ -128,9 +128,38 @@ class ShippingController extends Controller
                 }
             }
 
+            if($request->get('dniPictureBack') != null){
+                try{
+        
+                    $imageData = $request->get('dniPictureBack');
+
+                    if(strpos($imageData, "svg+xml") > 0){
+
+                        $data = explode( ',', $imageData);
+                        $fileNameBack = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                        $ifp = fopen($fileNameBack, 'wb' );
+                        fwrite($ifp, base64_decode( $data[1] ) );
+                        rename($fileNameBack, 'img/clients/'.$fileNameBack);
+        
+                    }else{
+
+                        $fileNameBack = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                        Image::make($request->get('dniPictureBack'))->save(public_path('img/clients/').$fileNameBack);
+                    }
+        
+                }catch(\Exception $e){
+        
+                    return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+        
+                }
+            }
+
             $client = User::find($request->recipientId);
             if($request->get('dniPicture') != null){
                 $client->dni_picture = url('img/clients')."/".$fileName;
+            }
+            if($request->get('dniPictureBack') != null){
+                $client->dni_picture_back = url('img/clients')."/".$fileNameBack;
             }
             $client->department_id = $request->department;
             $client->province_id = $request->province;

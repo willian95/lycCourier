@@ -217,5 +217,21 @@ class RecipientController extends Controller
 
     }
 
+    function showProfile($id){
+
+        try{
+
+            $user = User::where("id", $id)->firstOrFail();
+            return view("recipients.profile", ["user" => $user]);
+
+        }catch(\Exception $e){
+
+            //dd($e->getMessage());
+            abort(404);
+
+        }
+
+    }
+
 
 }
