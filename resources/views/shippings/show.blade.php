@@ -49,14 +49,21 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="recipient">Imagen DNI</label>
+                                        <label for="recipient">Imagen DNI (parte delantera)</label>
                                         <input type="file" class="form-control" @change="onImageChange" style="overflow:hidden;">
                                         <img :src="imagePreview" style="width: 40%" />
                                     </div>
                                 
                                 </div>
-                            
-                            
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="recipient">Imagen DNI (parte trasera)</label>
+                                        <input type="file" class="form-control" @change="onImageChangeBack" style="overflow:hidden;">
+                                        <img :src="imagePreviewBack" style="width: 40%" />
+                                    </div>
+                                
+                                </div>
                             
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -186,7 +193,11 @@
                                             <td>@{{ index + 1 }}</td>
                                             <td>@{{ product.name }}</td>
                                             <td>$ @{{ product.price }}</td>
-                                            <td><img :src="product.image" alt="" style="width: 70%;"></td>
+                                            <td>
+                                                <img :src="product.image" alt="" style="width: 70%;" v-if="product.fileType == 'image' || product.file_type == 'image'">
+                                                <span v-else>PDF</span>
+                                                
+                                            </td>
                                             <td>
                                                 <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-secondary" @click="erase(index)"><i class="fas fa-trash"></i></button>
@@ -365,13 +376,6 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="name">Descripción</label>
-                                                <textarea class="form-control" rows="4" v-model="product.description"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
                                                 <label for="name">Precio (USD)</label>
                                                 <input class="form-control" v-model="product.price" @keypress="isNumberDot($event)">
                                             </div>
@@ -450,7 +454,9 @@
                     packageErrors:[],
                     address:"{{ $shipping->address }}",
                     image:"",
+                    imageBack:"",
                     imagePreview:"{{ $shipping->client->dni_picture ? $shipping->client->dni_picture : '' }}",
+                    imagePreviewBack:"{{ $shipping->client->dni_picture_back ? $shipping->client->dni_picture_back : '' }}",
                     departments:[],
                     department:"{{ $shipping->client->department_id }}",
                     provinces:[],
@@ -463,8 +469,7 @@
                         name:"",
                         price:"",
                         image:"",
-                        imagePreview:"",
-                        description:""
+                        imagePreview:""
                     },
                     loading:false
                 }
@@ -479,14 +484,6 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
                     else if(this.product.price == ""){
                         swal({
                             text:"Debe agregar un precio al producto",
@@ -508,57 +505,7 @@
                             icon:"success"
                         }).then(() => {
 
-                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
-
-                            this.product.name=""
-                            this.product.description=""
-                            this.product.price=""
-                            this.product.image=""
-                            this.product.imagePreview = ""
-                            $("#imagePreview-input").val(null)
-
-                        })
-
-                    }
-                },
-                addProduct(){
-
-                    if(this.product.name == ""){
-                        swal({
-                            text:"Debe agregar un nombre al producto",
-                            icon:"error"
-                        })
-                    }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
-                    else if(this.product.price == ""){
-                        swal({
-                            text:"Debe agregar un precio al producto",
-                            icon:"error"
-                        })
-                    }
-                    else if(this.product.image == ""){
-
-                        swal({
-                            text:"Debe agregar la imagen de la factura del producto",
-                            icon:"error"
-                        })
-
-                    }else{
-
-                        swal({
-                            title:"¡Genial!",
-                            text:"Producto agregado",
-                            icon:"success"
-                        }).then(() => {
-
-                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview, fileType: this.fileType})
 
                             this.product.name=""
                             this.product.description=""
@@ -989,12 +936,72 @@
                     this.createImage(files[0]);
                 },
                 createImage(file) {
-                    let reader = new FileReader();
-                    let vm = this;
-                    reader.onload = (e) => {
-                        vm.image = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image"){
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.image = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+
+                        this.image = ""
+                        this.imagePreview = ""
+
+                        swal({
+                            text:"Archivo no es una imagen",
+                            icon:"error"
+                        })
+
+                    }
+
+                    
+                },
+                onImageChangeBack(e){
+                    this.imageBack = e.target.files[0];
+
+                    this.imagePreviewBack = URL.createObjectURL(this.imageBack);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                
+                    this.createImageBack(files[0]);
+                },
+                createImageBack(file) {
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image"){
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.imageBack = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+
+                        this.image = ""
+                        this.imagePreview = ""
+
+                        swal({
+                            text:"Archivo no es una imagen",
+                            icon:"error"
+                        })
+
+                    }
+
+                    
                 },
                 onImageProductChange(e){
                     this.product.image = e.target.files[0];
@@ -1007,12 +1014,32 @@
                     this.createProductImage(files[0]);
                 },
                 createProductImage(file) {
-                    let reader = new FileReader();
-                    let vm = this;
-                    reader.onload = (e) => {
-                        vm.product.image = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image" || file["type"].indexOf("pdf") >= 0){
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.product.image = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+
+                        this.product.image = ""
+                        this.product.imagePreview = ""
+                        swal({
+                            text:"Archivo no es imagen o pdf",
+                            icon:"error"
+                        })
+
+                    }
+
+                    
                 },
                 
             },

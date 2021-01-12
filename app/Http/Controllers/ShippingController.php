@@ -253,6 +253,7 @@ class ShippingController extends Controller
                         if($product["image"] != null){
 
                             $imageData = $product["image"];
+                            $fileType = "image";
                             if(base64_encode(base64_decode($imageData, true)) === $imageData){
 
                                 try{
@@ -261,6 +262,14 @@ class ShippingController extends Controller
                 
                                         $data = explode( ',', $imageData);
                                         $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                        $ifp = fopen($fileName, 'wb' );
+                                        fwrite($ifp, base64_decode( $data[1] ) );
+                                        rename($fileName, 'img/bills/'.$fileName);
+                        
+                                    }if(strpos($imageData, "pdf") > 0){
+                                        $fileType = "pdf";
+                                        $data = explode( ',', $imageData);
+                                        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
                                         $ifp = fopen($fileName, 'wb' );
                                         fwrite($ifp, base64_decode( $data[1] ) );
                                         rename($fileName, 'img/bills/'.$fileName);
@@ -286,8 +295,10 @@ class ShippingController extends Controller
                         $shippingProduct->description = str_replace("'", "", $product["description"]);
                         $shippingProduct->price = $product["price"];
                         $shippingProduct->shipping_id = $shipping->id;
+                        
                         if(base64_encode(base64_decode($imageData, true)) === $product["image"]){
                             $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                            $shippingProduct->fileType = $fileType;
                         }
                         $shippingProduct->update();
 
