@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Imagen DNI (parte delantera)</label>
                                     <input type="file" class="form-control" @change="onImageChange" style="overflow:hidden;">
@@ -66,7 +66,7 @@
                                
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="imagePreviewBack">Imagen DNI (parte trasera)</label>
                                     <input type="file" class="form-control" @change="onImageChangeBack" style="overflow:hidden;">
@@ -386,25 +386,19 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name">Descripción</label>
-                                    <textarea class="form-control" rows="4" v-model="product.description"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label for="name">Precio (USD)</label>
                                     <input class="form-control" v-model="product.price" @keypress="isNumberDot($event)">
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="imagePreview">Copia Factura</label>
-                                    <input type="file" style="overflow: hidden;" id="imagePreview-input" class="form-control" @change="onImageProductChange">
-                                    <img :src="product.imagePreview" style="width: 60%" />
+                                    <input accept="image/*|pdf/*" type="file" style="overflow: hidden;" id="imagePreview-input" class="form-control" @change="onImageProductChange">
+                                    <img :src="product.image" alt="" style="width: 40%">
                                 </div>
                             </div>
+                            
                         </div>
                         
                         
@@ -435,6 +429,9 @@
                     recipientId:"",
                     recipientQuery:"",
                     recipientShowName:"",
+                    file:"",
+                    fileType:"",
+                    fileName:"",
                     packages:[],
                     packageId:"",
                     packageQuery:"",
@@ -466,8 +463,7 @@
                         name:"",
                         price:"",
                         image:"",
-                        imagePreview:"",
-                        description:""
+                        imagePreview:""
                     },
                     departments:[],
                     department:"",
@@ -800,12 +796,32 @@
                     this.createImage(files[0]);
                 },
                 createImage(file) {
-                    let reader = new FileReader();
-                    let vm = this;
-                    reader.onload = (e) => {
-                        vm.image = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image"){
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.image = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+
+                        this.image = ""
+                        this.imagePreview = ""
+
+                        swal({
+                            text:"Archivo no es una imagen",
+                            icon:"error"
+                        })
+
+                    }
+
                 },
                 onImageChangeBack(e){
                     this.imageBack = e.target.files[0];
@@ -818,35 +834,72 @@
                     this.createImageBack(files[0]);
                 },
                 createImageBack(file) {
-                    let reader = new FileReader();
-                    let vm = this;
-                    reader.onload = (e) => {
-                        vm.imageBack = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image"){
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.imageBack = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }else{
+
+                        this.imageBack = ""
+                        this.imagePreviewBack = ""
+
+                        swal({
+                            text:"Archivo no es una imagen",
+                            icon:"error"
+                        })
+
+                    }
                 },
                 onImageProductChange(e){
-                    this.product.image = e.target.files[0];
 
+                    this.product.image = e.target.files[0];
                     this.product.imagePreview = URL.createObjectURL(this.product.image);
                     let files = e.target.files || e.dataTransfer.files;
                     if (!files.length)
                         return;
-                
+                        
                     this.createProductImage(files[0]);
                 },
                 createProductImage(file) {
-                    let reader = new FileReader();
-                    let vm = this;
-                    reader.onload = (e) => {
-                        vm.product.image = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
+                    
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image" || file["type"].indexOf("pdf") >= 0){
+                    
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.product.image = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+                        this.product.image = ""
+                        this.product.imagePreview = ""
+                        swal({
+                            text:"Archivo no es imagen o pdf",
+                            icon:"error"
+                        })
+
+                    }
+ 
+                    
                 },
                 create(){
                     this.action = "create"
                     this.product.name=""
-                    this.product.description=""
                     this.product.price=""
                     this.product.image=""
                     this.product.imagePreview = ""
@@ -856,7 +909,6 @@
                     this.action = "edit"
                     this.productIndex = index
                     this.product.name = product.name
-                    this.product.description= product.description
                     this.product.price= product.price
                     this.product.image= product.image
                     this.product.imagePreview = product.imagePreview
