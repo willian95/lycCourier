@@ -63,15 +63,24 @@ class ShippingController extends Controller
 
             foreach($request->products as $product){
 
+                $fileType = "image";
                 if($product["image"] != null){
                     try{
             
                         $imageData = $product["image"];
     
                         if(strpos($imageData, "svg+xml") > 0){
-    
+                            
                             $data = explode( ',', $imageData);
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                            $ifp = fopen($fileName, 'wb' );
+                            fwrite($ifp, base64_decode( $data[1] ) );
+                            rename($fileName, 'img/bills/'.$fileName);
+            
+                        }if(strpos($imageData, "pdf") > 0){
+                            $fileType = "pdf";
+                            $data = explode( ',', $imageData);
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
                             $ifp = fopen($fileName, 'wb' );
                             fwrite($ifp, base64_decode( $data[1] ) );
                             rename($fileName, 'img/bills/'.$fileName);
@@ -91,9 +100,11 @@ class ShippingController extends Controller
 
                 $shippingProduct = new ShippingProduct;
                 $shippingProduct->name = str_replace("'", "", $product["name"]);
-                $shippingProduct->description = str_replace("'", "", $product["description"]);
                 $shippingProduct->price = $product["price"];
                 $shippingProduct->shipping_id = $shipping->id;
+                if($product["image"] != null){
+                    $shippingProduct->file_type = $fileType;
+                }
                 if($product["image"] != null){
                     $shippingProduct->image = url('/img/bills/')."/".$fileName;
                 }

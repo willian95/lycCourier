@@ -206,7 +206,10 @@
                                             <td>@{{ index + 1 }}</td>
                                             <td>@{{ product.name }}</td>
                                             <td>$ @{{ product.price }}</td>
-                                            <td><img :src="product.imagePreview" alt="" style="width: 70%;"></td>
+                                            <td>
+                                                <img :src="product.imagePreview" alt="" style="width: 70%;" v-if="product.fileType == 'image'">
+                                                <span v-else>PDF</span>
+                                            </td>
                                             <td>
                                                 <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-secondary" @click="erase(index)"><i class="fas fa-trash"></i></button>
@@ -743,14 +746,6 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
                     else if(this.product.price == ""){
                         swal({
                             text:"Debe agregar un precio al producto",
@@ -772,7 +767,7 @@
                             icon:"success"
                         }).then(() => {
 
-                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview, fileType: this.fileType})
 
                             this.product.name=""
                             this.product.description=""

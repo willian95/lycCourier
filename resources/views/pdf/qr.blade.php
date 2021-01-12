@@ -89,17 +89,21 @@
         </table>
             
             @if($shipping->client)
-            <div style="page-break-after: always;"></div>
-            <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%; margin-top: 20px;">
-            
-            <div style="page-break-after: always;"></div>
+                <div style="page-break-after: always;"></div>
+                <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%; margin-top: 20px;">
+                
+                <div style="page-break-after: always;"></div>
             @endif
 
             @foreach(App\ShippingProduct::where("shipping_id", $shipping->id)->get() as $product)
                 
                 <h5>Nombre: {{ $product->name }}</h5>
                 <h5>Precio: USD {{ $product->price }}</h5>
-                <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
+                @if($product->file_type == 'image')
+                    <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
+                @else
+                    <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
+                @endif
                 <div style="page-break-after: always;"></div>
                 
             @endforeach

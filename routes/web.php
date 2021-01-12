@@ -49,6 +49,7 @@ Route::post("/recipients/shippings/search", "RecipientController@searchShipping"
 Route::get('/recipients/export/excel', "RecipientController@exportExcel")->middleware("auth");
 //Route::get('/recipients/export/pdf', "RecipientController@exportPDF")->middleware("auth");
 Route::post("/recipients/list/search", "RecipientController@searchList")->middleware("auth");
+Route::get("/recipients/profile/{id}", "RecipientController@showProfile")->middleware("auth");
 
 Route::get('/packages', "BoxController@index")->name("packages")->middleware("auth");
 Route::get('/packages/fetch/{page}', "BoxController@fetch")->middleware("auth");
