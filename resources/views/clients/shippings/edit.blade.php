@@ -86,8 +86,12 @@
                                         <td>@{{ product.name }}</td>
                                         <td>$ @{{ product.price }}</td>
                                         <td>
-                                            <img :src="product.image" alt="" style="width: 70%;" v-if="product.id">
+                                            <img :src="product.image" alt="" style="width: 70%;" v-if="product.id && (product.fileType == 'image' || product.file_type == 'image')">
                                             <img :src="product.imagePreview" alt="" style="width: 70%;" v-else>
+
+                                            <span v-if="product.fileType != 'image' && product.file_type != 'image'">
+                                                <a :href="product.image" target="_blank">PDF</a>
+                                            </span>
                                         </td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target="#articleModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
@@ -128,11 +132,7 @@
                             <input class="form-control" v-model="product.name">
                         </div>
 
-                        <div class="form-group">
-                            <label for="name">Descripción</label>
-                            <textarea class="form-control" rows="4" v-model="product.description"></textarea>
-                        </div>
-
+                  
                         <div class="form-group">
                             <label for="name">Precio (USD)</label>
                             <input class="form-control" v-model="product.price" @keypress="isNumberDot($event)">
@@ -186,6 +186,9 @@
                     tracking:"{{ $shipping->tracking }}",
                     products:JSON.parse('{!! $shipping->shippingProducts !!}'),
                     errors:[],
+                    file:"",
+                    fileType:"",
+                    fileName:"",
                     loading:false
                 }
             },
@@ -213,14 +216,6 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
                     else if(this.product.price == ""){
                         swal({
                             text:"Debe agregar un precio al producto",
@@ -242,13 +237,14 @@
                             icon:"success"
                         }).then(() => {
 
-                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview})
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview, fileType: this.fileType})
 
                             this.product.name=""
                             this.product.description=""
                             this.product.price=""
                             this.product.image=""
                             this.product.imagePreview = ""
+                            this.product.fileType = ""
                             $("#imagePreview-input").val(null)
 
                         })
@@ -269,12 +265,30 @@
                     this.createImage(files[0]);
                 },
                 createImage(file) {
-                    let reader = new FileReader();
-                    let vm = this;
-                    reader.onload = (e) => {
-                        vm.product.image = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image" || file["type"].indexOf("pdf") >= 0){
+
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.product.image = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+                        this.product.image = ""
+                        this.product.imagePreview = ""
+                        swal({
+                            text:"Archivo no es imagen o pdf",
+                            icon:"error"
+                        })
+                    }
+
+                    
                 },
                 create(){
                     this.productId = ""
@@ -311,14 +325,6 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
                     else if(this.product.price == ""){
                         swal({
                             text:"Debe agregar un precio al producto",
@@ -332,6 +338,8 @@
                         this.products[this.productIndex].price = this.product.price
                         this.products[this.productIndex].image = this.product.image
                         this.products[this.productIndex].imagePreview = this.product.imagePreview
+                        this.products[this.productIndex].fileType = this.fileType
+                        this.products[this.productIndex].file_type = ""
 
                         swal({
                             title:"¡Genial!",

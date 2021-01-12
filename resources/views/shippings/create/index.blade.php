@@ -916,14 +916,6 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
                     else if(this.product.price == ""){
                         swal({
                             text:"Debe agregar un precio al producto",
@@ -944,6 +936,8 @@
                         this.products[this.productIndex].price = this.product.price
                         this.products[this.productIndex].image = this.product.image
                         this.products[this.productIndex].imagePreview = this.product.imagePreview
+                        this.products[this.productIndex].fileType = this.fileType
+                        this.products[this.productIndex].file_type = ""
 
                         swal({
                             title:"¡Genial!",

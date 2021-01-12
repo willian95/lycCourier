@@ -33,7 +33,7 @@ class ClientShippingController extends Controller
             $shipping->save();
 
             foreach($request->products as $product){
-
+                $fileType = "image";
                 if($product["image"] != null){
                     try{
             
@@ -43,6 +43,14 @@ class ClientShippingController extends Controller
     
                             $data = explode( ',', $imageData);
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                            $ifp = fopen($fileName, 'wb' );
+                            fwrite($ifp, base64_decode( $data[1] ) );
+                            rename($fileName, 'img/bills/'.$fileName);
+            
+                        }else if(strpos($imageData, "pdf") > 0){
+                            $fileType = "pdf";
+                            $data = explode( ',', $imageData);
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
                             $ifp = fopen($fileName, 'wb' );
                             fwrite($ifp, base64_decode( $data[1] ) );
                             rename($fileName, 'img/bills/'.$fileName);
@@ -62,11 +70,11 @@ class ClientShippingController extends Controller
 
                 $shippingProduct = new ShippingProduct;
                 $shippingProduct->name = str_replace("'", "", $product["name"]);
-                $shippingProduct->description = str_replace("'", "", $product["description"]);
                 $shippingProduct->price = $product["price"];
                 $shippingProduct->shipping_id = $shipping->id;
                 if($product["image"] != null){
                     $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                    $shippingProduct->file_type = $fileType;
                 }
                 $shippingProduct->save();
 
@@ -133,11 +141,14 @@ class ClientShippingController extends Controller
                 foreach($request->products as $product){
 
                     if(isset($product["id"])){
-
+                        
                         if($product["image"] != null){
 
+                            $fileType = "image";
+                            $fileName = "";
+
                             $imageData = $product["image"];
-                            if(base64_encode(base64_decode($imageData, true)) === $imageData){
+                            if(strpos($imageData, "base64") > 0){
 
                                 try{
                 
@@ -145,6 +156,14 @@ class ClientShippingController extends Controller
                 
                                         $data = explode( ',', $imageData);
                                         $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                        $ifp = fopen($fileName, 'wb' );
+                                        fwrite($ifp, base64_decode( $data[1] ) );
+                                        rename($fileName, 'img/bills/'.$fileName);
+                        
+                                    }else if(strpos($imageData, "pdf") > 0){
+                                        $fileType = "pdf";
+                                        $data = explode( ',', $imageData);
+                                        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
                                         $ifp = fopen($fileName, 'wb' );
                                         fwrite($ifp, base64_decode( $data[1] ) );
                                         rename($fileName, 'img/bills/'.$fileName);
@@ -167,17 +186,19 @@ class ClientShippingController extends Controller
 
                         $shippingProduct = ShippingProduct::where("id", $product["id"])->first();
                         $shippingProduct->name = str_replace("'", "", $product["name"]);
-                        $shippingProduct->description = str_replace("'", "", $product["description"]);
                         $shippingProduct->price = $product["price"];
                         $shippingProduct->shipping_id = $shipping->id;
-                        if(base64_encode(base64_decode($imageData, true)) === $product["image"]){
+                        if($fileName != ""){
                             $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                            $shippingProduct->file_type = $fileType;
                         }
                         $shippingProduct->update();
 
                     }else{
                         
                         if($product["image"] != null){
+                            $fileType = "image";
+                            $fileName = "";
                             try{
                     
                                 $imageData = $product["image"];
@@ -186,6 +207,14 @@ class ClientShippingController extends Controller
             
                                     $data = explode( ',', $imageData);
                                     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                    $ifp = fopen($fileName, 'wb' );
+                                    fwrite($ifp, base64_decode( $data[1] ) );
+                                    rename($fileName, 'img/bills/'.$fileName);
+                    
+                                }else if(strpos($imageData, "pdf") > 0){
+                                    $fileType = "pdf";
+                                    $data = explode( ',', $imageData);
+                                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
                                     $ifp = fopen($fileName, 'wb' );
                                     fwrite($ifp, base64_decode( $data[1] ) );
                                     rename($fileName, 'img/bills/'.$fileName);
@@ -205,18 +234,15 @@ class ClientShippingController extends Controller
     
                         $shippingProduct = new ShippingProduct;
                         $shippingProduct->name = str_replace("'", "", $product["name"]);
-                        $shippingProduct->description = str_replace("'", "", $product["description"]);
                         $shippingProduct->price = $product["price"];
                         $shippingProduct->shipping_id = $shipping->id;
                         if($product["image"] != null){
                             $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                            $shippingProduct->file_type = $fileType;
                         }
                         $shippingProduct->save();
 
                     }
-
-                 
-
 
                 }
 
@@ -228,8 +254,6 @@ class ClientShippingController extends Controller
 
 
             }
-
-            
 
         }catch(\Exception $e){
             return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);

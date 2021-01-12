@@ -195,7 +195,7 @@
                                             <td>$ @{{ product.price }}</td>
                                             <td>
                                                 <img :src="product.image" alt="" style="width: 70%;" v-if="product.fileType == 'image' || product.file_type == 'image'">
-                                                <span v-else>PDF</span>
+                                                <span v-else> <a :href="product.image" target="_blank">PDF</a></span>
                                                 
                                             </td>
                                             <td>
@@ -453,6 +453,8 @@
                     recipientErrors:[],
                     packageErrors:[],
                     address:"{{ $shipping->address }}",
+                    file:"",
+                    fileType:"",
                     image:"",
                     imageBack:"",
                     imagePreview:"{{ $shipping->client->dni_picture ? $shipping->client->dni_picture : '' }}",
@@ -852,6 +854,7 @@
                     this.product.name = product.name
                     this.product.description= product.description
                     this.product.price= product.price
+                    this.product.fileType = product.file_type
                     if(this.productId != '' && this.productId != null){
                         this.product.imagePreview = product.image
                     }else{
@@ -869,14 +872,6 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.description == ""){
-
-                        swal({
-                            text:"Debe agregar la descripción del producto",
-                            icon:"error"
-                        })
-
-                    }
                     else if(this.product.price == ""){
                         swal({
                             text:"Debe agregar un precio al producto",
@@ -893,10 +888,11 @@
                     }else{
 
                         this.products[this.productIndex].name = this.product.name
-                        this.products[this.productIndex].description = this.product.description
                         this.products[this.productIndex].price = this.product.price
                         this.products[this.productIndex].image = this.product.image
                         this.products[this.productIndex].imagePreview = this.product.imagePreview
+                        this.products[this.productIndex].fileType = this.fileType
+                        this.products[this.productIndex].file_type = ""
 
                         swal({
                             title:"¡Genial!",
@@ -908,7 +904,7 @@
 
                 },
                 erase(index){
-                    console.log("index", index)
+                  
                     this.products.splice(index, 1)
                     swal({
                         title:"¡Genial!",
