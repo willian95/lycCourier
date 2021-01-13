@@ -26,13 +26,10 @@ class RegisterRequest extends FormRequest
         return [
             "name" => "required",
             "lastname" => "required",
-            "dni" => "required",
             "address" => "required",
             "email" => "required|unique:users",
             "password" => "required|confirmed|min:8",
-            "department" => "required|exists:departments,id",
-            "province" => "required|exists:provinces,id",
-            "district" => "required|exists:districts,id",
+            
         ];
     }
 

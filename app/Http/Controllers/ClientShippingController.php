@@ -47,7 +47,7 @@ class ClientShippingController extends Controller
                             fwrite($ifp, base64_decode( $data[1] ) );
                             rename($fileName, 'img/bills/'.$fileName);
             
-                        }else if(strpos($imageData, "pdf") > 0){
+                        }else if(strpos($imageData, "/pdf") > 0){
                             $fileType = "pdf";
                             $data = explode( ',', $imageData);
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
@@ -211,7 +211,7 @@ class ClientShippingController extends Controller
                                     fwrite($ifp, base64_decode( $data[1] ) );
                                     rename($fileName, 'img/bills/'.$fileName);
                     
-                                }else if(strpos($imageData, "pdf") > 0){
+                                }else if(strpos($imageData, "/pdf") > 0){
                                     $fileType = "pdf";
                                     $data = explode( ',', $imageData);
                                     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";

@@ -70,14 +70,14 @@ class ShippingController extends Controller
                         $imageData = $product["image"];
     
                         if(strpos($imageData, "svg+xml") > 0){
-                            
+                            $fileType = "image";
                             $data = explode( ',', $imageData);
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
                             $ifp = fopen($fileName, 'wb' );
                             fwrite($ifp, base64_decode( $data[1] ) );
                             rename($fileName, 'img/bills/'.$fileName);
             
-                        }if(strpos($imageData, "pdf") > 0){
+                        }if(strpos($imageData, "/pdf") > 0){
                             $fileType = "pdf";
                             $data = explode( ',', $imageData);
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";
@@ -86,7 +86,7 @@ class ShippingController extends Controller
                             rename($fileName, 'img/bills/'.$fileName);
             
                         }else{
-    
+                            $fileType = "image";
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                             Image::make($product['image'])->save(public_path('img/bills/').$fileName);
                         }
@@ -97,6 +97,8 @@ class ShippingController extends Controller
             
                     }
                 }
+
+                dump($product, $fileType);
 
                 $shippingProduct = new ShippingProduct;
                 $shippingProduct->name = str_replace("'", "", $product["name"]);
@@ -177,7 +179,8 @@ class ShippingController extends Controller
             $client->district_id = $request->district;
             $client->address = $request->address;
             $client->update();
-    
+            
+
             $this->storeShippingHistory($shipping->id, 1);
             //$this->sendEmail($shipping);
             $recipient = User::find($shipping->client_id);
@@ -185,7 +188,7 @@ class ShippingController extends Controller
             $to_email = $recipient->email;
             
             $status = ShippingStatus::find($shipping->shipping_status_id);
-
+            
             $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
     
             \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
@@ -324,7 +327,7 @@ class ShippingController extends Controller
                                     fwrite($ifp, base64_decode( $data[1] ) );
                                     rename($fileName, 'img/bills/'.$fileName);
                     
-                                }if(strpos($imageData, "pdf") > 0){
+                                }if(strpos($imageData, "/pdf") > 0){
                                     $fileType = "pdf";
                                     $data = explode( ',', $imageData);
                                     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."pdf";

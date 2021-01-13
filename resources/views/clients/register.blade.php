@@ -42,15 +42,15 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            {{--<div class="col-lg-6">
                                 <div class="wrap-input100 validate-input">
                                     <input class="input100" type="text" v-model="dni">
                                     <span class="focus-input100"></span>
                                     <span class="label-input100">DNI</span>
                                 </div>
                                 <small style="color: red;" v-if="errors.hasOwnProperty('dni')">@{{ errors['dni'][0] }}</small>
-                            </div>
-                            <div class="col-lg-6">
+                            </div>--}}
+                            <div class="col-lg-12">
 
                                 <div class="wrap-input100 validate-input">
                                     <input class="input100" type="text" v-model="email">
@@ -63,7 +63,7 @@
 
                         <div class="row">
 
-                            <div class="col-lg-6">
+                            {{--<div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Departamento</label>
                                     <select class="form-control" @change="fetchProvinces()" v-model="department">
@@ -94,7 +94,7 @@
                                 </div>
                                 <small style="color: red;" v-if="errors.hasOwnProperty('district')">@{{ errors['district'][0] }}</small>
                             
-                            </div>
+                            </div>--}}
 
                             <div class="col-lg-12">
                                 <div class="wrap-input100 validate-input">
