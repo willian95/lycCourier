@@ -69,7 +69,7 @@
                                             </td>
                                             <td>
                                                 @if(\Auth::user()->role_id < 3)
-                                                <button v-if="shipping.shipping_status_id < 4" title="Actualizar Status" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
+                                                <button v-if="shipping.shipping_status_id < 4 && shipping.shipped_at != null" title="Actualizar Status" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
                                                 @endif
                                                 @if(\Auth::user()->role_id < 3)
                                                 <a title="Editar" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
