@@ -155,7 +155,7 @@ class ClientShippingController extends Controller
             ->with(["client" => function($q){
                 $q->withTrashed();
             }])
-            ->with("shippingStatus", "shippingHistories", "shippingProducts")->orderBy("id", "desc")->get();
+            ->with("shippingStatus", "shippingHistories", "shippingHistories.shippingStatus", "shippingProducts")->orderBy("id", "desc")->get();
             
             $shippingsCount = Shipping::with("shippingStatus", "shippingHistories", "shippingProducts")->with(['box' => function ($q) {
                 $q->withTrashed();
@@ -258,7 +258,7 @@ class ClientShippingController extends Controller
             }])
             ->with("shippingStatus", "shippingHistories", "shippingProducts")->orderBy("id", "desc")->get();
 
-            $shippingsCount = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->skip($skip)->take($dataAmount)->where("client_id", $client->id)->with(['box' => function ($q) {
+            $shippingsCount = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->where("client_id", $client->id)->with(['box' => function ($q) {
                 $q->withTrashed();
             }])
             ->with(["client" => function($q){

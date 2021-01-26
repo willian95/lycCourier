@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\PasswordRestoreRequest;
+use Illuminate\Support\Str;
 use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -55,6 +57,35 @@ class AuthController extends Controller
             return response()->json(["user" => $user]);
 
         }catch(JWTException $e){
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+        }
+
+    }
+
+    function verifyEmail(PasswordRestoreRequest $request){
+
+        try{
+
+            $recoveryHash = Str::random(40);
+            $user = User::where("email", $request->email)->first();
+            $user->recovery_hash = $recoveryHash;
+            $user->update();
+
+            $to_name = $user->name;
+            $to_email = $user->email;
+        
+            $data = ["messageMail" => "Hola ".$user->name.", haz click en el siguiente enlace para reestablecer tu contraseña", "registerHash" => $recoveryHash];
+    
+            \Mail::send("emails.restorePass", $data, function($message) use ($to_name, $to_email) {
+    
+                $message->to($to_email, $to_name)->subject("Reestablece tu contraseña");
+                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+    
+            });
+
+            return response()->json(["success" => true, "msg" => "Hemos enviado un correo de recuperación"]);
+
+        }catch(\Exception $e){
             return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
         }
 

@@ -403,7 +403,7 @@
                         
                             this.shippings = res.data.shippings
                             this.pages = Math.ceil(res.data.shippingsCount / res.data.dataAmount)
-                            //this.setCheckbox()
+        
                         })
                     }else{
 
