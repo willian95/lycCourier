@@ -10,6 +10,7 @@ use App\Http\Requests\ClientShippingUpdateRequest;
 use App\Shipping;
 use App\ShippingProduct;
 use Carbon\Carbon;
+use App\AdminMail;
 use Intervention\Image\Facades\Image;
 use Auth;
 
