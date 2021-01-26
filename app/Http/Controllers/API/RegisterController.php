@@ -28,7 +28,7 @@ class RegisterController extends Controller
             $user->register_code = $registerHash;
             $user->save();
 
-            //$this->sendEmail($user, $registerHash);
+            $this->sendEmail($user, $registerHash);
 
             return response()->json(["success" => true, "msg" => "Te has registrado exitosamente, hemos enviado un mensaje a tu correo"]);
 
