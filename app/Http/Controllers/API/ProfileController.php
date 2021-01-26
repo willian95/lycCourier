@@ -47,7 +47,7 @@ class ProfileController extends Controller
             }
             $user->update();
 
-            return response()->json(["success" => true, "msg" => "Perfil actualizado"]);
+            return response()->json(["success" => true, "msg" => "Perfil actualizado", "user" => $user]);
 
         }catch(\Exception $e){
             return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
