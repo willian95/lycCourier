@@ -14,7 +14,7 @@ class AccountImportController extends Controller
         
         try{
 
-            Excel::import(new AccountImport, 'excel/Accounts.xls');
+            Excel::import(new AccountImport, 'excel/Accounts-test.xls');
 
         }catch(\Exception $e){
             dd($e->getMessage(), $e->getLine());
