@@ -19,6 +19,8 @@ class AccountImport implements ToCollection
 
             $index = 0;
             foreach ($rows as $row){
+
+                dd($row);
                 if($row[0] != null && $index > 0 && $row[12] != ""){
 
                     $user = new ExampleUser;
@@ -30,7 +32,7 @@ class AccountImport implements ToCollection
                     $user->email_verified_at = Carbon::now();
                     $user->password = bcrypt($row[12]);
                     $user->save();
-                    dd("imported");
+                    
                     $this->sendEmail($user);
 
                 }
