@@ -129,3 +129,5 @@ Route::get("test-email", function(){
 
 });
 
+Route::get("account/import", "AccountImportController@import");
+
