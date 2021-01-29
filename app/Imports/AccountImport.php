@@ -23,7 +23,7 @@ class AccountImport implements ToCollection
                 dd($row);
                 if($row[0] != null && $index > 0 && $row[12] != ""){
 
-                    $user = new ExampleUser;
+                    $user = new User;
                     $user->name = $row[0];
                     $user->email = $row[12];
                     $user->phone = $row[8];
