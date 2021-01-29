@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\User;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Carbon\Carbon;
 
 class AccountImport implements ToCollection
 {
@@ -26,8 +27,11 @@ class AccountImport implements ToCollection
                     $user->phone = $row[8];
                     $user->address = $row[3];
                     $user->role_id = 4;
+                    $user->email_verified_at = Carbon::now();
                     $user->password = bcrypt($row[12]);
                     $user->save();
+
+                    $this->sendEmail($user);
 
                 }
                 $index++;
@@ -38,4 +42,19 @@ class AccountImport implements ToCollection
         }
 
     }
+
+    function sendEmail($user){
+        $to_name = $user->name;
+        $to_email = $user->email;
+    
+        $data = ["user" => $user];
+
+        \Mail::send("emails.register2", $data, function($message) use ($to_name, $to_email) {
+
+            $message->to($to_email, $to_name)->subject("¡Nueva plataforma!");
+            $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+
+        });
+    }
+
 }
