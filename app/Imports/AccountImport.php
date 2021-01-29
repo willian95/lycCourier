@@ -20,7 +20,7 @@ class AccountImport implements ToCollection
             $index = 0;
             foreach ($rows as $row){
 
-                dd($row);
+                dump($row[12]);
                 if($row[0] != null && $index > 0 && $row[12] != ""){
 
                     $user = new User;
