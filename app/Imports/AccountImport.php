@@ -30,7 +30,7 @@ class AccountImport implements ToCollection
                     $user->email_verified_at = Carbon::now();
                     $user->password = bcrypt($row[12]);
                     $user->save();
-
+                    dd("imported");
                     $this->sendEmail($user);
 
                 }
@@ -49,7 +49,7 @@ class AccountImport implements ToCollection
     
         $data = ["user" => $user];
 
-        \Mail::send("emails.register2", $data, function($message) use ($to_name, $to_email) {
+        \Mail::send("emails.welcomeEmail", $data, function($message) use ($to_name, $to_email) {
 
             $message->to($to_email, $to_name)->subject("¡Nueva plataforma!");
             $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
