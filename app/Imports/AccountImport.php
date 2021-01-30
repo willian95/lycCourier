@@ -21,6 +21,7 @@ class AccountImport implements ToCollection
             foreach ($rows as $row){
 
                 dump($row[12]);
+                dump(env("MAIL_FROM_ADDRESS"));
                 if($row[0] != null && $index > 0 && $row[12] != ""){
 
                     $user = new User;
