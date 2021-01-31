@@ -164,7 +164,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="tracking">Peso (kg)</label>
+                                    <label for="tracking">Peso (lb)</label>
                                     <input type="text" class="form-control" v-model="weight" @if(\Auth::user()->role_id == 3) readonly @endif>
                                 </div>
                             </div>

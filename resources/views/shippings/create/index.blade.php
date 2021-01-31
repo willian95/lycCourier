@@ -176,7 +176,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="tracking">Peso (kg)</label>
+                                    <label for="tracking">Peso (lb)</label>
                                     <input type="text" class="form-control" @keypress="isNumberDot($event)" v-model="weight">
                                     <small v-if="errors.hasOwnProperty('weight')">@{{ errors['weight'][0] }}</small>
                                 </div>
