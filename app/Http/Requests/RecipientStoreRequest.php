@@ -25,7 +25,7 @@ class RecipientStoreRequest extends FormRequest
     {
         return [
             "name" => "required",
-            "email" => "required|email",
+            //"email" => "",
             "address" => "nullable",
             "phone" => "nullable"
         ];
