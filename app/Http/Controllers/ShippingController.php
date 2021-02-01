@@ -64,7 +64,7 @@ class ShippingController extends Controller
             foreach($request->products as $product){
 
                 $fileType = "image";
-                if($product["image"] != null){
+                if($product["image"] != null && $product["image"] != "Sin factura"){
                     try{
             
                         $imageData = $product["image"];
@@ -98,7 +98,6 @@ class ShippingController extends Controller
                     }
                 }
 
-                dump($product, $fileType);
 
                 $shippingProduct = new ShippingProduct;
                 $shippingProduct->name = str_replace("'", "", $product["name"]);
@@ -107,8 +106,10 @@ class ShippingController extends Controller
                 if($product["image"] != null){
                     $shippingProduct->file_type = $fileType;
                 }
-                if($product["image"] != null){
+                if($product["image"] != null && $product["image"] != "Sin factura"){
                     $shippingProduct->image = url('/img/bills/')."/".$fileName;
+                }else{
+                    $shippingProduct->image = $product["image"];
                 }
                 $shippingProduct->save();
 
@@ -270,7 +271,7 @@ class ShippingController extends Controller
                                         fwrite($ifp, base64_decode( $data[1] ) );
                                         rename($fileName, 'img/bills/'.$fileName);
                         
-                                    }else if(strpos($imageData, "pdf") > 0){
+                                    }else if(strpos($imageData, "/pdf") > 0){
                                         
                                         $fileType = "pdf";
                                         $data = explode( ',', $imageData);

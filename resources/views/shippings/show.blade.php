@@ -194,8 +194,13 @@
                                             <td>@{{ product.name }}</td>
                                             <td>$ @{{ product.price }}</td>
                                             <td>
-                                                <img :src="product.image" alt="" style="width: 70%;" v-if="product.fileType == 'image' || product.file_type == 'image'">
-                                                <span v-else> <a :href="product.image" target="_blank">PDF</a></span>
+                                                <div v-if="product.image == 'Sin factura'">
+                                                    @{{ product.image }}
+                                                </div>
+                                                <div v-else>
+                                                    <img :src="product.image" alt="" style="width: 70%;" v-if="product.fileType == 'image' || product.file_type == 'image'">
+                                                    <span v-else> <a :href="product.image" target="_blank">PDF</a></span>
+                                                </div>
                                                 
                                             </td>
                                             <td>
@@ -878,14 +883,7 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.image == ""){
-
-                        swal({
-                            text:"Debe agregar la imagen de la factura del producto",
-                            icon:"error"
-                        })
-
-                    }else{
+                    else{
 
                         this.products[this.productIndex].name = this.product.name
                         this.products[this.productIndex].price = this.product.price

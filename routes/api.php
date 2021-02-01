@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post("/register", "API\RegisterController@register");
 Route::post("/login", "API\AuthController@login");
 
+Route::post("/login/functionary", "API\AuthController@loginFunctionary");
+
 Route::post("/password/verify", "API\AuthController@verifyEmail");
 
 Route::group(['middleware'=>'jwt.auth'], function () {
@@ -39,4 +41,8 @@ Route::group(['middleware'=>'jwt.auth'], function () {
 Route::get("departments", "API\DepartmentController@fetch");
 Route::get("/provinces/{department_id}", "API\ProvinceController@fetch");
 Route::get("/districts/{department_id}/{province_id}", "API\DistrictController@fetch");
+
+Route::get('/shippings/fetch/{page}', "API\AdminShippingController@fetch");
+Route::post("/shippings/search", "API\AdminShippingController@search");
+Route::post("/shippings/update", "API\AdminShippingController@update");
 

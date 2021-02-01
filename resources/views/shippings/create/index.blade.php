@@ -207,8 +207,13 @@
                                             <td>@{{ product.name }}</td>
                                             <td>$ @{{ product.price }}</td>
                                             <td>
-                                                <img :src="product.imagePreview" alt="" style="width: 70%;" v-if="product.fileType == 'image'">
-                                                <span v-else>PDF</span>
+                                                <div v-if="product.imagePreview === 'Sin factura'">
+                                                    @{{ product.imagePreview }}
+                                                </div>
+                                                <div v-else>
+                                                    <img :src="product.imagePreview" alt="" style="width: 70%;" v-if="product.fileType == 'image'">
+                                                    <span v-else>PDF</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
@@ -558,14 +563,8 @@
                 },
                 store(){
 
-                    if(this.imagePreview == "" || this.imagePreview == null){
-                        swal({
-                            text:"Debes agregar una copia del DNI del destinatario",
-                            icon:"error"
-                        })
-                    }
 
-                    else if(this.products.length <= 0){
+                    if(this.products.length <= 0){
                         swal({
                             text:"Debes agregar productos a tu envío",
                             icon:"error"
@@ -752,20 +751,20 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.image == ""){
-
-                        swal({
-                            text:"Debe agregar la imagen de la factura del producto",
-                            icon:"error"
-                        })
-
-                    }else{
+                    else{
 
                         swal({
                             title:"¡Genial!",
                             text:"Producto agregado",
                             icon:"success"
                         }).then(() => {
+
+                            if(this.product.image == ""){
+                                this.product.imagePreview = "Sin factura"   
+                                this.product.image = "Sin factura" 
+                            }
+
+
 
                             this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview, fileType: this.fileType})
 
@@ -922,19 +921,18 @@
                             icon:"error"
                         })
                     }
-                    else if(this.product.image == ""){
-
-                        swal({
-                            text:"Debe agregar la imagen de la factura del producto",
-                            icon:"error"
-                        })
-
-                    }else{
+                    else{
 
                         this.products[this.productIndex].name = this.product.name
                         this.products[this.productIndex].description = this.product.description
                         this.products[this.productIndex].price = this.product.price
-                        this.products[this.productIndex].image = this.product.image
+
+                        if(this.product.image == ""){
+                            this.products[this.productIndex].image = "Sin factura"    
+                        }else{
+                            this.products[this.productIndex].image = this.product.image
+                        }
+                        
                         this.products[this.productIndex].imagePreview = this.product.imagePreview
                         this.products[this.productIndex].fileType = this.fileType
                         this.products[this.productIndex].file_type = ""

@@ -3,6 +3,7 @@ namespace App\Traits;
 
 use App\ShippingHistory;
 use App\Shipping;
+use Auth;
 
 trait StoreShippingHistory
 {
@@ -34,10 +35,12 @@ trait StoreShippingHistory
             $description .= ", destinatario: ".$shipping->recipient->name;
         }
 
+        $auth = Auth::guard('api')->user() ? Auth::guard('api')->user() : Auth::user();
+
         $shippingHistory = new ShippingHistory;
         $shippingHistory->shipping_id = $shipping_id;
         $shippingHistory->shipping_status_id = $status_id;
-        $shippingHistory->user_id = \Auth::user()->id;
+        $shippingHistory->user_id = $auth->id;
         $shippingHistory->description = $description;
         $shippingHistory->save();
     }
