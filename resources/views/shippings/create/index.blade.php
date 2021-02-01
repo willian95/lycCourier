@@ -176,8 +176,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="tracking">Peso (lb)</label>
+                                    <label for="tracking">Peso (kg)</label>
                                     <input type="text" class="form-control" @keypress="isNumberDot($event)" v-model="weight">
+                                    <span>@{{ pounds }} lb</span>
                                     <small v-if="errors.hasOwnProperty('weight')">@{{ errors['weight'][0] }}</small>
                                 </div>
                             </div>
@@ -481,6 +482,11 @@
                     district:"",
                     imageBack:"",
                     imagePreviewBack:""
+                }
+            },
+            computed:{
+                pounds(){
+                    return this.weight * 2.20
                 }
             },
             methods: {

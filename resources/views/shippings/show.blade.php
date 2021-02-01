@@ -164,8 +164,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="tracking">Peso (lb)</label>
+                                    <label for="tracking">Peso (kg)</label>
                                     <input type="text" class="form-control" v-model="weight" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <span>@{{ pounds }} lb</span>
                                 </div>
                             </div>
 
@@ -479,6 +480,11 @@
                         imagePreview:""
                     },
                     loading:false
+                }
+            },
+            computed:{
+                pounds(){
+                    return this.weight * 2.20
                 }
             },
             methods: {
