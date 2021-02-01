@@ -25,7 +25,12 @@ class RecipientController extends Controller
 
             $recipient = new User;
             $recipient->name = $request->name;
-            $recipient->email  = $request->email;
+            if(isset($request->email)){
+                $recipient->email  = $request->email;
+            }else{
+                $recipient->email  = uniqid();
+            }
+            
             $recipient->password = bcrypt(uniqid());
             $recipient->phone = $request->phone;
             $recipient->email_verified_at = Carbon::now();
