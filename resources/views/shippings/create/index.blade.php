@@ -77,6 +77,15 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group">
+                                    <label for="">DNI o CE</label>
+                                    <input type="text" class="form-control" v-model="clientDNI">
+                                </div>
+                                <!--<small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>-->
+                            
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
                                     <label for="">Departamento</label>
                                     <select class="form-control" @change="fetchProvinces()" v-model="department">
                                         <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
@@ -480,6 +489,7 @@
                     province:"",
                     districts:[],
                     district:"",
+                    clientDNI:"",
                     imageBack:"",
                     imagePreviewBack:""
                 }
@@ -515,6 +525,7 @@
                     this.department = recipient.department_id
                     this.province = recipient.province_id
                     this.district = recipient.district_id
+                    this.clientDNI = recipient.dni
 
                     this.createdFetchDeparments()
 
@@ -580,7 +591,7 @@
                     else{
 
                         this.loading = true
-                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district})
+                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI})
                         .then(res => {
                             this.loading = false
                             if(res.data.success == true){

@@ -64,6 +64,15 @@
                                     </div>
                                 
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">DNI o CE</label>
+                                        <input type="text" class="form-control" v-model="clientDNI">
+                                    </div>
+                                    <!--<small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>-->
+                                
+                                </div>
                             
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -450,6 +459,7 @@
                     resellers:[],
                     resellerId:"{{ $shipping->reseller ? $shipping->reseller->id : '' }}",
                     reseller:"{{ $shipping->reseller ? $shipping->reseller->name : '' }}",
+                    clientDNI:"{{ $shipping->client ? $shipping->client->dni : '' }}",
                     recipientName:"",
                     recipientEmail:"",
                     recipientPhone:"",
@@ -612,7 +622,7 @@
                 updateInfo(){
 
                     this.loading = true
-                    axios.post("{{ url('shippings/update-info') }}", {shippingId: this.shippingId, recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, products: this.products, department: this.department, province: this.province, district: this.district})
+                    axios.post("{{ url('shippings/update-info') }}", {shippingId: this.shippingId, recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI})
                     .then(res => {
                         this.loading = false
                         if(res.data.success == true){
