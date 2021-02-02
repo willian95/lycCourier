@@ -883,7 +883,6 @@
                         this.product.imagePreview = product.imagePreview
                     }
                     
-                    
                 },
                 update(){
 

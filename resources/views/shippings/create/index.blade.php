@@ -581,14 +581,14 @@
                 store(){
 
 
-                    if(this.products.length <= 0){
+                    /*if(this.products.length <= 0){
                         swal({
                             text:"Debes agregar productos a tu envío",
                             icon:"error"
                         })
                     }
 
-                    else{
+                    else{*/
 
                         this.loading = true
                         axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI})
@@ -626,7 +626,7 @@
                             this.errors = err.response.data.errors
                         })
 
-                    }
+                    //}
 
                     
 
