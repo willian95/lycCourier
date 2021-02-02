@@ -179,6 +179,7 @@ class ShippingController extends Controller
             $client->province_id = $request->province;
             $client->district_id = $request->district;
             $client->address = $request->address;
+            $client->dni = $request->clientDNI;
             $client->update();
             
 
@@ -399,6 +400,7 @@ class ShippingController extends Controller
                 $client->province_id = $request->province;
                 $client->district_id = $request->district;
                 $client->address = $request->address;
+                $client->dni = $request->clientDNI;
                 $client->update();
 
 
