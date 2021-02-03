@@ -89,23 +89,32 @@
         </table>
             
             @if($shipping->client)
-                <div style="page-break-after: always;"></div>
-                <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%; margin-top: 20px;">
-                <img src="{{ $shipping->client->dni_picture_back }}" alt="" style="width: 60%; margin-top: 20px;">
-                
-                <div style="page-break-after: always;"></div>
+                @if($shipping->client->dni_picture != "" || $shipping->client->dni_picture != null)
+                    <div style="page-break-after: always;"></div>
+                    <img src="{{ $shipping->client->dni_picture }}" alt="" style="width: 60%; margin-top: 20px;">
+                @endif
+                @if($shipping->client->dni_picture_back != "" || $shipping->client->dni_picture_back != null)
+                    <img src="{{ $shipping->client->dni_picture_back }}" alt="" style="width: 60%; margin-top: 20px;">
+                    
+                    <div style="page-break-after: always;"></div>
+
+                @endif
             @endif
 
             @foreach(App\ShippingProduct::where("shipping_id", $shipping->id)->get() as $product)
                 
-                <h5>Nombre: {{ $product->name }}</h5>
-                <h5>Precio: USD {{ $product->price }}</h5>
-                @if($product->file_type == 'image')
-                    <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
-                @else
-                    <p style="font-size: 10px;">
-                    <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
-                    </p>
+                @if($product->image != "" || $product->image != null)
+                    
+                    <h5>Nombre: {{ $product->name }}</h5>
+                    <h5>Precio: USD {{ $product->price }}</h5>
+                    @if($product->file_type == 'image')
+                        <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
+                    @else
+                        <p style="font-size: 10px;">
+                        <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
+                        </p>
+                    @endif
+
                 @endif
                 <div style="page-break-after: always;"></div>
                 
