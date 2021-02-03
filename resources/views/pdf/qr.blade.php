@@ -103,7 +103,7 @@
 
             @foreach(App\ShippingProduct::where("shipping_id", $shipping->id)->get() as $product)
                 
-                @if($product->image != "" || $product->image != null)
+                @if($product->image != "" && $product->image != "Sin factura" && $product->image != null )
                     
                     <h5>Nombre: {{ $product->name }}</h5>
                     <h5>Precio: USD {{ $product->price }}</h5>
@@ -114,7 +114,9 @@
                         <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
                         </p>
                     @endif
-                    
+                    @if($loop->index + 1 < App\ShippingProduct::where("shipping_id", $shipping->id)->count())
+                        <div style="page-break-after: always;"></div>
+                    @endif
                 @endif
                 
                 
