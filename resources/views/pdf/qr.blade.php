@@ -114,9 +114,7 @@
                         <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
                         </p>
                     @endif
-                    @if($loop->index < App\ShippingProduct::where("shipping_id", $shipping->id)->count())
-                    <div style="page-break-after: always;"></div>
-                    @endif
+                    
                 @endif
                 
                 
