@@ -108,15 +108,15 @@
                     <h5>Nombre: {{ $product->name }}</h5>
                     <h5>Precio: USD {{ $product->price }}</h5>
                     @if($product->file_type == 'image')
-                        <img src="{{ $product->image }}" alt="" style="width: 60%; margin-top: 20px;">
+                        <img src="{{ $product->image }}" alt="" style="width: 50%; margin-top: 20px;">
                     @else
                         <p style="font-size: 10px;">
                         <a href="{{ $product->image }}" target="_blank">{{ $product->image }}</a>
                         </p>
                     @endif
-
+                    <div style="page-break-after: always;"></div>
                 @endif
-                <div style="page-break-after: always;"></div>
+                
                 
             @endforeach
         </body></html>
