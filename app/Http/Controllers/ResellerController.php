@@ -7,6 +7,7 @@ use App\Http\Requests\ResellerRecipientStore;
 use App\Http\Requests\ResellerRecipientUpdate;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class ResellerController extends Controller
@@ -84,8 +85,8 @@ class ResellerController extends Controller
         try{
 
             $fileName = $this->storeImage("image", $request);
-
             $fileNameBack = $this->storeImage("imageBack", $request);
+            $registerHash = Str::random(40);
 
             $user = new User;
             $user->name = $request->name;
@@ -108,6 +109,7 @@ class ResellerController extends Controller
                 $user->password = bcrypt($request->password);
             }
             $user->reseller_id = \Auth::user()->id;
+            $user->register_code = $registerHash;
             $user->save();
 
             $this->sendEmail($user);
@@ -155,7 +157,7 @@ class ResellerController extends Controller
         $to_name = $user->name;
         $to_email = $user->email;
 
-        $data = ["messageMail" => "Hola ".$user->name.", has sido invitado a LycCourier por ".\Auth::user()->name.". Has click en el siguiente enlace para validar tu cuenta", "registerHash" => $registerHash];
+        $data = ["messageMail" => "Hola ".$user->name.", has sido invitado a LycCourier por ".\Auth::user()->name.". Has click en el siguiente enlace para validar tu cuenta", "registerHash" => $user->register_code];
 
         \Mail::send("emails.register2", $data, function($message) use ($to_name, $to_email) {
     
