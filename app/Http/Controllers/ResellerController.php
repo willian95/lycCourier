@@ -110,7 +110,7 @@ class ResellerController extends Controller
             $user->reseller_id = \Auth::user()->id;
             $user->save();
 
-            $this->sendEmail();
+            $this->sendEmail($user);
 
             return response()->json(["success" => true, "msg" => "Destinatario creado"]);
 
