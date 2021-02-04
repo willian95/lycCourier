@@ -8,7 +8,7 @@
     </head>
     <body>
 
-        @if($label == true)
+        @if($label == "true")
 
         <h6 class="text-center">L & C Courier Inc</h6>
         <p class="text-center" style="font-size: 9px;">83 01 NW ST</p>
@@ -92,7 +92,7 @@
 
         @endif
 
-        @if($bill == true)
+        @if($bill == "true")
             
             @if($shipping->client)
                 @if($shipping->client->dni_picture != "" || $shipping->client->dni_picture != null)
