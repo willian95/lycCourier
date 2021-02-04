@@ -26,7 +26,7 @@ class ResellerRecipientStore extends FormRequest
         return [
             "name" => "required",
             "lastname" => "required",
-            "email" => "required|unique:user,email|email",
+            "email" => "required|unique:email,users|email",
             "dni" => "required",
             "address" => "required",
             "phone" => "required",
