@@ -195,7 +195,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
-								@if(\Auth::user()->role_id < 3)
+								@if(\Auth::user()->role_id < 4)
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('recipient') }}" class="menu-link">
 										<i class="menu-icon far fa-address-book"></i>
@@ -203,6 +203,9 @@ License: You must have a valid license purchased only from themeforest(the above
 									</a>
 								</li>
 
+								@endif
+								
+								@if(\Auth::user()->role_id < 3)
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('packages') }}" class="menu-link">
 										<i class="menu-icon fas fa-boxes"></i>

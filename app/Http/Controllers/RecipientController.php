@@ -83,8 +83,18 @@ class RecipientController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $recipients = User::where("role_id", 4)->skip($skip)->take($dataAmount)->get();
-            $recipientsCount = User::where("role_id", 4)->count();
+
+            if(\Auth::user()->role_id == 3){
+
+                $recipients = User::where("role_id", 4)->where("reseller_id", \Auth::user()->id)->skip($skip)->take($dataAmount)->get();
+                $recipientsCount = User::where("role_id", 4)->where("reseller_id", \Auth::user()->id)->count();
+
+            }else{
+
+                $recipients = User::where("role_id", 4)->skip($skip)->take($dataAmount)->get();
+                $recipientsCount = User::where("role_id", 4)->count();
+
+            }
 
             return response()->json(["success" => true, "recipients" => $recipients, "recipientsCount" => $recipientsCount, "dataAmount" => $dataAmount]);
 

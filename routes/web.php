@@ -98,6 +98,11 @@ Route::post('/binnacle/search', "BinnacleController@search")->middleware("admin"
 
 Route::get("/resellers/fetch", "ResellerController@fetch");
 
+Route::get("/reseller/recipient/create", "ResellerController@createRecipient");
+Route::get("/reseller/recipient/edit/{id}", "ResellerController@editRecipient");
+Route::post("/reseller/recipient/store", "ResellerController@storeRecipient");
+Route::post("/reseller/recipient/update", "ResellerController@updateRecipient");
+
 Route::get("/tracking", "TrackingController@search");
 
 Route::get("profile", "ProfileController@index")->name("profile")->middleware("auth");
