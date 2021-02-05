@@ -168,23 +168,6 @@ class ShippingController extends Controller
                 }
             }
 
-            if(isset($request->resellerId)){
-
-                $to_name = User::find($request->resellerId)->name;
-                $to_email = User::find($request->resellerId)->email;
-
-                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
-    
-                \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
-                    
-                    
-                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
-                    $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
-        
-                });
-
-            }
-
             $client = User::find($request->recipientId);
             if($request->get('dniPicture') != null){
                 $client->dni_picture = url('img/clients')."/".$fileName;
@@ -203,10 +186,29 @@ class ShippingController extends Controller
             $this->storeShippingHistory($shipping->id, 1);
             //$this->sendEmail($shipping);
             $recipient = User::find($shipping->client_id);
-            $to_name = $recipient->name;
-            $to_email = $recipient->email;
+           
             
             $status = ShippingStatus::find($shipping->shipping_status_id);
+
+            if(isset($request->resellerId)){
+
+                $to_name = User::find($request->resellerId)->name;
+                $to_email = User::find($request->resellerId)->email;
+
+                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
+    
+                \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
+                    
+                    
+                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
+                    $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+        
+                });
+
+            }
+
+            $to_name = $recipient->name;
+            $to_email = $recipient->email;
             
             $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
     
