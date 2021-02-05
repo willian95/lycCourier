@@ -45,4 +45,5 @@ Route::get("/districts/{department_id}/{province_id}", "API\DistrictController@f
 Route::get('/shippings/fetch/{page}', "API\AdminShippingController@fetch");
 Route::post("/shippings/search", "API\AdminShippingController@search");
 Route::post("/shippings/update", "API\AdminShippingController@update");
+Route::get("/shippings/tracking/{tracking}", "API\AdminShippingController@fetchByTracking");
 

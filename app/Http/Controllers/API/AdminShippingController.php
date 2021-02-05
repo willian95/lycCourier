@@ -220,4 +220,28 @@ class AdminShippingController extends Controller
         
 
     }
+
+    function fetchByTracking($tracking){
+
+        try{
+
+            $shipping = Shipping::where("tracking", $tracking)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")
+            ->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(["client" => function($q){
+                $q->withTrashed();
+                $q->with("department", "district", "province");
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->first();
+
+            return response()->json(["success" => true, "shipping" => $shipping]);
+
+        }catch(\Exception $e){
+            return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+        }
+
+    }
 }
