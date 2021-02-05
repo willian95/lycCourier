@@ -171,7 +171,7 @@ class ShippingController extends Controller
             if(isset($request->resellerId)){
 
                 $to_name = User::find($request->resellerId)->name;
-                $to_email = User::find($request->resellerId)->name->email;
+                $to_email = User::find($request->resellerId)->email;
 
                 $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
     
