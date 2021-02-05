@@ -131,7 +131,7 @@
                                     <label for="address">Reseller</label>
                                     <select class="form-control" v-model="resellerId">
                                         <option value="">Sin reseller</option>
-                                        <option :value="reseller.id" v-for="reseller in resellers">@{{ reseller.name }}</option>
+                                        <option :value="resellers.id" v-if="resellers != ''">@{{ resellers.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -533,7 +533,7 @@
                     $('body').removeClass('modal-open');
                     $('body').css('padding-right', '0px');
                     $('.modal-backdrop').remove();
-                   
+                    this.fetchResellers()
 
                 },
                 packageSearch(){
@@ -633,7 +633,7 @@
                 },
                 fetchResellers(){
 
-                    axios.get("{{ url('/resellers/fetch') }}").then(res => {
+                    axios.get("{{ url('/resellers/fetch') }}"+"/"+this.recipientId).then(res => {
 
                         this.resellers = res.data.resellers
 
@@ -1019,8 +1019,6 @@
                 }
             },
             created(){
-
-                this.fetchResellers()
                 this.fetchDepartments()
 
 

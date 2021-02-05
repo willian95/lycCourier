@@ -96,7 +96,7 @@ Route::get('/binnacle', "BinnacleController@index")->name("binnacle")->middlewar
 Route::post('/binnacle/fetch', "BinnacleController@fetch")->middleware("admin");
 Route::post('/binnacle/search', "BinnacleController@search")->middleware("admin");
 
-Route::get("/resellers/fetch", "ResellerController@fetch");
+Route::get("/resellers/fetch/{recipient_id}", "ResellerController@fetch");
 
 Route::get("/reseller/recipient/create", "ResellerController@createRecipient");
 Route::get("/reseller/recipient/edit/{id}", "ResellerController@editRecipient");

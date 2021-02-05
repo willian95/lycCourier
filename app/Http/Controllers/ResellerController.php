@@ -12,11 +12,13 @@ use Intervention\Image\Facades\Image;
 
 class ResellerController extends Controller
 {
-    function fetch(){
+    function fetch($recipient_id){
 
         try{    
 
-            $users = User::where("role_id", 3)->get();
+            $user = User::find($recipient_id);
+            $users = User::find($user->reseller_id);
+
             return response()->json(["resellers" => $users]);
 
         }catch(\Exception $e){
