@@ -23,10 +23,10 @@ class AccountImport implements ToCollection
 
                 if($row[0] != null && $index > 0 && $row[12] != ""){
 
-                    if(User::where("email", $row[12])->count() == 0){
+                    if(User::where("email", trim($row[12]))->count() == 0){
                         $user = new User;
                         $user->name = $row[0];
-                        $user->email = $row[12];
+                        $user->email = trim($row[12]);
                         $user->phone = $row[8];
                         $user->address = $row[3];
                         $user->role_id = 4;
