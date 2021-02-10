@@ -125,6 +125,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="wrap-input100 validate-input">
+                                    <input class="input100" type="text" v-model="resellerEmail">
+                                    <span class="focus-input100"></span>
+                                    <span class="label-input100">Email de afiliado</span>
+                                </div>
+                                <small>Ingresa el email del socio para afiliarte a su cuenta (opcional)</small>
+                                
+                            </div>
+                        </div>
                     
 
                     <div class="container-login100-form-btn">
@@ -166,6 +178,7 @@
                     province:"",
                     districts:[],
                     district:"",
+                    resellerEmail:"",
                     loading:false
                 }
             },
@@ -178,7 +191,7 @@
                     
                     this.loading = true
                     this.errors = []
-                    axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, department: this.department, province: this.province, district: this.district}).then(res => {
+                    axios.post("{{ url('/register') }}", {name: this.name, lastname: this.lastname, dni: this.dni, address: this.address, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, department: this.department, province: this.province, district: this.district, resellerEmail: this.resellerEmail}).then(res => {
                         this.loading = false
                         if(res.data.success){
 
@@ -195,6 +208,7 @@
                                 this.email = ""
                                 this.password = ""
                                 this.passwordConfirmation = ""
+                                this.resellerEmail = ""
 
                             })
 

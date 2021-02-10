@@ -19,7 +19,13 @@ class RegisterController extends Controller
 
         try{
 
-            $registerHash = Str::random(40);
+            $validationResult = $this->validateResellerEmail($request);
+
+            if($validationResult["success"] == false){
+                return response()->json($validationResult);
+            }
+
+            $registerHash = Str::random(40);    
 
             $user = new User;
             $user->name = $request->name;
@@ -29,6 +35,11 @@ class RegisterController extends Controller
             $user->role_id = 4;
             $user->password = bcrypt($request->password);
             $user->register_code = $registerHash;
+
+            if(isset($request->resellerEmail)){
+                $user->reseller_id = User::where("email", $request->resellerEmail)->first()->id;
+            }
+
             $user->save();
 
             $to_name = $user->name;
@@ -48,6 +59,32 @@ class RegisterController extends Controller
         }catch(\Exception $e){
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
         }
+
+    }
+
+    function validateResellerEmail($request){
+
+        if(isset($request->resellerEmail)){
+
+            $user = User::where("email", $request->resellerEmail)->first();
+
+            if($user){
+
+                if($user->role_id != 3){
+
+                    return ["success" => false, "msg" => "Email ingresado no pertenece a un socio"];
+
+                }
+
+            }else{
+
+                return ["success" => false, "msg" => "Socio no enconrado"];
+
+            }
+
+        }
+
+        return ["success" => true];
 
     }
 

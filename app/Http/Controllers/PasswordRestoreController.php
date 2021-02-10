@@ -47,7 +47,7 @@ class PasswordRestoreController extends Controller
             return view("passwordRestore", ["user" => $user]);
 
         }catch(\Exception $e){
-            return redirect()->to("/")->with('alert', 'El link es inválido');
+            return response()->json(["err" => $e->getMessage()]);
         }
 
     }
@@ -61,7 +61,7 @@ class PasswordRestoreController extends Controller
             $user->recovery_hash = null;
             $user->update();
 
-            return response()->json(["success" => true, "msg" => "Excelente! Haz reestablecido tu contraseña", "url" => url('/')]);
+            return response()->json(["success" => true, "msg" => "Excelente! Haz reestablecido tu contraseña"]);
 
         }catch(\Exception $e){
             return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
