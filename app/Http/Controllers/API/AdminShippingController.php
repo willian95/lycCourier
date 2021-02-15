@@ -112,7 +112,7 @@ class AdminShippingController extends Controller
 
             if($auth->role_id < 3){
 
-                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")
+                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->orderBy("id", "desc")
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -124,7 +124,7 @@ class AdminShippingController extends Controller
                     $q->withTrashed();
                 }])->get();
 
-                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
+                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
                 ->with(["client" => function($q){
@@ -137,7 +137,7 @@ class AdminShippingController extends Controller
             }
             else if($auth->role_id == 3){
 
-                $shippings = Shipping::where("reseller_id", $auth->id)->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
+                $shippings = Shipping::where("reseller_id", $auth->id)->with("recipient", "box", "shippingStatus", "shippingProducts")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -145,7 +145,7 @@ class AdminShippingController extends Controller
                     $q->withTrashed();
                 }])->get();
     
-                $shippingsCount = Shipping::where("reseller_id", $auth->id)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                $shippingsCount = Shipping::where("reseller_id", $auth->id)->with("recipient", "box", "shippingStatus", "shippingProducts")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
                 ->with(['recipient' => function ($q) {
@@ -155,7 +155,7 @@ class AdminShippingController extends Controller
             }
             else if($auth->role_id == 4){
 
-                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")->with(['box' => function ($q) {
+                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->orderBy("id", "desc")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
                 ->with(["client" => function($q){
@@ -163,7 +163,7 @@ class AdminShippingController extends Controller
                 }])
                 ->where("client_id", $auth->id)->get();
 
-                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->with(['box' => function ($q) {
+                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
                 ->with(["client" => function($q){
@@ -225,7 +225,7 @@ class AdminShippingController extends Controller
 
         try{
 
-            $shipping = Shipping::where("tracking", $tracking)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus")->orderBy("id", "desc")
+            $shipping = Shipping::where("tracking", $tracking)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->orderBy("id", "desc")
             ->with(['box' => function ($q) {
                 $q->withTrashed();
             }])

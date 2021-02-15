@@ -22,21 +22,25 @@ class AuthController extends Controller
             $user = User::where("email", $request->email)->first();
             if($user){
 
-                if($user->email_verified_at == null){
+                if($user->role_id >= 3){
+                    if($user->email_verified_at == null){
 
-                    return response()->json(["success" => false, "msg" => "Aún no has validado tu correo"]);
-
-                }else{
-                    $credentials = $request->only('email', 'password');
-                    if (! $token = JWTAuth::attempt($credentials)) {
-                        return response()->json(['error' => 'invalid_credentials'], 400);
+                        return response()->json(["success" => false, "msg" => "Aún no has validado tu correo"]);
+    
                     }else{
-                        return response()->json(["success" => true, "msg" => "Haz ingresado", "token" => $token, "user" => $user]);   
-                    }         
-
+                        $credentials = $request->only('email', 'password');
+                        if (! $token = JWTAuth::attempt($credentials)) {
+                            return response()->json(['error' => 'invalid_credentials'], 400);
+                        }else{
+                            return response()->json(["success" => true, "msg" => "Haz ingresado", "token" => $token, "user" => $user]);   
+                        }         
+    
+                    }
+                        
+                    return response()->json(["success" => false, "msg" => "Contraseña inválida"]);
+                }else{
+                    return response()->json(["success" => false, "msg" => "Usuario no permitido"]);
                 }
-                    
-                return response()->json(["success" => false, "msg" => "Contraseña inválida"]);
                 
 
             }else{

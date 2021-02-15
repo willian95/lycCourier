@@ -618,7 +618,7 @@ class ShippingController extends Controller
                     $q->withTrashed();
                 }])->get();
     
-                $shippingsCount = Shipping::where("reseller_id", \Auth::user()->id)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
+                $shippingsCount = Shipping::where("reseller_id", \Auth::user()->id)->where("tracking", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
                 ->with(['recipient' => function ($q) {
