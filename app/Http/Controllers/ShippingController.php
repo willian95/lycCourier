@@ -784,12 +784,15 @@ class ShippingController extends Controller
         foreach($request->selectedShippings as $selectedShipping){
 
             $shipping = Shipping::find($selectedShipping["id"]);
-            $shipping->shipping_status_id = $request->status;
-            $shipping->update();
 
-            $this->storeShippingHistory($shipping["id"], $request->status);
+            if($shipping->is_finished == 1){
+                $shipping->shipping_status_id = $request->status;
+                $shipping->update();
 
-            SendUpdateEmail::dispatch($shipping["id"]);
+                $this->storeShippingHistory($shipping["id"], $request->status);
+
+                SendUpdateEmail::dispatch($shipping["id"]);
+            }
 
         }
 
