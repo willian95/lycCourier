@@ -130,7 +130,7 @@
                             <tbody>
                                 <tr v-for="shipping in shippings">
                                     <td >
-                                        <input v-if="selectedShippings.length == 0 && shipping.is_finished == 1 && shipping.shipped_at != null" type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
+                                        <input v-if="shipping.is_finished == 1 && shipping.shipped_at != null" type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
                                     </td>
                                     <td class="datatable-cell">
                                         @{{ shipping.tracking }}
