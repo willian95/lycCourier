@@ -135,43 +135,6 @@ class AdminShippingController extends Controller
                 }])->count();
 
             }
-            else if($auth->role_id == 3){
-
-                $shippings = Shipping::where("reseller_id", $auth->id)->with("recipient", "box", "shippingStatus", "shippingProducts")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
-                ->with(['box' => function ($q) {
-                    $q->withTrashed();
-                }])
-                ->with(['recipient' => function ($q) {
-                    $q->withTrashed();
-                }])->get();
-    
-                $shippingsCount = Shipping::where("reseller_id", $auth->id)->with("recipient", "box", "shippingStatus", "shippingProducts")->with(['box' => function ($q) {
-                    $q->withTrashed();
-                }])
-                ->with(['recipient' => function ($q) {
-                    $q->withTrashed();
-                }])->count();
-
-            }
-            else if($auth->role_id == 4){
-
-                $shippings = Shipping::skip($skip)->take($dataAmount)->with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->orderBy("id", "desc")->with(['box' => function ($q) {
-                    $q->withTrashed();
-                }])
-                ->with(["client" => function($q){
-                    $q->withTrashed();
-                }])
-                ->where("client_id", $auth->id)->get();
-
-                $shippingsCount = Shipping::with("recipient", "box", "shippingStatus", "shippingHistories", "shippingHistories.user", "shippingHistories.shippingStatus", "shippingProducts")->with(['box' => function ($q) {
-                    $q->withTrashed();
-                }])
-                ->with(["client" => function($q){
-                    $q->withTrashed();
-                }])
-                ->where("client_id", $auth->id)->count();
-
-            }
             
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 

@@ -126,12 +126,12 @@
                                 </div>
                                
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" v-if="resellers">
                                 <div class="form-group">
                                     <label for="address">Reseller</label>
                                     <select class="form-control" v-model="resellerId">
                                         <option value="">Sin reseller</option>
-                                        <option :value="resellers.id" v-if="resellers != ''">@{{ resellers.name }}</option>
+                                        <option :value="resellers.id">@{{ resellers.name }}</option>
                                     </select>
                                 </div>
                             </div>
