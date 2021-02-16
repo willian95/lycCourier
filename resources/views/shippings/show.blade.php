@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group" v-if="resellers">
                                     <label for="reseller">Reseller: @{{ reseller }}</label>
                                   
                                     <select class="form-control" v-model="resellerId">
