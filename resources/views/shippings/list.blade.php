@@ -159,7 +159,7 @@
                                     <td>
                                         
                                         
-                                        <button title="Actualizar Status" v-if="selectedShippings.length == 0 && shipping.shipping_status_id < 4 && shipping.is_finished == 1" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" ><i class="far fa-edit"></i></button>
+                                        <button title="Actualizar Status" v-if="selectedShippings.length == 0 && shipping.shipping_status_id < 4 && shipping.is_finished == 0" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" ><i class="far fa-edit"></i></button>
 
                                         <a title="Editar"  v-if="selectedShippings.length == 0 && shipping.is_finished == 1 && shipping.shipped_at != null" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
         
