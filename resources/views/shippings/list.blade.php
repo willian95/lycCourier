@@ -163,7 +163,7 @@
 
                                         <a title="Editar"  v-if="selectedShippings.length == 0 && shipping.is_finished == 1 && shipping.shipped_at == null" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
         
-                                        <a title="Etiqueta"  v-if="selectedShippings.length == 0 && shipping.is_finished == 1 && shipping.shipped_at != null" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
+                                        <a title="Etiqueta"  v-if="selectedShippings.length == 0 && shipping.is_finished == 1 && shipping.is_finished == 0" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
 
                                         <a title="Recibo" v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/receipt') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
                                         
