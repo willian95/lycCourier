@@ -543,7 +543,7 @@
                     $('body').removeClass('modal-open');
                     $('body').css('padding-right', '0px');
                     $('.modal-backdrop').remove();
-                    this.fetchResellers()
+                    //this.fetchResellers()
 
                 },
                 packageSearch(){
