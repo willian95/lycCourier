@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="form-group" v-if="resellers">
+                                <div class="form-group" v-if="resellers.length > 0">
                                     <label for="reseller">Reseller: @{{ reseller }}</label>
                                   
                                     <select class="form-control" v-model="resellerId">
@@ -125,6 +125,15 @@
                             
                                 </div>
                                
+                            </div>
+                            <div class="col-md-6" v-else>
+                                <div class="form-group">
+                                    <label for="address">Reseller</label>
+                                    <select class="form-control" v-model="resellerId">
+                                        <option value="">Sin reseller</option>
+                                        <option :value="reseller.id" v-for="reseller in allResellers">@{{ reseller.name }}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -489,7 +498,8 @@
                         image:"",
                         imagePreview:""
                     },
-                    loading:false
+                    loading:false,
+                    allResellers:[]
                 }
             },
             computed:{
@@ -546,6 +556,15 @@
                     axios.get("{{ url('/resellers/fetch') }}"+"/"+this.recipientId).then(res => {
                         console.log("resellers", res)
                         this.resellers = res.data.resellers
+
+                    })
+
+                },
+                fetchAllResellers(){
+
+                    axios.get("{{ url('/resellers/fetch-all') }}").then(res => {
+
+                        this.allResellers = res.data.resellers
 
                     })
 
@@ -1055,7 +1074,7 @@
             },
             created(){
 
-                this.fetchResellers()
+                this.fetchAllResellers();
                 this.createdFetchDepartments()
 
             }
