@@ -330,7 +330,7 @@
                                     </div>
 
                                     <ul class="list-group">
-                                        <li class="list-group-item list-group-item-action" style="cursor:pointer;" v-for="recipient in recipients" @click="selectRecipientId(recipient)">@{{ recipient.name }}</li>
+                                        <li class="list-group-item list-group-item-action" style="cursor:pointer;" v-for="recipient in recipients" @click="selectRecipientId(recipient)">@{{ recipient.name }} @{{ recipient.lastname }}</li>
                                     </ul>
 
                                     
