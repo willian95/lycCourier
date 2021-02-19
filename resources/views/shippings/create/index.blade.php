@@ -532,9 +532,9 @@
                     this.imagePreview = recipient.dni_picture
                     this.imagePreviewBack = recipient.dni_picture_back
                     this.recipients = []
-                    //this.department = recipient.department_id
-                    //this.province = recipient.province_id
-                    //this.district = recipient.district_id
+                    this.department = recipient.department_id
+                    this.province = recipient.province_id
+                    this.district = recipient.district_id
                     this.clientDNI = recipient.dni
 
                     this.createdFetchDeparments()
