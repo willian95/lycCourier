@@ -1024,15 +1024,20 @@
                     axios.get("{{ url('/departments') }}").then(res => {
 
                         this.departments = res.data.departments
-                        axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
+                        if(this.department != null){
+                            axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
 
-                            this.provinces = res.data.provinces
-                            axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+                                if(this.province != null){
+                                    this.provinces = res.data.provinces
+                                    axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
 
-                                this.districts = res.data.districts
+                                        this.districts = res.data.districts
 
+                                    })
+                                }
                             })
-                        })
+                        }
+                        
                     })
 
                 }
