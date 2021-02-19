@@ -180,6 +180,11 @@ class ShippingController extends Controller
             $client->district_id = $request->district;
             $client->address = $request->address;
             $client->dni = $request->clientDNI;
+
+            if(isset($request->resellerId)){
+                $client->reseller_id = $request->resellerId;
+            }
+
             $client->update();
             
 
@@ -420,6 +425,9 @@ class ShippingController extends Controller
                 $client->district_id = $request->district;
                 $client->address = $request->address;
                 $client->dni = $request->clientDNI;
+                if(isset($request->resellerId)){
+                    $client->reseller_id = $request->resellerId;
+                }
                 $client->update();
 
 
