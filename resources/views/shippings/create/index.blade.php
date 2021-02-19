@@ -1001,13 +1001,16 @@
 
                 },
                 fetchProvinces(){
-                    this.province = ""
-                    this.district = ""
-                    axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
 
-                        this.provinces = res.data.provinces
+                    if(this.department != null){
+                        this.province = ""
+                        this.district = ""
+                        axios.get("{{ url('/provinces/') }}"+"/"+this.department).then(res => {
 
-                    })
+                            this.provinces = res.data.provinces
+
+                        })
+                    }
 
                 },
                 fetchDistricts(){
