@@ -1015,11 +1015,14 @@
                 },
                 fetchDistricts(){
 
-                    axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
+                    if(this.province != null){
 
-                        this.districts = res.data.districts
+                        axios.get("{{ url('/districts/') }}"+"/"+this.department+"/"+this.province).then(res => {
 
-                    })
+                            this.districts = res.data.districts
+
+                        })
+                    }
 
                 },
                 createdFetchDeparments(){
