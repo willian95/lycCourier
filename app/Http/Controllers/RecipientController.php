@@ -80,7 +80,7 @@ class RecipientController extends Controller
     function fetch($page = 1){
         try{
 
-            $dataAmount = 20;
+            $dataAmount = 10;
             $skip = ($page - 1) * $dataAmount;
 
 
@@ -138,7 +138,7 @@ class RecipientController extends Controller
     function searchList(Request $request){
         try{
 
-            $dataAmount = 20;
+            $dataAmount = 10;
             $skip = ($request->page - 1) * $dataAmount;
 
             $recipients = User::where("name", "like", "%".$request->search."%")->orWhere("email", "like", "%".$request->search."%")->take($dataAmount)->skip($skip)->where("role_id", 4)->get();
