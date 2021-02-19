@@ -554,8 +554,12 @@
                 fetchResellers(){
 
                     axios.get("{{ url('/resellers/fetch') }}"+"/"+this.recipientId).then(res => {
-                        console.log("resellers", res)
-                        this.resellers = res.data.resellers
+
+                        if(res.data.resellers != null){
+                            this.resellers = res.data.resellers
+                        }else{
+                            this.resellers = []
+                        }
 
                     })
 
