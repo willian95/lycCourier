@@ -161,7 +161,7 @@
                                         
                                         <button title="Actualizar Status" v-if="selectedShippings.length == 0 && shipping.shipping_status_id < 4 && shipping.is_finished == 1" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" ><i class="far fa-edit"></i></button>
 
-                                        <a title="Editar"  v-if="selectedShippings.length == 0 && shipping.is_finished == 0" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
+                                        <a title="Editar"  v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
         
                                         <a title="Etiqueta"  v-if="selectedShippings.length == 0 && shipping.is_finished == 1" :href="'{{ url('/shippings/qr') }}'+'/'+shipping.id" class="btn btn-info" target="_blank"><i class="far fa-file-pdf"></i></a>
 
