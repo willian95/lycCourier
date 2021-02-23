@@ -34,7 +34,7 @@
                                 <h3 class="text-center">Detalles del envío</h3>
                             </div>
                             <div class="col-12">
-                                <h3>Warehouse #: {{ "WRI".App\Shipping::withTrashed()->orderBy("id", "desc")->first()->id + 1, 7, "0", STR_PAD_LEFT) }}</h3>
+                                <h3>Warehouse #: {{ "WRI".str_pad(App\Shipping::withTrashed()->orderBy("id", "desc")->first()->id + 1, 7, "0", STR_PAD_LEFT) }}</h3>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
