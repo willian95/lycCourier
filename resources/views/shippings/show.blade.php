@@ -114,8 +114,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group" v-if="resellers.length > 0">
+                            <div class="col-md-6" v-if="resellers.length > 0">
+                                <div class="form-group" >
                                     <label for="reseller">Reseller: @{{ reseller }}</label>
                                   
                                     <select class="form-control" v-model="resellerId">
