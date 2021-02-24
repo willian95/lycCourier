@@ -24,9 +24,9 @@
 
         <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
         @if($shipping->recipient)
-        <p style="margin-top: -10px; font-size: 38px;">{{ $shipping->recipient->name }}</p>
+        <p style="margin-top: -10px; font-size: 28px;">{{ $shipping->recipient->name }}</p>
         @elseif($shipping->client)
-        <p style="margin-top: -10px; font-size: 38px;">{{ $shipping->client->name }} {{ $shipping->client->lastname }}</p>
+        <p style="margin-top: -10px; font-size: 28px;">{{ $shipping->client->name }} {{ $shipping->client->lastname }}</p>
         @endif
 
         <hr>
