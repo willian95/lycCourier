@@ -19,6 +19,7 @@ use App\Jobs\SendUpdateEmail;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\ShippingProcessRequest;
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ShippingsExport;
@@ -237,7 +238,8 @@ class ShippingController extends Controller
             return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
             
         }catch(\Exception $e){
-
+            //
+            Log::info($e->getMessage()." "."ln: ".$e->getLine());
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
         }
 
