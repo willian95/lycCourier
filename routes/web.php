@@ -63,6 +63,7 @@ Route::get('/packages/export/excel', "BoxController@exportExcel")->middleware("a
 Route::get('/shippings', "ShippingController@index")->name("shippings.list")->middleware("auth");
 Route::get('/shippings/fetch/{page}', "ShippingController@fetch")->middleware("auth");
 Route::get('/shippings/create', "ShippingController@create")->name("shippings.create")->middleware("auth");
+Route::get("/shippings/show-create/{id}", "ShippingController@showCreate")->middleware("auth");
 Route::get('/shippings/show/{tracking}', "ShippingController@show")->middleware("auth");
 Route::get("shippings/statuses", "ShippingController@getAllStatuses")->middleware("auth");
 Route::post('/shippings/store', "ShippingController@store")->middleware("auth");

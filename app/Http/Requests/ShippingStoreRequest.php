@@ -24,7 +24,7 @@ class ShippingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "tracking" => "required|unique:shippings,tracking",
+            "tracking" => "required",
             "recipientId" => "required|exists:users,id",
             "packageId" => "required|exists:boxes,id",
             "description" => "required",

@@ -33,14 +33,28 @@ class ShippingController extends Controller
     }
 
     function create(){
-        return view("shippings.create.index");
+        //return view("shippings.create.index");
+        $shipping = new Shipping;
+        $shipping->save();
+
+        $shipping->warehouse_number = "WRI".str_pad($shipping->id, 7, "0", STR_PAD_LEFT);
+        $shipping->update();
+
+        return redirect()->to("/shippings/show-create/".$shipping->id);
+
+    }
+
+    function showCreate($id){
+        $shipping = Shipping::find($id);
+        return view("shippings.create.index", ["shipping" => $shipping]);
+
     }
 
     function store(ShippingStoreRequest $request){
 
         try{
 
-            $shipping = new Shipping;
+            $shipping = Shipping::find($request->id);
             $shipping->tracking = $request->tracking;
             $shipping->client_id = $request->recipientId;
             $shipping->box_id = $request->packageId;
@@ -53,12 +67,8 @@ class ShippingController extends Controller
             $shipping->shipping_status_id = 1;
             $shipping->description = $request->description;
             $shipping->is_finished = 1;
-            //$shipping->user_id = \Auth::user()->id;
             $shipping->shipped_at = Carbon::now();
             $shipping->address = str_replace("'", "", $request->address);
-            $shipping->save();
-
-            $shipping->warehouse_number = "WRI".str_pad($shipping->id, 7, "0", STR_PAD_LEFT);
             $shipping->update();
 
             foreach($request->products as $product){

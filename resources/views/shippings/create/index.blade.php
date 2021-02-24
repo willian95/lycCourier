@@ -34,7 +34,7 @@
                                 <h3 class="text-center">Detalles del envío</h3>
                             </div>
                             <div class="col-12">
-                                <h3>Warehouse #: {{ "WRI".str_pad(App\Shipping::withTrashed()->orderBy("id", "desc")->first()->id + 1, 7, "0", STR_PAD_LEFT) }}</h3>
+                                <h3>Warehouse #: {{ $shipping->warehouse_number }}</h3>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -452,6 +452,7 @@
             el: '#shipping-dev',
             data() {
                 return {
+                    id:"{{ $shipping->id }}",
                     recipients:[],
                     recipientId:"",
                     recipientQuery:"",
@@ -601,7 +602,7 @@
                     else{*/
 
                         this.loading = true
-                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI})
+                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI, id: this.id})
                         .then(res => {
                             this.loading = false
                             if(res.data.success == true){
