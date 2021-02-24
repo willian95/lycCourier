@@ -128,7 +128,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="shipping in shippings">
+                                <tr v-for="shipping in shippings" v-if="shipping.tracking">
                                     <td >
                                         <input v-if="shipping.is_finished == 1 && shipping.shipped_at != null" type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
                                     </td>

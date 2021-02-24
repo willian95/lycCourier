@@ -45,7 +45,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="shipping in shippings">
+                                        <tr v-for="shipping in shippings" v-if="shipping.tracking">
                                             <td class="datatable-cell">
                                                 @{{ shipping.tracking }}
                                             </td>
