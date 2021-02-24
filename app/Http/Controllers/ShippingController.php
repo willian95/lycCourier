@@ -58,7 +58,7 @@ class ShippingController extends Controller
             $shipping->address = str_replace("'", "", $request->address);
             $shipping->save();
 
-            $shipping->warehouse_number = "WRI".str_pad($shipping->id, 10, "0", STR_PAD_LEFT);
+            $shipping->warehouse_number = "WRI".str_pad($shipping->id, 7, "0", STR_PAD_LEFT);
             $shipping->update();
 
             foreach($request->products as $product){
