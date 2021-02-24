@@ -31,7 +31,7 @@
 
         <hr>
 
-        <p style="margin-top: -20px; font-size: 11px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span>@if($shipping->shipped_at)<strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span>@endif</p>  
+        <p style="margin-top: -20px; font-size: 11px; font-weight: bolder;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span>@if($shipping->shipped_at)<strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span>@endif</p>  
         <h1 class="text-center" style="margin-top: -10px; font-weight: bolder; font-size: 65px;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h1>      
 
         <table style="width: 100%; ">
