@@ -15,7 +15,7 @@ class CreateShippingsTable extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->string("tracking")->unique();
+            $table->string("tracking");
             $table->text("description");
             $table->unsignedBigInteger("recipient_id");
             $table->unsignedBigInteger("box_id");
