@@ -33,9 +33,6 @@
                             <div class="col-md-12">
                                 <h3 class="text-center">Detalles del envío</h3>
                             </div>
-                            <div class="col-12">
-                                <h3>Warehouse #: {{ $shipping->warehouse_number }}</h3>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Destinatario</label>
@@ -54,6 +51,13 @@
                                     <label for="tracking">Tracking number</label>
                                     <input type="text" class="form-control" v-model="tracking">
                                     <small v-if="errors.hasOwnProperty('tracking')">@{{ errors['tracking'][0] }}</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tracking">Warehouse number</label>
+                                    <input type="text" class="form-control" v-model="warehouseNumber">
                                 </div>
                             </div>
 
@@ -452,7 +456,6 @@
             el: '#shipping-dev',
             data() {
                 return {
-                    id:"{{ $shipping->id }}",
                     recipients:[],
                     recipientId:"",
                     recipientQuery:"",
@@ -466,6 +469,7 @@
                     packageShowName:"",
                     tracking:"",
                     description:"",
+                    warehouseNumber:"",
                     pieces:"",
                     length:"",
                     height:"",
@@ -602,7 +606,7 @@
                     else{*/
 
                         this.loading = true
-                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI, id: this.id})
+                        axios.post("{{ url('shippings/store') }}", {recipientId: this.recipientId, packageId: this.packageId, tracking: this.tracking, description: this.description, pieces: this.pieces, length: this.length, height: this.height, width: this.width, weight: this.weight, address: this.address, resellerId: this.resellerId, dniPicture: this.image, dniPictureBack: this.imageBack, products: this.products, department: this.department, province: this.province, district: this.district, clientDNI: this.clientDNI, warehouseNumber: this.warehouseNumber})
                         .then(res => {
                             this.loading = false
                             if(res.data.success == true){

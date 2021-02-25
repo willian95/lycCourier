@@ -8,6 +8,7 @@
             <th style="width: 30px;">Dirección Destino</th>
             <th style="width: 30px;">Fecha de creación</th>
             <th style="width: 30px;">Descripción</th>
+            <th style="width: 30px;">Peso</th>
             <th style="width: 30px;">Status</th>
         </tr>
     </thead>
@@ -41,6 +42,10 @@
                 </td>
                 <td>
                     {{ $shipping->description }}
+                </td>
+                <td>
+                    <p>{{ $shipping->weight }} KG</p>
+                    <p>{{ $shipping->weight * 2.20 }} LB</p>
                 </td>
                 <td>
                     {{ $shipping->shippingStatus->name }}
