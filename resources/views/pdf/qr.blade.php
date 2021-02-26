@@ -26,7 +26,7 @@
         @if($shipping->recipient)
         <p style="margin-top: -10px; font-size: 28px;">{{ $shipping->recipient->name }}</p>
         @elseif($shipping->client)
-        <p style="margin-top: -10px; font-size: 28px;">{{ substr($shipping->client->name." ".$shipping->client->lastname, 0, 50 ) }}</p>
+        <p style="margin-top: -10px; font-size: 28px;">{{ substr($shipping->client->name." ".$shipping->client->lastname, 0, 20 ) }}</p>
         @endif
 
         <hr>
