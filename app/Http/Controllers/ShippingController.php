@@ -601,6 +601,10 @@ class ShippingController extends Controller
                 ->orWhereHas('shippingStatus', function($q) use($request){
                     $q->where('name', "like", "%".$request->search."%");
                 })
+                ->orWhereHas('client', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                    $q->orWhere('lastname', "like", "%".$request->search."%");
+                })
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
                 }])->get();
@@ -610,6 +614,10 @@ class ShippingController extends Controller
                 }])
                 ->orWhereHas('shippingStatus', function($q) use($request){
                     $q->where('name', "like", "%".$request->search."%");
+                })
+                ->orWhereHas('client', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                    $q->orWhere('lastname', "like", "%".$request->search."%");
                 })
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
