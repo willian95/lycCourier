@@ -528,6 +528,9 @@ class ShippingController extends Controller
             if(\Auth::user()->role_id < 3){
                 
                 $shippings = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->take($dataAmount)->skip($skip)->orderBy("id", "desc")
+                ->orWhereHas('shippingStatus', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                })
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -541,6 +544,9 @@ class ShippingController extends Controller
                 $shippingsCount = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->orWhereHas('shippingStatus', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                })
                 ->with(['client' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -554,6 +560,9 @@ class ShippingController extends Controller
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->orWhereHas('shippingStatus', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                })
                 ->with(['client' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -564,6 +573,9 @@ class ShippingController extends Controller
                 $shippingsCount = Shipping::where("reseller_id", \Auth::user()->id)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->orWhereHas('shippingStatus', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                })
                 ->with(['client' => function ($q) {
                     $q->withTrashed();
                 }])
@@ -578,6 +590,9 @@ class ShippingController extends Controller
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->orWhereHas('shippingStatus', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                })
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
                 }])->get();
@@ -585,6 +600,9 @@ class ShippingController extends Controller
                 $shippingsCount = Shipping::where("client_id", \Auth::user()->id)->where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->orWhereHas('shippingStatus', function($q) use($request){
+                    $q->where('name', "like", "%".$request->search."%");
+                })
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
                 }])->count();
