@@ -553,11 +553,13 @@
 
         <section class="container mt-5">
             <div class="card-info">
-                @if($email != 'true')
-                <div class="content-input">
-                    <input type="text" placeholder="Ingresa tu tracking" id="tracking">
-                    <button class="btn_enviar" onclick="search()">Buscar</button>
-                </div>
+                @if(isset($email))
+                    @if($email != 'true')
+                    <div class="content-input">
+                        <input type="text" placeholder="Ingresa tu tracking" id="tracking">
+                        <button class="btn_enviar" onclick="search()">Buscar</button>
+                    </div>
+                    @endif
                 @endif
                 @if(isset($shipping))
                 <div class="row">
