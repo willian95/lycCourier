@@ -29,7 +29,7 @@
         <p style="margin-top: -30px; font-size: 28px;">{{ substr($shipping->client->name." ".$shipping->client->lastname, 0, 20 ) }}</p>
         @endif
 
-        <hr>
+        <hr style="margin-top: -30px;">
 
         <p style="margin-top: -30px; font-size: 11px;"><span style="margin-right: 20px;"><strong>RECEIPT #</strong> {{ $shipping->warehouse_number }}</span>    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span>@if($shipping->shipped_at)<strong>DATE:</strong> {{ $shipping->shipped_at->format("m/d/Y") }}</span>@endif</p>  
         <h1 class="text-center" style="margin-top: -30px; font-weight: bolder; font-size: 65px;">{{ substr($shipping->warehouse_number, 3, strlen($shipping->warehouse_number)) }}</h1>      
