@@ -130,7 +130,7 @@
                                 </div>
                                
                             </div>
-                            <div class="col-md-6" v-if="resellers.length > 0">
+                            <div class="col-md-6" v-if="resellers.name">
                                 <div class="form-group">
                                     <label for="address">Reseller</label>
                                     <select class="form-control" v-model="resellerId">

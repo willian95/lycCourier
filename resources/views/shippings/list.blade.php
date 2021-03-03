@@ -123,6 +123,10 @@
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort">
+                                        <span style="width: 250px;">Tipo de empaque</span>
+                                    </th>
+
+                                    <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 130px;">Acciones</span>
                                     </th>
                                 </tr>
@@ -155,6 +159,9 @@
                                     </td>
                                     <td class="datatable-cell" v-else>
                                         @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
+                                    </td>
+                                    <td class="datatable-cell">
+                                        @{{ shipping.box.name }}
                                     </td>
                                     <td>
                                         
