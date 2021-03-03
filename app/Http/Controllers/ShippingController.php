@@ -489,7 +489,7 @@ class ShippingController extends Controller
     
                 \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
                     
-                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
+                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." en ".$status->name."!");
                     $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
         
                 });
