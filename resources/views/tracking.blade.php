@@ -551,201 +551,209 @@
 
     <div id="tracking-dev">
 
-        <section class="container mt-5">
-            <div class="card-info">
-                @if(isset($email))
-                    @if($email != 'true')
-                    <div class="content-input">
-                        <input type="text" placeholder="Ingresa tu tracking" id="tracking">
-                        <button class="btn_enviar" onclick="search()">Buscar</button>
-                    </div>
-                    @endif
-                @endif
-                @if(isset($shipping))
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card_content">
-                            <div class="card_content-title">
-                                <p><i class="fa fa-align-left"></i> Tracking</p>
-                                <span>{{ $shipping->tracking }}</span>
-                            </div>
+        @if(isset($shippings))
 
-                            <div class="card_content-title">
-                                <p><i class="fa fa-align-left"></i> Warehouse #</p>
-                                <span>{{ $shipping->warehouse_number }}</span>
+            @foreach($shippings as $shipping)
+                <section class="container mt-5">
+                    <div class="card-info">
+                        @if(isset($email))
+                            @if($email != 'true')
+                            <div class="content-input">
+                                <input type="text" placeholder="Ingresa tu tracking" id="tracking">
+                                <button class="btn_enviar" onclick="search()">Buscar</button>
                             </div>
+                            @endif
+                        @endif
+                        @if($shipping)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card_content">
+                                    <div class="card_content-title">
+                                        <p><i class="fa fa-align-left"></i> Tracking</p>
+                                        <span>{{ $shipping->tracking }}</span>
+                                    </div>
 
-                            <div class="card_content-body">
-                                <div class="card_content-title">
-                                    <p><i class="fa fa-map-marker" aria-hidden="true"></i>
-                                        Desde</p>
-                                    <ul>
-                                        <li>LyCCouurier </li>
-                                        <li>8301 NW 66th St, Miami, FL 33166, EE. UU.</li>
-                                    </ul>
+                                    <div class="card_content-title">
+                                        <p><i class="fa fa-align-left"></i> Warehouse #</p>
+                                        <span>{{ $shipping->warehouse_number }}</span>
+                                    </div>
+
+                                    <div class="card_content-body">
+                                        <div class="card_content-title">
+                                            <p><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                Desde</p>
+                                            <ul>
+                                                <li>LyCCouurier </li>
+                                                <li>8301 NW 66th St, Miami, FL 33166, EE. UU.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card_content">
-                            <div class="card_content-title">
-                                @if($shipping->shipped_at)
-                                <p><i class="fa fa-calendar-o" aria-hidden="true"></i>
-                                    Fecha de creación</p>
-                                <p class="subtitle">{{ $shipping->shipped_at->format('d-m-Y') }}</p>
-                                @endif
-                            </div>
-
-                            <div class="card_content-body">
-                                <div class="card_content-title">
-                                    <p>Hasta</p>
-                                    <ul class="p-0">
-                                        @if($shipping->recipient)
-                                            <li>{{ $shipping->recipient->name }}</li>
-                                            <li>{{ $shipping->recipient->email }}</li>
-                                            <li>{{ $shipping->recipient->phone }}</li>
-                                            <li>{{ $shipping->recipient->address }}</li>
-                                        @elseif($shipping->client)
-                                            <li>{{ $shipping->client->name }} {{ $shipping->client->lastname }}</li>
-                                            <li>{{ $shipping->client->email }}</li>
-                                            <li>{{ $shipping->client->phone }}</li>
-                                            <li>{{ $shipping->client->address }}</li>
+                            <div class="col-md-6">
+                                <div class="card_content">
+                                    <div class="card_content-title">
+                                        @if($shipping->shipped_at)
+                                        <p><i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                            Fecha de creación</p>
+                                        <p class="subtitle">{{ $shipping->shipped_at->format('d-m-Y') }}</p>
                                         @endif
-                                    </ul>
+                                    </div>
+
+                                    <div class="card_content-body">
+                                        <div class="card_content-title">
+                                            <p>Hasta</p>
+                                            <ul class="p-0">
+                                                @if($shipping->recipient)
+                                                    <li>{{ $shipping->recipient->name }}</li>
+                                                    <li>{{ $shipping->recipient->email }}</li>
+                                                    <li>{{ $shipping->recipient->phone }}</li>
+                                                    <li>{{ $shipping->recipient->address }}</li>
+                                                @elseif($shipping->client)
+                                                    <li>{{ $shipping->client->name }} {{ $shipping->client->lastname }}</li>
+                                                    <li>{{ $shipping->client->email }}</li>
+                                                    <li>{{ $shipping->client->phone }}</li>
+                                                    <li>{{ $shipping->client->address }}</li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
                         </div>
+                        <!-----step--------->
+                        <div class="nl-process">
+                            <div class="complete-hint"><i class="fa fa-check"></i></div>
+                            <ul class="process-list">
+
+                                <li class="process-item  is-current">
+                                    <!---is-active--->
+                                    <div class="process-content">
+                                        <div class="process-active-bar"></div>
+                                        <div class="circle">
+                                            <span></span>
+                                        </div>
+                                        <div class="des">
+                                            <span>En Miami</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="process-item ">
+                                    <div class="process-content">
+                                        <div class="process-active-bar"></div>
+                                        <div class="circle">
+                                            <span></span>
+                                        </div>
+                                        <div class="des">
+                                            <span>Lima (en transito)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="process-item ">
+                                    <div class="process-content">
+                                        <div class="process-active-bar"></div>
+                                        <div class="circle">
+                                            <span></span>
+                                        </div>
+                                        <div class="des">
+                                            <span>Delivery</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="process-item ">
+                                    <div class="process-content">
+                                        <div class="process-active-bar"></div>
+                                        <div class="circle">
+                                            <span></span>
+                                        </div>
+                                        <div class="des">
+                                            <span>Entregado</span>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="footer-step">
+                            <button class="footer-step-btn  prev is-show" style="visibility: hidden;">Prev</button>
+                            <button class="footer-step-btn next is-show" style="visibility: hidden;">Next</button>
+                            {{--<button class="footer-step-btn finished is-hide">Complete</button>--}}
+                        </div>
+
+                        @endif
+                        
+                        
                     </div>
+                </section>
 
-                </div>
-                <!-----step--------->
-                <div class="nl-process">
-                    <div class="complete-hint"><i class="fa fa-check"></i></div>
-                    <ul class="process-list">
+                @if($shipping)
+                <section class="container mt-5 mb-5">
+                    <p class="title-order">Información adicional</p>
+                    <div class="border_content">
 
-                        <li class="process-item  is-current">
-                            <!---is-active--->
-                            <div class="process-content">
-                                <div class="process-active-bar"></div>
-                                <div class="circle">
-                                    <span></span>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card_content-title card_content-title--info">
+                                        <p>Numero de piezas</p>
+
+                                        @if($shipping->pieces != null)
+                                        <p class="subtitle">{{ $shipping->pieces }}</p>
+                                        @else
+                                        <p class="subtitle">No especificado</p>
+                                        @endif
+                                    </div>
+                                    <div class="card_content-title card_content-title--info mt-5">
+                                        <p>Largo</p>
+                                        @if($shipping->length != null)
+                                        <p class="subtitle">{{ $shipping->length }}cm</p>
+                                        @else
+                                        <p class="subtitle">No especificado</p>
+                                        @endif
+                                    </div>
+                                    <div class="card_content-title card_content-title--info mt-5">
+                                        <p>Tipo de empaque</p>
+                                        <p class="subtitle">{{ $shipping->box->name }}</p>
+                                    </div>
                                 </div>
-                                <div class="des">
-                                    <span>En Miami</span>
+                                <div class="col-md-4">
+                                    <div class="card_content-title card_content-title--info">
+                                        <p>Alto</p>
+                                        @if($shipping->height != null)
+                                        <p class="subtitle">{{ $shipping->height }}cm</p>
+                                        @else
+                                        <p class="subtitle">No especificado</p>
+                                        @endif
+                                    </div>
+                                    <div class="card_content-title card_content-title--info mt-5">
+                                        <p>Ancho</p>
+                                        @if($shipping->width != null)
+                                        <p class="subtitle">{{ $shipping->width }}cm</p>
+                                        @else
+                                        <p class="subtitle">No especificado</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card_content-title card_content-title--info">
+                                        <p>Descripción</p>
+                                        <span>{{ $shipping->description }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                        <li class="process-item ">
-                            <div class="process-content">
-                                <div class="process-active-bar"></div>
-                                <div class="circle">
-                                    <span></span>
-                                </div>
-                                <div class="des">
-                                    <span>Lima (en transito)</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="process-item ">
-                            <div class="process-content">
-                                <div class="process-active-bar"></div>
-                                <div class="circle">
-                                    <span></span>
-                                </div>
-                                <div class="des">
-                                    <span>Delivery</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="process-item ">
-                            <div class="process-content">
-                                <div class="process-active-bar"></div>
-                                <div class="circle">
-                                    <span></span>
-                                </div>
-                                <div class="des">
-                                    <span>Entregado</span>
-                                </div>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-                <div class="footer-step">
-                    <button class="footer-step-btn  prev is-show" style="visibility: hidden;">Prev</button>
-                    <button class="footer-step-btn next is-show" style="visibility: hidden;">Next</button>
-                    {{--<button class="footer-step-btn finished is-hide">Complete</button>--}}
-                </div>
-
-                @else
-                    <h3 class="text-center">Lo sentimos, este tracking no lo pudimos encontrar</h3>
+                        </div>
+                    </div>
+                </section>
                 @endif
-                
-                
-            </div>
-        </section>
 
-        @if(isset($shipping))
-        <section class="container mt-5 mb-5">
-            <p class="title-order">Información adicional</p>
-            <div class="border_content">
 
-                <div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card_content-title card_content-title--info">
-                                <p>Numero de piezas</p>
+            @endforeach
 
-                                @if($shipping->pieces != null)
-                                <p class="subtitle">{{ $shipping->pieces }}</p>
-                                @else
-                                <p class="subtitle">No especificado</p>
-                                @endif
-                            </div>
-                            <div class="card_content-title card_content-title--info mt-5">
-                                <p>Largo</p>
-                                @if($shipping->length != null)
-                                <p class="subtitle">{{ $shipping->length }}cm</p>
-                                @else
-                                <p class="subtitle">No especificado</p>
-                                @endif
-                            </div>
-                            <div class="card_content-title card_content-title--info mt-5">
-                                <p>Tipo de empaque</p>
-                                <p class="subtitle">{{ $shipping->box->name }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card_content-title card_content-title--info">
-                                <p>Alto</p>
-                                @if($shipping->height != null)
-                                <p class="subtitle">{{ $shipping->height }}cm</p>
-                                @else
-                                <p class="subtitle">No especificado</p>
-                                @endif
-                            </div>
-                            <div class="card_content-title card_content-title--info mt-5">
-                                <p>Ancho</p>
-                                @if($shipping->width != null)
-                                <p class="subtitle">{{ $shipping->width }}cm</p>
-                                @else
-                                <p class="subtitle">No especificado</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card_content-title card_content-title--info">
-                                <p>Descripción</p>
-                                <span>{{ $shipping->description }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        @else
+            <h3 class="text-center">Lo sentimos, este tracking no lo pudimos encontrar</h3>
         @endif
 
     </div>
