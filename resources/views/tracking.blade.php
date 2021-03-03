@@ -630,7 +630,8 @@
                         <!-----step--------->
                         <div class="nl-process">
                             <div class="complete-hint"><i class="fa fa-check"></i></div>
-                            <ul class="process-list">
+                            <h3 style="text-align: center">{{ $shipping->shipping_status->name }}</h3>
+                            {{--<ul class="process-list">
 
                                 <li class="process-item  is-current" id="process-item-{{ $shipping->id }}">
                                     <!---is-active--->
@@ -678,7 +679,7 @@
                                     </div>
                                 </li>
 
-                            </ul>
+                            </ul>--}}
                         </div>
                         <div class="footer-step">
                             <button class="footer-step-btn  prev is-show" style="visibility: hidden;">Prev</button>
