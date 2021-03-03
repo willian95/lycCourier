@@ -652,6 +652,7 @@
 
                         if(res.data.resellers != null){
                             this.resellers = res.data.resellers
+                            this.resellerId = this.resellers.id
                         }else{
                             this.resellers = []
                         }
