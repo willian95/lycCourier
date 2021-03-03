@@ -787,24 +787,24 @@
                     });*/
 
                     function StepToNext() {
-                        if (($("#process-item-"+shippingId).next('.process-item')).length) {
-                            $("#process-item-"+shippingId).addClass("is-changing");
+                        if (($('#process-list-'+shippingIndex+' .process-item.is-current').next('.process-item')).length) {
+                            $('#process-list-'+shippingIndex+' .process-item.is-current').addClass("is-changing");
 
 
-                            $("#process-item-"+shippingId+'.is-changing').removeClass('is-current').addClass('is-active');
+                            $('#process-list-'+shippingIndex+'.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
 
                             setTimeout(function () {
-                                $('#process-item-'+shippingId+'.is-changing').next('.process-item').addClass("is-current");
-                                $('#process-item-'+shippingId+'.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
+                                $('#process-list-'+shippingIndex+'.process-item.is-changing').next('.process-item').addClass("is-current");
+                                $('#process-list-'+shippingIndex+'.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
                             }, 250)
 
 
                         } else {
                             var itemCount;
-                            itemCount = $('#process-item-'+shippingId).length
+                            itemCount = $('#process-list-'+shippingIndex+'.process-item').length
 
-                            $('.process-item.is-current').addClass('is-active').removeClass('is-current');
-                            $('#process-item-'+shippingId).addClass('all-complete');
+                            $('#process-list-'+shippingIndex+'.process-item.is-current').addClass('is-active').removeClass('is-current');
+                            $('#process-list-'+shippingIndex+'.process-item').addClass('all-complete');
 
                             $('.next').addClass('is-slidedown').removeClass('is-slideup');
                             $('.prev').addClass('is-slidedown').removeClass('is-slideup');
