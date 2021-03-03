@@ -752,85 +752,6 @@
                 </section>
                 @endif
 
-                <script>
-
-                    var shippingIndex = "{{ $shipping->shipping_status_id }}"
-                    var shippingId = "{{ $shipping->id }}"
-
-                    $(document).ready(function(){
-
-
-                        if(shippingIndex > 1){
-                            var y = 0;
-                            var interval = setInterval(() => {
-                                
-                                if(y == shippingIndex - 2){
-                                    clearInterval(interval)
-                                }
-                                $(".next").click()
-
-                                y++;
-                            }, 500);
-                        }
-
-                    })
-
-                    $(document).on('click', '.next', function () {
-                        StepToNext();
-
-                    });
-                    $(document).on('click', '.prev', function () {
-                        StepToPrev();
-                    });
-                    /*$(document).on('click', '.finished', function () {
-                        StepToInitial();
-                    });*/
-
-                    function StepToNext() {
-                        if (($('#process-list-'+shippingIndex+' .process-item.is-current').next('.process-item')).length) {
-                            $('#process-list-'+shippingIndex+' .process-item.is-current').addClass("is-changing");
-
-
-                            $('#process-list-'+shippingIndex+'.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
-
-                            setTimeout(function () {
-                                $('#process-list-'+shippingIndex+'.process-item.is-changing').next('.process-item').addClass("is-current");
-                                $('#process-list-'+shippingIndex+'.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
-                            }, 250)
-
-
-                        } else {
-                            var itemCount;
-                            itemCount = $('#process-list-'+shippingIndex+'.process-item').length
-
-                            $('#process-list-'+shippingIndex+'.process-item.is-current').addClass('is-active').removeClass('is-current');
-                            $('#process-list-'+shippingIndex+'.process-item').addClass('all-complete');
-
-                            $('.next').addClass('is-slidedown').removeClass('is-slideup');
-                            $('.prev').addClass('is-slidedown').removeClass('is-slideup');
-
-
-                            setTimeout(function () {
-                                $('.next').addClass('is-hide').removeClass('is-show');
-                                $('.prev').addClass('is-hide').removeClass('is-show');
-                                $('.finished').addClass('is-show').removeClass('is-hide');
-                                $('.finished').addClass('is-slideup').removeClass('is-slidedown');
-                                $('.complete-hint').addClass('is-show').removeClass('is-hide');
-                            }, 120)
-
-                            setTimeout(function () {
-                                $('.next').removeClass('is-slidedown').removeClass('is-slideup');
-                                $('.prev').removeClass('is-slidedown').removeClass('is-slideup');
-
-                                $('.finished').removeClass('is-slidedown').removeClass('is-slideup');
-
-                            }, 240);
-
-                        }
-                        $('.star .radiance').addClass('is-active');
-                    }
-                </script>
-
 
             @endforeach
 
@@ -854,6 +775,89 @@
         }
 
     </script>
+
+    @foreach($shippings as $shipping)
+
+    <script>
+
+        var shippingIndex = "{{ $shipping->shipping_status_id }}"
+        var shippingId = "{{ $shipping->id }}"
+
+        $(document).ready(function(){
+
+
+            if(shippingIndex > 1){
+                var y = 0;
+                var interval = setInterval(() => {
+                    
+                    if(y == shippingIndex - 2){
+                        clearInterval(interval)
+                    }
+                    $(".next").click()
+
+                    y++;
+                }, 500);
+            }
+
+        })
+
+        $(document).on('click', '.next', function () {
+            StepToNext();
+
+        });
+        $(document).on('click', '.prev', function () {
+            StepToPrev();
+        });
+        /*$(document).on('click', '.finished', function () {
+            StepToInitial();
+        });*/
+
+        function StepToNext() {
+            if (($('#process-list-'+shippingIndex+' .process-item.is-current').next('.process-item')).length) {
+                $('#process-list-'+shippingIndex+' .process-item.is-current').addClass("is-changing");
+
+
+                $('#process-list-'+shippingIndex+'.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
+
+                setTimeout(function () {
+                    $('#process-list-'+shippingIndex+'.process-item.is-changing').next('.process-item').addClass("is-current");
+                    $('#process-list-'+shippingIndex+'.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
+                }, 250)
+
+
+            } else {
+                var itemCount;
+                itemCount = $('#process-list-'+shippingIndex+'.process-item').length
+
+                $('#process-list-'+shippingIndex+'.process-item.is-current').addClass('is-active').removeClass('is-current');
+                $('#process-list-'+shippingIndex+'.process-item').addClass('all-complete');
+
+                $('.next').addClass('is-slidedown').removeClass('is-slideup');
+                $('.prev').addClass('is-slidedown').removeClass('is-slideup');
+
+
+                setTimeout(function () {
+                    $('.next').addClass('is-hide').removeClass('is-show');
+                    $('.prev').addClass('is-hide').removeClass('is-show');
+                    $('.finished').addClass('is-show').removeClass('is-hide');
+                    $('.finished').addClass('is-slideup').removeClass('is-slidedown');
+                    $('.complete-hint').addClass('is-show').removeClass('is-hide');
+                }, 120)
+
+                setTimeout(function () {
+                    $('.next').removeClass('is-slidedown').removeClass('is-slideup');
+                    $('.prev').removeClass('is-slidedown').removeClass('is-slideup');
+
+                    $('.finished').removeClass('is-slidedown').removeClass('is-slideup');
+
+                }, 240);
+
+            }
+            $('.star .radiance').addClass('is-active');
+        }
+        </script>
+
+    @endforeach
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 </body>
