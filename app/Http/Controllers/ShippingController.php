@@ -215,29 +215,37 @@ class ShippingController extends Controller
                 $to_name = User::find($request->resellerId)->name;
                 $to_email = User::find($request->resellerId)->email;
 
-                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
+                if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+                    $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
     
-                \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
-                    
-                    
-                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
-                    $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
-        
-                });
+                    \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
+                        
+                        
+                        $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
+                        $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+            
+                    });
+                }
+
+                
 
             }
 
             $to_name = $recipient->name;
             $to_email = $recipient->email;
             
-            $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
+            if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
     
-            \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
-    
-                $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
-                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
-    
-            });
+                \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
+        
+                    $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." creado!");
+                    $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+        
+                });
+            }
+
+            
             
             return response()->json(["success" => true, "msg" => "Envío realizado exitosamente"]);
             
@@ -470,6 +478,25 @@ class ShippingController extends Controller
 
             $this->storeShippingHistory($shipping->id, $request->status);
             //$this->sendEmail($shipping);
+            
+
+            if($shipping->reseller_id){
+
+                $to_name = User::find($shipping->reseller_id)->name;
+                $to_email = User::find($shipping->reseller_id)->name->email;
+                if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+                    $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
+        
+                    \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
+                        
+                        $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." en ".$status->name."!");
+                        $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+            
+                    });
+                }
+
+            }
+
             if($shipping->recipient_id != null){
                 $recipient = Recipient::find($shipping->recipient_id);
                 $to_name = $recipient->name;
@@ -479,16 +506,15 @@ class ShippingController extends Controller
                 $to_name = $recipient->name;
                 $to_email = $recipient->email;
             }
+            
+            if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
 
-            if($shipping->reseller_id){
-
-                $to_name = User::find($shipping->reseller_id)->name;
-                $to_email = User::find($shipping->reseller_id)->name->email;
-
-                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
+                $status = ShippingStatus::find($shipping->shipping_status_id);
     
-                \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
-                    
+                $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
+        
+                \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping, $status) {
+        
                     $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." en ".$status->name."!");
                     $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
         
@@ -496,17 +522,6 @@ class ShippingController extends Controller
 
             }
             
-            
-            $status = ShippingStatus::find($shipping->shipping_status_id);
-    
-            $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
-    
-            \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping, $status) {
-    
-                $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." en ".$status->name."!");
-                $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
-    
-            });
 
             return response()->json(["success" => true, "msg" => "Envío Actualizado exitosamente"]);
 
