@@ -632,7 +632,7 @@
                             <div class="complete-hint"><i class="fa fa-check"></i></div>
                             <ul class="process-list">
 
-                                <li class="process-item  is-current">
+                                <li class="process-item  is-current" id="process-item-{{ $shipping->id }}">
                                     <!---is-active--->
                                     <div class="process-content">
                                         <div class="process-active-bar"></div>
@@ -757,6 +757,7 @@
                     $(document).ready(function(){
 
                         var shippingIndex = "{{ $shipping->shipping_status_id }}"
+                        var shippingId = "{{ $shipping->id }}"
 
 
                         if(shippingIndex > 1){
@@ -786,24 +787,24 @@
                     });*/
 
                     function StepToNext() {
-                        if (($('.process-item.is-current').next('.process-item')).length) {
-                            $('.process-item.is-current').addClass("is-changing");
+                        if (($("#process-item-"+shippingId).next('.process-item')).length) {
+                            $("#process-item-"+shippingId).addClass("is-changing");
 
 
-                            $('.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
+                            $("#process-item-"+shippingId+'.is-changing').removeClass('is-current').addClass('is-active');
 
                             setTimeout(function () {
-                                $('.process-item.is-changing').next('.process-item').addClass("is-current");
-                                $('.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
+                                $('#process-item-'+shippingId+'.is-changing').next('.process-item').addClass("is-current");
+                                $('#process-item-'+shippingId+'.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
                             }, 250)
 
 
                         } else {
                             var itemCount;
-                            itemCount = $('.process-item').length
-                            console.log(itemCount);
+                            itemCount = $('#process-item-'+shippingId).length
+
                             $('.process-item.is-current').addClass('is-active').removeClass('is-current');
-                            $('.process-item').addClass('all-complete');
+                            $('#process-item-'+shippingId).addClass('all-complete');
 
                             $('.next').addClass('is-slidedown').removeClass('is-slideup');
                             $('.prev').addClass('is-slidedown').removeClass('is-slideup');
