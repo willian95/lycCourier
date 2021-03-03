@@ -630,7 +630,7 @@
                         <!-----step--------->
                         <div class="nl-process">
                             <div class="complete-hint"><i class="fa fa-check"></i></div>
-                            <h3 style="text-align: center">{{ $shipping->shipping_status->name }}</h3>
+                            <h3 style="text-align: center">{{ $shipping->shippingStatus->name }}</h3>
                             {{--<ul class="process-list">
 
                                 <li class="process-item  is-current" id="process-item-{{ $shipping->id }}">
