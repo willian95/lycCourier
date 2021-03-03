@@ -19,9 +19,9 @@ class TrackingController extends Controller
             ->with(['recipient' => function ($q) {
                 $q->withTrashed();
             }])
-            ->with("shippingStatus")->first();
+            ->with("shippingStatus")->get();
             if($shipping != null){
-                return view("tracking", ["shipping" => $shipping, "email" => $request->email]);
+                return view("tracking", ["shippings" => $shipping, "email" => $request->email]);
             }else{
                 return view("tracking");
             }
