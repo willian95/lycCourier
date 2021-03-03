@@ -232,7 +232,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 								@endif
 
-								@if(\Auth::user()->role_id == 1)
+								@if(\Auth::user()->role_id < 3)
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('user') }}" class="menu-link">
 										<i class="menu-icon fas fa-user-shield"></i>
