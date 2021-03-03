@@ -476,12 +476,14 @@ class ShippingController extends Controller
             $shipping->shipping_status_id = $request->status;
             $shipping->update();
 
+            $status = ShippingStatus::find($shipping->shipping_status_id);
+
             $this->storeShippingHistory($shipping->id, $request->status);
             //$this->sendEmail($shipping);
             
 
             if($shipping->reseller_id){
-
+                
                 $to_name = User::find($shipping->reseller_id)->name;
                 $to_email = User::find($shipping->reseller_id)->email;
                 if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
