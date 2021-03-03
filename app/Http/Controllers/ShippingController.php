@@ -490,7 +490,7 @@ class ShippingController extends Controller
                 if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
                     $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
         
-                    \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
+                    \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping, $status) {
                         
                         $message->to($to_email, $to_name)->subject("¡Paquete ".$shipping->tracking." en ".$status->name."!");
                         $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
