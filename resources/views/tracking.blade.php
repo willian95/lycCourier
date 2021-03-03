@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <style>
     .card-info {
@@ -749,6 +752,84 @@
                 </section>
                 @endif
 
+                <script>
+
+                    $(document).ready(function(){
+
+                        var shippingIndex = "{{ $shipping->shipping_status_id }}"
+
+
+                        if(shippingIndex > 1){
+                            var y = 0;
+                            var interval = setInterval(() => {
+                                
+                                if(y == shippingIndex - 2){
+                                    clearInterval(interval)
+                                }
+                                $(".next").click()
+
+                                y++;
+                            }, 500);
+                        }
+
+                    })
+
+                    $(document).on('click', '.next', function () {
+                        StepToNext();
+
+                    });
+                    $(document).on('click', '.prev', function () {
+                        StepToPrev();
+                    });
+                    /*$(document).on('click', '.finished', function () {
+                        StepToInitial();
+                    });*/
+
+                    function StepToNext() {
+                        if (($('.process-item.is-current').next('.process-item')).length) {
+                            $('.process-item.is-current').addClass("is-changing");
+
+
+                            $('.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
+
+                            setTimeout(function () {
+                                $('.process-item.is-changing').next('.process-item').addClass("is-current");
+                                $('.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
+                            }, 250)
+
+
+                        } else {
+                            var itemCount;
+                            itemCount = $('.process-item').length
+                            console.log(itemCount);
+                            $('.process-item.is-current').addClass('is-active').removeClass('is-current');
+                            $('.process-item').addClass('all-complete');
+
+                            $('.next').addClass('is-slidedown').removeClass('is-slideup');
+                            $('.prev').addClass('is-slidedown').removeClass('is-slideup');
+
+
+                            setTimeout(function () {
+                                $('.next').addClass('is-hide').removeClass('is-show');
+                                $('.prev').addClass('is-hide').removeClass('is-show');
+                                $('.finished').addClass('is-show').removeClass('is-hide');
+                                $('.finished').addClass('is-slideup').removeClass('is-slidedown');
+                                $('.complete-hint').addClass('is-show').removeClass('is-hide');
+                            }, 120)
+
+                            setTimeout(function () {
+                                $('.next').removeClass('is-slidedown').removeClass('is-slideup');
+                                $('.prev').removeClass('is-slidedown').removeClass('is-slideup');
+
+                                $('.finished').removeClass('is-slidedown').removeClass('is-slideup');
+
+                            }, 240);
+
+                        }
+                        $('.star .radiance').addClass('is-active');
+                    }
+                </script>
+
 
             @endforeach
 
@@ -760,8 +841,7 @@
 
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 
     <script>
 
@@ -774,131 +854,6 @@
 
     </script>
 
-    @if(isset($shipping))
-    <script>
-
-        $(document).ready(function(){
-
-            var shippingIndex = "{{ $shipping->shipping_status_id }}"
-
-
-            if(shippingIndex > 1){
-                var y = 0;
-                var interval = setInterval(() => {
-                    
-                    if(y == shippingIndex - 2){
-                        clearInterval(interval)
-                    }
-                    $(".next").click()
-
-                    y++;
-                }, 500);
-            }
-
-        })
-
-        $(document).on('click', '.next', function () {
-            StepToNext();
-
-        });
-        $(document).on('click', '.prev', function () {
-            StepToPrev();
-        });
-        /*$(document).on('click', '.finished', function () {
-            StepToInitial();
-        });*/
-
-        function StepToNext() {
-            if (($('.process-item.is-current').next('.process-item')).length) {
-                $('.process-item.is-current').addClass("is-changing");
-
-
-                $('.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
-
-                setTimeout(function () {
-                    $('.process-item.is-changing').next('.process-item').addClass("is-current");
-                    $('.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
-                }, 250)
-
-
-            } else {
-                var itemCount;
-                itemCount = $('.process-item').length
-                console.log(itemCount);
-                $('.process-item.is-current').addClass('is-active').removeClass('is-current');
-                $('.process-item').addClass('all-complete');
-
-                $('.next').addClass('is-slidedown').removeClass('is-slideup');
-                $('.prev').addClass('is-slidedown').removeClass('is-slideup');
-
-
-                setTimeout(function () {
-                    $('.next').addClass('is-hide').removeClass('is-show');
-                    $('.prev').addClass('is-hide').removeClass('is-show');
-                    $('.finished').addClass('is-show').removeClass('is-hide');
-                    $('.finished').addClass('is-slideup').removeClass('is-slidedown');
-                    $('.complete-hint').addClass('is-show').removeClass('is-hide');
-                }, 120)
-
-                setTimeout(function () {
-                    $('.next').removeClass('is-slidedown').removeClass('is-slideup');
-                    $('.prev').removeClass('is-slidedown').removeClass('is-slideup');
-
-                    $('.finished').removeClass('is-slidedown').removeClass('is-slideup');
-
-                }, 240);
-
-            }
-            $('.star .radiance').addClass('is-active');
-        }
-
-        /*function StepToPrev() {
-
-            if (($('.process-item.is-current').prev('.process-item')).length) {
-
-                $('.process-item.is-current').prev('.process-item').addClass("is-changing")
-
-                $('.process-item.is-current').removeClass("is-current");
-
-                $('.process-item.is-changing').addClass('is-current').removeClass('is-active').removeClass(
-                    'is-changing');
-            } else {
-                return;
-            }
-
-        }*/
-
-        /*function StepToInitial() {
-
-            $('.process-item').removeClass("is-current").removeClass("is-active").removeClass("all-complete");
-            $('.process-item:first-child').addClass("is-current");
-
-            $('.complete-hint').addClass('is-hide').removeClass('is-show');
-
-            $('.finished').removeClass('is-slideup').addClass('is-slidedown');
-
-
-            setTimeout(function () {
-                $('.next').addClass('is-show').removeClass('is-hide');
-                $('.prev').addClass('is-show').removeClass('is-hide');
-
-                $('.next').removeClass('is-slidedown').addClass('is-slideup');
-                $('.prev').removeClass('is-slidedown').addClass('is-slideup');
-
-                $('.finished').addClass('is-hide').removeClass('is-show');
-
-            }, 120)
-
-            setTimeout(function () {
-                $('.next').removeClass('is-slidedown').removeClass('is-slideup');
-                $('.prev').removeClass('is-slidedown').removeClass('is-slideup');
-
-                $('.finished').removeClass('is-slidedown').removeClass('is-slideup');
-            }, 240);
-
-        }*/
-    </script>
-    @endif
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 </body>
 
