@@ -754,10 +754,10 @@
 
                 <script>
 
-                    $(document).ready(function(){
+                    var shippingIndex = "{{ $shipping->shipping_status_id }}"
+                    var shippingId = "{{ $shipping->id }}"
 
-                        var shippingIndex = "{{ $shipping->shipping_status_id }}"
-                        var shippingId = "{{ $shipping->id }}"
+                    $(document).ready(function(){
 
 
                         if(shippingIndex > 1){
