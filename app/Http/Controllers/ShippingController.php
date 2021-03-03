@@ -486,6 +486,7 @@ class ShippingController extends Controller
                 
                 $to_name = User::find($shipping->reseller_id)->name;
                 $to_email = User::find($shipping->reseller_id)->email;
+                $recipient = User::find($shipping->client_id);
                 if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
                     $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
         
