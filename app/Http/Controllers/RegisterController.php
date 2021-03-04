@@ -34,6 +34,7 @@ class RegisterController extends Controller
             $user->address = $request->address;
             $user->role_id = 4;
             $user->password = bcrypt($request->password);
+            $user->email_verified_at = Carbon::now();
             $user->register_code = $registerHash;
 
             if(isset($request->resellerEmail)){
@@ -45,11 +46,11 @@ class RegisterController extends Controller
             $to_name = $user->name;
             $to_email = $user->email;
         
-            $data = ["messageMail" => "Hola ".$user->name.", haz click en el siguiente enlace para validar tu cuenta", "registerHash" => $registerHash];
+            $data = ["messageMail" => "Hola ".$user->name.", bienvenido a LycCourier", "registerHash" => $registerHash];
     
             \Mail::send("emails.register2", $data, function($message) use ($to_name, $to_email) {
     
-                $message->to($to_email, $to_name)->subject("¡Valida tu correo!");
+                $message->to($to_email, $to_name)->subject("¡Bienvenido a lycCourier!");
                 $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
     
             });
