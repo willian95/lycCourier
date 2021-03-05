@@ -25,9 +25,16 @@
                                 <label class="form-check-label" for="bill">Facturas</label>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="anonymous" v-model="anonymous">
+                                <label class="form-check-label" for="anonymous">Anónimo</label>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <p class="text-center">
-                                <a class="btn btn-success" :href="'{{ url('/shippings/qr/') }}'+'/'+id+'/'+label+'/'+bill" target="_blank">Continuar</a>
+                                <a class="btn btn-success" :href="'{{ url('/shippings/qr/') }}'+'/'+id+'/'+label+'/'+bill+'/'+anonymous" target="_blank">Continuar</a>
                             </p>
                         </div>
                     </div>
@@ -53,7 +60,8 @@
                 return {
                     id: "{{ $id }}",
                     label:true,
-                    bill:false
+                    bill:false,
+                    anonymous:false
                 }
             }
         })

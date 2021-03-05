@@ -766,7 +766,7 @@ class ShippingController extends Controller
 
     }
 
-    function downloadQR($id, $label, $bill){
+    function downloadQR($id, $label, $bill, $anonymous){
 
         $shipping = Shipping::where("id", $id)->with(['box' => function ($q) {
             $q->withTrashed();
@@ -776,7 +776,7 @@ class ShippingController extends Controller
         }])->first();
         $data = "https://api.qrserver.com/v1/create-qr-code/?data=".url('/tracking').'?tracking='.$shipping->tracking."&amp;size=100x100";
 
-        $pdf = PDF::loadView('pdf.qr', ["data" => $data, "shipping" => $shipping, "label" => $label, "bill" => $bill]);
+        $pdf = PDF::loadView('pdf.qr', ["data" => $data, "shipping" => $shipping, "label" => $label, "bill" => $bill, "anonymous" => $anonymous]);
         //$pdf->setPaper([0, 0, 288, 430.87], 'portrait');
         $pdf->setPaper([0, 0, 288, 430.87], 'portrait');
         return $pdf->stream('qr'.$shipping->tracking.'.pdf');

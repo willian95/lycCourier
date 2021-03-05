@@ -21,12 +21,14 @@
         <p style="margin-top: -10px; font-size: 14px">L & C Courier Inc</p>
 
         <hr style="margin-top: -10px;">
+        @if($anonymous == true)
+            <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
+            @if($shipping->recipient)
+            <p style="margin-top: -10px; font-size: 28px;">{{ $shipping->recipient->name }}</p>
+            @elseif($shipping->client)
+            <p style="margin-top: -30px; font-size: 28px;">{{ substr($shipping->client->name." ".$shipping->client->lastname, 0, 20 ) }}</p>
+            @endif
 
-        <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
-        @if($shipping->recipient)
-        <p style="margin-top: -10px; font-size: 28px;">{{ $shipping->recipient->name }}</p>
-        @elseif($shipping->client)
-        <p style="margin-top: -30px; font-size: 28px;">{{ substr($shipping->client->name." ".$shipping->client->lastname, 0, 20 ) }}</p>
         @endif
 
         <hr style="margin-top: -10px;">
