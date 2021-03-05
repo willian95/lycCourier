@@ -20,8 +20,9 @@
         <p style="margin-top: -20px; font-size: 12px;">SHIPPER</p>
         <p style="margin-top: -10px; font-size: 14px">L & C Courier Inc</p>
 
-        <hr style="margin-top: -10px;">
         @if($anonymous == "false")
+            <hr style="margin-top: -10px;">
+        
             <p style="margin-top: -20px; font-size: 12px;">CONSIGNEE</p>
             @if($shipping->recipient)
             <p style="margin-top: -10px; font-size: 28px;">{{ $shipping->recipient->name }}</p>
