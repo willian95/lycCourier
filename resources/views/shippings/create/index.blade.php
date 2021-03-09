@@ -54,12 +54,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            {{--<div class="col-md-6">
                                 <div class="form-group">
                                     <label for="tracking">Warehouse number</label>
                                     <input type="text" class="form-control" v-model="warehouseNumber">
                                 </div>
-                            </div>
+                            </div>--}}
 
                             <div class="col-md-6">
                                 <div class="form-group">

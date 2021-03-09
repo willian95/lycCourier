@@ -165,6 +165,37 @@ class ResellerController extends Controller
         }
     }
 
+    function all(){
 
+        try{
+
+            $resellers = User::where("role_id", 3)->get();
+
+            return response()->json(["resellers" => $resellers]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor"]);
+
+        }
+
+    }
+
+    function fetchByUser($recipient_id){
+
+        try{
+
+            $user = User::find($recipient_id);
+            $users = User::find($user->reseller_id);
+
+            return response()->json(["reseller" => $users]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor"]);
+
+        }
+
+    }
 
 }

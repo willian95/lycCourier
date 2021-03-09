@@ -68,7 +68,7 @@ Route::get("shippings/statuses", "ShippingController@getAllStatuses")->middlewar
 Route::post('/shippings/store', "ShippingController@store")->middleware("auth");
 Route::post('/shippings/update', "ShippingController@update")->middleware("auth");
 Route::post('/shippings/update-info', "ShippingController@updateInfo")->middleware("auth");
-Route::post('/shippings/erase', "ShippingController@erase")->middleware("auth");
+Route::post('/shippings/erase', "ShippingController@delete")->middleware("auth");
 Route::get("/shippings/qr/{id}", "ShippingController@showQrOptions")->middleware("auth");
 Route::get("/shippings/qr/{id}/{label}/{bill}/{anonymous}", "ShippingController@downloadQR")->middleware("auth");
 Route::get("/shippings/receipt/{id}", "ShippingController@receiptPdf")->middleware("auth");

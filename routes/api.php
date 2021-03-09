@@ -40,6 +40,18 @@ Route::group(['middleware'=>'jwt.auth'], function () {
     Route::post("/reseller/client/update", "API\ResellerController@updateRecipient");
     Route::get("/reseller/client/fetch/{page}", "API\ResellerController@fetch");
 
+    Route::post("recipients/search", "API\RecipientController@search");
+    Route::post("recipients/store", "API\RecipientController@store");
+    Route::get("recipients/resellers/{recipient_id}", "API\ResellerController@fetchByUser");
+
+    Route::get("/resellers/all", "API\ResellerController@all");
+
+    Route::get("/box/all", "API\BoxController@all");
+
+    Route::post("/shipping/store", "API\AdminShippingController@store");
+    Route::post("/shipping/update", "API\AdminShippingController@updateInfo");
+    
+
 });
 
 Route::get("departments", "API\DepartmentController@fetch");

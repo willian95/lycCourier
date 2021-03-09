@@ -176,6 +176,10 @@
                                         
                                         <button title="Listado de actualizaciones" v-if="selectedShippings.length == 0" class="btn btn-info" data-toggle="modal" data-target="#shippingHistoryModal" @click="setShippingHistory(shipping.shipping_histories)"><i class="far fa-list-alt"></i></button>
                                         
+                                        @if(\Auth::user()->role_id == 1)
+                                        <button title="Eliminar" v-if="selectedShippings.length == 0" class="btn btn-danger" @click="deleteShipping(shipping.id)"><i class="far fa-trash-alt"></i></button>
+                                        @endif
+                                        
                                     </td>
                                 </tr>
                                 
@@ -620,6 +624,44 @@
 
                         })
                     }
+
+                },
+                deleteShipping(id){
+
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Eliminarás este tipo de envío!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+
+                            axios.post("{{ url('/shippings/erase') }}", {"id": id}).then(res => {
+
+                                if(res.data.success == true){
+
+                                    swal({
+                                        "text": res.data.msg,
+                                        "icon": "success"
+                                    })
+
+                                    this.fetch()
+
+                                }else{
+
+                                    swal({
+                                        "text": res.data.msg,
+                                        "icon": "error"
+                                    })
+
+                                }
+
+                            })
+
+                        }
+                    })
 
                 }
 

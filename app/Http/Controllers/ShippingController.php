@@ -261,7 +261,7 @@ class ShippingController extends Controller
 
         try{
 
-            if(Shipping::where("tracking", $request->tracking)->where("id", "<>", $request->shippingId)->count() == 0){
+            //if(Shipping::where("tracking", $request->tracking)->where("id", "<>", $request->shippingId)->count() == 0){
                 $shipping = Shipping::find($request->shippingId);
                 $shipping->client_id = $request->recipientId;
                 $shipping->box_id = $request->packageId;
@@ -455,9 +455,9 @@ class ShippingController extends Controller
                 $client->update();
 
 
-            }else{
-                return response()->json(["success" => false, "msg" => "Este tracking ya lo posee otro envío"]);
-            }
+            //}else{
+                //return response()->json(["success" => false, "msg" => "Este tracking ya lo posee otro envío"]);
+            //}
 
             return response()->json(["success" => true, "msg" => "Envío actualizado exitosamente"]);
             
@@ -933,6 +933,23 @@ class ShippingController extends Controller
 
         }catch(\Exception $e){
             return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+        }
+
+    }
+
+    function delete(Request $request){
+
+        try{
+
+            $shipping = Shipping::find($request->id);
+            $shipping->delete();
+
+            return response()->json(["success" => true, "msg" => "Shipping eliminado"]);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "err" => $e->getMessage(), "ln" => $e->getLine(), "msg" => "Hubo un problema"]);
+
         }
 
     }
