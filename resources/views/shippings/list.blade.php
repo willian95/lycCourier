@@ -143,7 +143,7 @@
                                         @{{ shipping.warehouse_number }}
                                     </td>
                                     <td class="datatable-cell" v-if="shipping.recipient">
-                                        @{{ shipping.recipient.name }}
+                                        {{-- @{{ shipping.recipient.name }} --}}
                                     </td>
                                     <td class="datatable-cell" v-if="shipping.client">
                                         @{{ shipping.client.name }}
