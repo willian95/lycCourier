@@ -158,7 +158,7 @@
                                         Envío aún no procesado
                                     </td>
                                     <td class="datatable-cell" v-else>
-                                        @{{ shipping.shipping_status.name }} <span v-if="shipping.address == null"> - Dirección requerida </span>
+                                        {{-- @{{ shipping.shipping_status.name }} --}} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                     </td>
                                     <td class="datatable-cell">
                                         <span v-if="shipping.shipping_status">
