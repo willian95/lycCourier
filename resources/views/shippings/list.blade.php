@@ -161,8 +161,8 @@
                                         {{-- @{{ shipping.shipping_status.name }} --}} <span v-if="shipping.address == null"> - Dirección requerida </span>
                                     </td>
                                     <td class="datatable-cell">
-                                        <span v-if="shipping.shipping_status">
-                                            @{{ shipping.box.name }}
+                                        <span v-if="shipping.box">
+                                            {{-- @{{ shipping.box.name }} --}}
                                         </span>
                                     </td>
                                     <td>
