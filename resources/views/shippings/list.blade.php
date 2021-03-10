@@ -146,7 +146,7 @@
                                         {{-- @{{ shipping.recipient.name }} --}}
                                     </td>
                                     <td class="datatable-cell" v-if="shipping.client">
-                                        @{{ shipping.client.name }}
+                                        {{-- @{{ shipping.client.name }} --}}
                                     </td>
                                     <td class="datatable-cell" v-if="shipping.shipped_at">
                                         @{{ dateFormatter(shipping.shipped_at) }} 
