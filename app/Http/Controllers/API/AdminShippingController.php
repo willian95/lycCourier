@@ -345,11 +345,42 @@ class AdminShippingController extends Controller
                 }
             }
 
+            if($product["productImage"] != null){
+                try{
+        
+                    $productImageData = $product["image"];
+
+                    if(strpos($productImageData, "svg+xml") > 0){
+                        $data = explode( ',', $productImageData);
+                        $productFileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                        $ifp = fopen($productFileName, 'wb' );
+                        fwrite($ifp, base64_decode( $data[1] ) );
+                        rename($productFileName, 'img/bills/'.$productFileName);
+        
+                    }else{
+                        $productFileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($productImageData, 0, strpos($productImageData, ';')))[1])[1];
+                        Image::make($product['productImage'])->save(public_path('img/bills/').$productFileName);
+                    }
+        
+                }catch(\Exception $e){
+        
+                    return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+        
+                }
+            }
+            
 
             $shippingProduct = new ShippingProduct;
             $shippingProduct->name = str_replace("'", "", $product["name"]);
             $shippingProduct->price = $product["price"];
             $shippingProduct->shipping_id = $shipping->id;
+
+            if($product["productImage"] != null){
+
+                $shippingProduct->productImage = url('/img/bills/')."/".$productFileName;
+
+            }
+
             if($product["image"] != null){
                 $shippingProduct->file_type = $fileType;
             }
@@ -526,10 +557,40 @@ class AdminShippingController extends Controller
 
                         }
 
+                        if($product["productImage"] != null){
+                            try{
+                    
+                                $productImageData = $product["image"];
+            
+                                if(strpos($productImageData, "svg+xml") > 0){
+                                    $data = explode( ',', $productImageData);
+                                    $productFileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                    $ifp = fopen($productFileName, 'wb' );
+                                    fwrite($ifp, base64_decode( $data[1] ) );
+                                    rename($productFileName, 'img/bills/'.$productFileName);
+                    
+                                }else{
+                                    $productFileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($productImageData, 0, strpos($productImageData, ';')))[1])[1];
+                                    Image::make($product['productImage'])->save(public_path('img/bills/').$productFileName);
+                                }
+                    
+                            }catch(\Exception $e){
+                    
+                                return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+                    
+                            }
+                        }
+
                         $shippingProduct = ShippingProduct::where("id", $product["id"])->first();
                         $shippingProduct->name = str_replace("'", "", $product["name"]);
                         $shippingProduct->price = $product["price"];
                         $shippingProduct->shipping_id = $shipping->id;
+
+                        if($product["productImage"] != null){
+
+                            $shippingProduct->productImage = url('/img/bills/')."/".$productFileName;
+            
+                        }
                      
                         if($fileName != ""){
                             $shippingProduct->image = url('/img/bills/')."/".$fileName;
@@ -577,11 +638,42 @@ class AdminShippingController extends Controller
                     
                             }
                         }
+
+                        if($product["productImage"] != null){
+                            try{
+                    
+                                $productImageData = $product["image"];
+            
+                                if(strpos($productImageData, "svg+xml") > 0){
+                                    $data = explode( ',', $productImageData);
+                                    $productFileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
+                                    $ifp = fopen($productFileName, 'wb' );
+                                    fwrite($ifp, base64_decode( $data[1] ) );
+                                    rename($productFileName, 'img/bills/'.$productFileName);
+                    
+                                }else{
+                                    $productFileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($productImageData, 0, strpos($productImageData, ';')))[1])[1];
+                                    Image::make($product['productImage'])->save(public_path('img/bills/').$productFileName);
+                                }
+                    
+                            }catch(\Exception $e){
+                    
+                                return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+                    
+                            }
+                        }
     
                         $shippingProduct = new ShippingProduct;
                         $shippingProduct->name = str_replace("'", "", $product["name"]);
                         $shippingProduct->price = $product["price"];
                         $shippingProduct->shipping_id = $shipping->id;
+
+                        if($product["productImage"] != null){
+
+                            $shippingProduct->productImage = url('/img/bills/')."/".$productFileName;
+            
+                        }
+
                         if($product["image"] != null){
                             $shippingProduct->image = url('/img/bills/')."/".$fileName;
                         }

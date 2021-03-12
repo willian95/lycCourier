@@ -72,7 +72,7 @@
                                                 <button v-if="shipping.shipping_status_id < 4 && shipping.shipped_at != null" title="Actualizar Status" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)"><i class="far fa-edit"></i></button>
                                                 @endif
                                                 @if(\Auth::user()->role_id < 3)
-                                                <a title="Editar" :href="'{{ url('/shippings/show') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
+                                                <a title="Editar" :href="'{{ url('/shippings/show') }}'+'/'+shipping.id" class="btn btn-info"><i class="far fa-eye"></i></a>
                                                 @else
                                                     <a title="Editar" v-if="shipping.is_finished == 0" :href="'{{ url('clients/shipping/') }}'+'/'+shipping.tracking" class="btn btn-info"><i class="far fa-eye"></i></a>
                                                 @endif

@@ -422,11 +422,19 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="imagePreview">Copia Factura</label>
                                     <input accept="image/*|pdf/*" type="file" style="overflow: hidden;" id="imagePreview-input" class="form-control" @change="onImageProductChange">
                                     <img :src="product.image" alt="" style="width: 40%">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="imagePreview">Imagen de producto</label>
+                                    <input accept="image/*" type="file" style="overflow: hidden;" id="imagePreview-input" class="form-control" @change="onImageProductPictureChange">
+                                    <img :src="product.productImage" alt="" style="width: 40%">
                                 </div>
                             </div>
                             
@@ -495,7 +503,9 @@
                         name:"",
                         price:"",
                         image:"",
-                        imagePreview:""
+                        productImage:"",
+                        imagePreview:"",
+                        productImagePreview:""
                     },
                     departments:[],
                     department:"",
@@ -811,15 +821,15 @@
                                 this.product.image = "Sin factura" 
                             }
 
-
-
-                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview, fileType: this.fileType})
+                            this.products.push({name: this.product.name, description: this.product.description, price: this.product.price, image: this.product.image, imagePreview: this.product.imagePreview, fileType: this.fileType, productImage: this.product.productImage,productImagePreview: this.productImagePreview})
 
                             this.product.name=""
                             this.product.description=""
                             this.product.price=""
                             this.product.image=""
                             this.product.imagePreview = ""
+                            this.product.productImage=""
+                            this.product.productImagePreview = ""
                             $("#imagePreview-input").val(null)
 
                         })
@@ -910,6 +920,16 @@
                         
                     this.createProductImage(files[0]);
                 },
+                onImageProductPictureChange(e){
+
+                    this.product.productImage = e.target.files[0];
+                    this.product.productImagePreview = URL.createObjectURL(this.product.productImage);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                        
+                    this.createProductPicture(files[0]);
+                },
                 createProductImage(file) {
                     
                     this.file = file
@@ -938,6 +958,33 @@
  
                     
                 },
+                createProductPicture(file) {
+                    
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
+                    if(this.fileType == "image"){
+            
+                        let reader = new FileReader();
+                        let vm = this;
+                        reader.onload = (e) => {
+                            vm.product.productImage = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                    }else{
+                        this.product.productImage = ""
+                        this.product.productImagePreview = ""
+                        swal({
+                            text:"Archivo no es imagen",
+                            icon:"error"
+                        })
+
+                    }
+ 
+                    
+                },
                 create(){
                     this.action = "create"
                     this.product.name=""
@@ -953,6 +1000,8 @@
                     this.product.price= product.price
                     this.product.image= product.image
                     this.product.imagePreview = product.imagePreview
+                    this.product.productImage= product.productImage
+                    this.product.productImagePreview = product.productImagePreview
                 },
                 update(){
 
@@ -983,6 +1032,8 @@
                         this.products[this.productIndex].imagePreview = this.product.imagePreview
                         this.products[this.productIndex].fileType = this.fileType
                         this.products[this.productIndex].file_type = ""
+                        this.products[this.productIndex].productImage = this.product.productImage
+                        this.products[this.productIndex].productImagePreview =  this.productImagePreview
 
                         swal({
                             title:"¡Genial!",
