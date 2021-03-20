@@ -418,7 +418,7 @@
 
                 searchPageAction(){
 
-                    this.fetch(this.searchPage)
+                    this.fetch(parseInt(this.searchPage))
 
                 },
                 fetch(page = 1){
