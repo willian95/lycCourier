@@ -217,8 +217,9 @@
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="d-flex">
-                                    <input type="text" class="form-control">
-                                    <button class="btn btn-success">ir</button>
+                                    <label for="">Ir a página</label>
+                                    <input type="text" class="form-control w-50" v-model="page" @keypress="isNumber($event)">
+                                    <button class="btn btn-success" @click="fetch()">ir</button>
                                 </div>
                             </div>
                         </div>
@@ -673,6 +674,15 @@
                         }
                     })
 
+                },
+                isNumber(evt) {
+                    evt = (evt) ? evt : window.event;
+                    var charCode = (evt.which) ? evt.which : evt.keyCode;
+                    if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                        evt.preventDefault();;
+                    } else {
+                        return true;
+                    }
                 }
 
             },
