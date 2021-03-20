@@ -218,8 +218,8 @@
                             <div class="col-sm-12 col-md-4">
                                 <div class="d-flex">
                                     <label for="">Ir a página</label>
-                                    <input type="text" class="form-control w-50" v-model="page" @keypress="isNumber($event)">
-                                    <button class="btn btn-success" @click="fetch()">ir</button>
+                                    <input type="text" class="form-control w-50" v-model="searchPage" @keypress="isNumber($event)">
+                                    <button class="btn btn-success" @click="searchPage()">ir</button>
                                 </div>
                             </div>
                         </div>
@@ -410,11 +410,17 @@
                     exportType:"",
                     histories:"",
                     selectedAll:false,
-                    loading:false
+                    loading:false,
+                    searchPage:1
                 }
             },
             methods: {
 
+                searchPage(){
+
+                    this.fetch(this.searchPage)
+
+                },
                 fetch(page = 1){
                     
                     this.page = page
