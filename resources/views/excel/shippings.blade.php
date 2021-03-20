@@ -14,8 +14,6 @@
         </tr>
     </thead>
 
-    dd($shippings)
-
     <tbody style="font-size: 12px;">
         @foreach($shippings as $shipping)
             <tr>
@@ -52,7 +50,9 @@
                     <p>{{ $shipping->weight * 2.20 }} LB</p>
                 </td>
                 <td>
-                    {{ $shipping->box->name }}
+                    @if($shipping->box)
+                        {{ $shipping->box->name }}
+                    @endif
                 </td>
                 <td>
                     {{ $shipping->shippingStatus->name }}
