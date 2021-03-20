@@ -190,10 +190,10 @@
                         </table>
 
                         <div class="row">
-                            <div class="col-sm-12 col-md-5">
+                            <div class="col-sm-12 col-md-4">
                                 <div class="dataTables_info" id="kt_datatable_info" role="status" aria-live="polite">Mostrando página @{{ page }} de @{{ pages }}</div>
                             </div>
-                            <div class="col-sm-12 col-md-7">
+                            <div class="col-sm-12 col-md-4">
                                 <div class="dataTables_paginate paging_full_numbers" id="kt_datatable_paginate">
                                     <ul class="pagination">
                                         <li class="paginate_button page-item previous" id="kt_datatable_previous" v-if="page > 1">
@@ -213,6 +213,12 @@
                                             </a>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="d-flex">
+                                    <input type="text" class="form-control">
+                                    <button class="btn btn-success">ir</button>
                                 </div>
                             </div>
                         </div>
