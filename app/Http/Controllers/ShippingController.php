@@ -902,7 +902,7 @@ class ShippingController extends Controller
 
         try{
 
-            Shipping::whereDate('created_at', '>=', $this->fromDate)->whereDate("created_at", '<=', $this->toDate)->with(['box' => function ($q) {
+            Shipping::whereDate('created_at', '>=', $start_date)->whereDate("created_at", '<=', $end_date)->with(['box' => function ($q) {
                 $q->withTrashed();
             }])
             ->with(['recipient' => function ($q) {
