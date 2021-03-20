@@ -219,7 +219,7 @@
                                 <div class="d-flex">
                                     <label for="">Ir a página</label>
                                     <input type="text" class="form-control w-50" v-model="searchPage" @keypress="isNumber($event)">
-                                    <button class="btn btn-success" @click="searchPage()">ir</button>
+                                    <button class="btn btn-success" @click="searchPageAction()">ir</button>
                                 </div>
                             </div>
                         </div>
@@ -416,7 +416,7 @@
             },
             methods: {
 
-                searchPage(){
+                searchPageAction(){
 
                     this.fetch(this.searchPage)
 
