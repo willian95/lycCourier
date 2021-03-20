@@ -13,6 +13,9 @@
             <th style="width: 30px;">Status</th>
         </tr>
     </thead>
+
+    dd($shippings)
+
     <tbody style="font-size: 12px;">
         @foreach($shippings as $shipping)
             <tr>
