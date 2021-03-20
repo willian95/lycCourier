@@ -902,6 +902,13 @@ class ShippingController extends Controller
 
         try{
 
+            Shipping::whereDate('created_at', '>=', $this->fromDate)->whereDate("created_at", '<=', $this->toDate)->with(['box' => function ($q) {
+                $q->withTrashed();
+            }])
+            ->with(['recipient' => function ($q) {
+                $q->withTrashed();
+            }])->dd();
+
             return Excel::download((new ShippingsExport)->forFromDate($start_date)->forToDate($end_date), uniqid().'envios'.$start_date.'-'.$end_date.'.xlsx');
     
 
