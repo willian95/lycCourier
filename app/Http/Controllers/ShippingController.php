@@ -907,7 +907,7 @@ class ShippingController extends Controller
             }])
             ->with(['recipient' => function ($q) {
                 $q->withTrashed();
-            }])->get();
+            }])->limit(10)->get();
 
             dd($shippings);
 
