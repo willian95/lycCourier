@@ -203,7 +203,7 @@
                                         </li>
                                         <li class="paginate_button page-item active" v-for="index in pages">
                                             {{--<a style="cursor:pointer;" aria-controls="kt_datatable" tabindex="0" class="page-link":key="index" @click="fetch(index)" >@{{ index }}</a>--}}
-                                            <a class="page-link" style="background-color: #d32b2b; color: #fff !important; cursor:pointer;" href="#" v-if="page == index && index >= page - 3 &&  index < page + 3"  :key="index" @click="fetch(index)" >@{{ index }}</a>
+                                            <a class="page-link" style="background-color: #d32b2b; color: #fff !important; cursor:pointer;" v-if="page == index && index >= page - 3 &&  index < page + 3"  :key="index" @click="fetch(index)" >@{{ index }}</a>
                                             <a class="page-link" style="cursor:pointer;" v-if="page != index && index >= page - 3 &&  index < page + 3"  :key="index" @click="fetch(index)" >@{{ index }}</a> 
                                         </li>
                                         
