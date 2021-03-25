@@ -195,6 +195,43 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								
+								@if(\Auth::user()->role_id < 3)
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<i class="menu-icon flaticon2-telegram-logo"></i>
+										<span class="menu-text">Guías</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+
+											
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('shipping-guide/create') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text">Crear</span>
+												</a>
+											</li>
+										
+										
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('shipping-guide') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text">Listado</span>
+												</a>
+											</li>
+
+										</ul>
+									</div>
+								</li>
+								@endif
+
 								@if(\Auth::user()->role_id < 4)
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ route('recipient') }}" class="menu-link">

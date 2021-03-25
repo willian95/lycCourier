@@ -60,7 +60,7 @@
                         </div>
                         <!--end::Dropdown-->
                         <!--begin::Button-->
-                        @if(\Auth::user()->role_id == 1)
+                        @if(\Auth::user()->role_id == 1 || \Auth::user()->role_id == 2)
                         <a href="{{ route('shippings.create') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -127,6 +127,10 @@
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort">
+                                        <span style="width: 250px;">Número de guía</span>
+                                    </th>
+
+                                    <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 130px;">Acciones</span>
                                     </th>
                                 </tr>
@@ -163,6 +167,14 @@
                                     <td class="datatable-cell">
                                         <span v-if="shipping.box">
                                             @{{ shipping.box.name }}
+                                        </span>
+                                    </td>
+                                    <td class="datatable-cell">
+                                        <span v-if="shipping.shipping_guide">
+                                            @{{ shipping.shipping_guide.guide }}
+                                        </span>
+                                        <span v-else>
+                                            No posee
                                         </span>
                                     </td>
                                     <td>
