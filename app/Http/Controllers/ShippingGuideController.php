@@ -143,7 +143,7 @@ class ShippingGuideController extends Controller
 
             Shipping::where("shipping_guide_id", $shippingGuide->id)->update(["shipping_guide_id" => null]);
             
-            $shippingGuide->guide = $shippingGuide."-".uniqid();
+            $shippingGuide->guide = $shippingGuide->guide."-".uniqid();
             $shippingGuide->update();
 
             $shippingGuide->delete();
