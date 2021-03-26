@@ -27,7 +27,7 @@ class ShippingStatusSeeder extends Seeder
 
             $status = new ShippingStatus;
             $status->id = 2;
-            $status->name = "Lima (en transito)";
+            $status->name = "Lima (Aduana)";
             $status->save();
 
             $status = new ShippingStatus;

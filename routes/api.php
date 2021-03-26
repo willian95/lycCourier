@@ -51,6 +51,11 @@ Route::group(['middleware'=>'jwt.auth'], function () {
     Route::post("/shipping/store", "API\AdminShippingController@store");
     Route::post("/shipping/update", "API\AdminShippingController@updateInfo");
     
+    Route::post("/reseller/client/update", "API\ResellerController@updateRecipient");
+    Route::get("/reseller/client/fetch/{page}", "API\ResellerController@fetch");
+
+    Route::get("shipping-guide/fetch/{page}", "API\ShippingGuideController@fetch");
+    Route::post("shipping-guide/search", "API\ShippingGuideController@search");
 
 });
 

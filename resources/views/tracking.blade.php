@@ -652,7 +652,7 @@
                                             <span></span>
                                         </div>
                                         <div class="des">
-                                            <span>Lima (en transito)</span>
+                                            <span>Lima (Aduana)</span>
                                         </div>
                                     </div>
                                 </li>
