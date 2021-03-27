@@ -16,8 +16,8 @@ class ShippingGuideController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippings")->get();
-            $shippingGuidesCount =  ShippingGuide::with("shippings")->count();
+            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
+            $shippingGuidesCount =  ShippingGuide::with("shippingGuideShipping", "shippingGuideShipping.shipping")->count();
 
             return response()->json(["shippingGuides" => $shippingGuides, "shippingGuidesCount" => $shippingGuidesCount, "dataAmount" => $dataAmount]);
 
@@ -36,8 +36,8 @@ class ShippingGuideController extends Controller
             $dataAmount = 20;
             $skip = ($request->page - 1) * $dataAmount;
 
-            $shippingGuides = ShippingGuide::where("guide", "like", '%'.$request->search.'%')->skip($skip)->take($dataAmount)->get();
-            $shippingGuidesCount =  ShippingGuide::where("guide", "like", '%'.$request->search.'%')->count();
+            $shippingGuides = ShippingGuide::where("guide", "like", '%'.$request->search.'%')->skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
+            $shippingGuidesCount =  ShippingGuide::where("guide", "like", '%'.$request->search.'%')->with("shippingGuideShipping", "shippingGuideShipping.shipping")->count();
 
             return response()->json(["shippingGuides" => $shippingGuides, "shippingGuidesCount" => $shippingGuidesCount, "dataAmount" => $dataAmount]);
 
