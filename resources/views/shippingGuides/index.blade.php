@@ -89,7 +89,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Búsqueda</label>
-                                <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Guía #">
+                                <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Guía #, Warehouse #">
                             </div>
                         </div>
                     </div>
