@@ -92,7 +92,7 @@
                                     <tbody>
                                         <tr v-for="shipping in shippings" v-if="shipping.tracking">
                                             <td >
-                                                <input v-if="!shipping.shipping_guide || shipping.shipping_guide.id == shippingId" type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
+                                                <input type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
                                             </td>
                                             <td class="datatable-cell">
                                                 @{{ shipping.tracking }}
@@ -125,8 +125,10 @@
                                             </td>
 
                                             <td class="datatable-cell">
-                                                <span v-if="shipping.shipping_guide">
-                                                    @{{ shipping.shipping_guide.guide }}
+                                                <span v-if="shipping.shipping_guide_shipping.length > 0">
+                                                    <p v-for="guide in shipping.shipping_guide_shipping">
+                                                        @{{ guide.shipping_guide.guide }}, 
+                                                    </p>
                                                 </span>
                                                 <span v-else>
                                                     No posee

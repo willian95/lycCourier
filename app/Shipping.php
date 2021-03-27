@@ -44,8 +44,8 @@ class Shipping extends Model
         return $this->hasMany(ShippingProduct::class);
     }
 
-    public function shippingGuide(){
-        return $this->belongsTo(ShippingGuide::class);
+    public function shippingGuideShipping(){
+        return $this->hasMany(ShippingGuideShipping::class);
     }
 
 }

@@ -7,6 +7,7 @@ use App\ShippingGuide;
 use App\Http\Requests\ShippingGuideStoreRequest;
 use App\Http\Requests\ShippingGuideUpdateRequest;
 use App\Shipping;
+use App\ShippingGuideShipping;
 
 class ShippingGuideController extends Controller
 {
@@ -25,9 +26,15 @@ class ShippingGuideController extends Controller
 
     function edit($shippingGuide){
 
+        $shippings = [];
         $shippingGuide = ShippingGuide::find($shippingGuide);
-        $shippings = Shipping::where("shipping_guide_id", $shippingGuide->id)->get();
-        return view("shippingGuides.edit", ["shippingGuide" => $shippingGuide, "shippings" => $shippings]);
+        $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $shippingGuide->id)->with("shipping")->get();
+        
+        foreach($shippingGuideShippings as $shipping){
+            $shippings[] = $shipping->shipping;
+        }
+
+        return view("shippingGuides.edit", ["shippingGuide" => $shippingGuide, "shippings" => json_encode($shippings)]);
 
     }
 
@@ -38,8 +45,8 @@ class ShippingGuideController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippings")->get();
-            $shippingGuidesCount =  ShippingGuide::with("shippings")->count();
+            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
+            $shippingGuidesCount =  ShippingGuide::with("shippingGuideShipping", "shippingGuideShipping.shipping")->count();
 
             return response()->json(["shippingGuides" => $shippingGuides, "shippingGuidesCount" => $shippingGuidesCount, "dataAmount" => $dataAmount]);
 
@@ -81,9 +88,10 @@ class ShippingGuideController extends Controller
 
             foreach($request->shippings as $shipping){
 
-                $shippingModel = Shipping::find($shipping);
-                $shippingModel->shipping_guide_id = $guide->id;
-                $shippingModel->update();
+                $shippingGuideShipping = new ShippingGuideShipping;
+                $shippingGuideShipping->shipping_guide_id = $guide->id;
+                $shippingGuideShipping->shipping_id = $shipping;
+                $shippingGuideShipping->save();
 
             }
 
@@ -111,15 +119,17 @@ class ShippingGuideController extends Controller
             $guide->guide = $request->guide;
             $guide->update();
 
-            Shipping::where("shipping_guide_id", $request->id)->update([
-                "shipping_guide_id" => null
-            ]);
+            $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $request->id)->get();
+            foreach($shippingGuideShippings as $shipping){
+                $shipping->delete();
+            }
 
             foreach($request->shippings as $shipping){
 
-                $shippingModel = Shipping::find($shipping);
-                $shippingModel->shipping_guide_id = $guide->id;
-                $shippingModel->update();
+                $shippingGuideShipping = new ShippingGuideShipping;
+                $shippingGuideShipping->shipping_guide_id = $guide->id;
+                $shippingGuideShipping->shipping_id = $shipping;
+                $shippingGuideShipping->save();
 
             }
 
@@ -141,11 +151,13 @@ class ShippingGuideController extends Controller
 
             $shippingGuide = ShippingGuide::find($request->id);
 
-            Shipping::where("shipping_guide_id", $shippingGuide->id)->update(["shipping_guide_id" => null]);
+            $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $request->id)->get();
+            foreach($shippingGuideShippings as $shipping){
+                $shipping->delete();
+            }
             
             $shippingGuide->guide = $shippingGuide->guide."-".uniqid();
             $shippingGuide->update();
-
             $shippingGuide->delete();
 
             return response()->json(["success" => true, "msg" => "Guía eliminada"]);

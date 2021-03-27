@@ -10,7 +10,7 @@ class ShippingGuide extends Model
 
     use SoftDeletes;
 
-    public function shippings(){
-        return $this->hasMany(Shipping::class);
+    public function shippingGuideShipping(){
+        return $this->hasMany(ShippingGuideShipping::class);
     }
 }

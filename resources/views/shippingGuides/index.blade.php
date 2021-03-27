@@ -123,7 +123,7 @@
 
                                     <td>
                                         
-                                        <button title="Envíos" class="btn btn-success" @click="setShippings(guide.shippings)" data-toggle="modal" data-target="#shippingModal"><i class="fas fa-eye"></i></button>
+                                        <button title="Envíos" class="btn btn-success" @click="setShippings(guide.shipping_guide_shipping)" data-toggle="modal" data-target="#shippingModal"><i class="fas fa-eye"></i></button>
                                         <a title="Editar" class="btn btn-info" :href="'{{ url('/shipping-guide/edit/') }}'+'/'+guide.id"><i class="fas fa-edit"></i></a>
                                         <button title="Eliminar" class="btn btn-danger" @click="deleteShippingGuide(guide.id)"><i class="far fa-trash-alt"></i></button>
 
@@ -201,9 +201,9 @@
                             <tbody>
                                 <tr v-for="shipping in shippings">
                                     <td>
-                                        <a :href="'{{ url('/shippings/show/') }}'+'/'+shipping.id">@{{ shipping.tracking }}</a>
+                                        <a :href="'{{ url('/shippings/show/') }}'+'/'+shipping.id">@{{ shipping.shipping.tracking }}</a>
                                     </td>
-                                    <td>@{{ shipping.warehouse_number }}</td>
+                                    <td>@{{ shipping.shipping.warehouse_number }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -373,7 +373,6 @@
                 },
                 setShippings(shippings){
 
-                    console.log("shi", shippings)
                     this.shippings = shippings
 
                 }
