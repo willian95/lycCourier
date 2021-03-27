@@ -641,7 +641,7 @@
                                             <span></span>
                                         </div>
                                         <div class="des">
-                                            <span>En Miami</span>
+                                            <span>Miami</span>
                                         </div>
                                     </div>
                                 </li>
@@ -652,7 +652,18 @@
                                             <span></span>
                                         </div>
                                         <div class="des">
-                                            <span>Lima (Aduana)</span>
+                                            <span>Transito</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="process-item ">
+                                    <div class="process-content">
+                                        <div class="process-active-bar"></div>
+                                        <div class="circle">
+                                            <span></span>
+                                        </div>
+                                        <div class="des">
+                                            <span>Aduana (Lima)</span>
                                         </div>
                                     </div>
                                 </li>
@@ -664,17 +675,6 @@
                                         </div>
                                         <div class="des">
                                             <span>Delivery</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="process-item ">
-                                    <div class="process-content">
-                                        <div class="process-active-bar"></div>
-                                        <div class="circle">
-                                            <span></span>
-                                        </div>
-                                        <div class="des">
-                                            <span>Entregado</span>
                                         </div>
                                     </div>
                                 </li>

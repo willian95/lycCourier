@@ -17,7 +17,7 @@ class ShippingStatusSeeder extends Seeder
 
             $status = new ShippingStatus;
             $status->id = 1;
-            $status->name = "En Miami";
+            $status->name = "Miami";
             $status->save();
 
             /*$status = new ShippingStatus;
@@ -27,17 +27,17 @@ class ShippingStatusSeeder extends Seeder
 
             $status = new ShippingStatus;
             $status->id = 2;
-            $status->name = "Lima (Aduana)";
+            $status->name = "Transito";
             $status->save();
 
             $status = new ShippingStatus;
             $status->id = 3;
-            $status->name = "Delivery";
+            $status->name = "Aduana (Lima)";
             $status->save();
 
             $status = new ShippingStatus;
             $status->id = 4;
-            $status->name = "Entregado";
+            $status->name = "Delivery";
             $status->save();
 
         }
