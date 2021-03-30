@@ -201,7 +201,7 @@
                             <tbody>
                                 <tr v-for="shipping in shippings">
                                     <td>
-                                        <a :href="'{{ url('/shippings/show/') }}'+'/'+shipping.id">@{{ shipping.shipping.tracking }}</a>
+                                        <a :href="'{{ url('/shippings/show/') }}'+'/'+shipping.shipping.id">@{{ shipping.shipping.tracking }}</a>
                                     </td>
                                     <td>@{{ shipping.shipping.warehouse_number }}</td>
                                 </tr>
