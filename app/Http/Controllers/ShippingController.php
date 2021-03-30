@@ -39,6 +39,14 @@ class ShippingController extends Controller
 
     }
 
+    function isEmail($email) {
+        if(preg_match("/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,6})$/", $email)) {
+             return true;
+        } else {
+             return false;
+        }
+    }
+
     function store(ShippingStoreRequest $request){
 
         try{
@@ -244,7 +252,8 @@ class ShippingController extends Controller
                 $to_name = User::find($request->resellerId)->name;
                 $to_email = User::find($request->resellerId)->email;
 
-                if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+                if($this->isEmail($to_email)){
+                    
                     $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
     
                     \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping) {
@@ -263,7 +272,8 @@ class ShippingController extends Controller
             $to_name = $recipient->name;
             $to_email = $recipient->email;
             
-            if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+            if($this->isEmail($to_email)){
+
                 $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking];
     
                 \Mail::send("emails.notification", $data, function($message) use ($to_name, $to_email, $shipping) {
@@ -573,7 +583,7 @@ class ShippingController extends Controller
                 $to_name = User::find($shipping->reseller_id)->name;
                 $to_email = User::find($shipping->reseller_id)->email;
                 $recipient = User::find($shipping->client_id);
-                if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+                if($this->isEmail($to_email)){
                     $data = ["name" => $to_name, "status" => $status->name, "tracking" => $shipping->tracking, "clientName" => $recipient->name];
         
                     \Mail::send("emails.resellerNotification", $data, function($message) use ($to_name, $to_email, $shipping, $status) {
@@ -596,7 +606,7 @@ class ShippingController extends Controller
                 $to_email = $recipient->email;
             }
             
-            if(filter_var($to_email, FILTER_VALIDATE_EMAIL)){
+            if($this->isEmail($to_email)){
 
                 $status = ShippingStatus::find($shipping->shipping_status_id);
     
