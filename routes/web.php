@@ -85,6 +85,7 @@ Route::post("shipping-guide/store", "ShippingGuideController@store");
 Route::post("shipping-guide/update", "ShippingGuideController@update");
 Route::post("shipping-guide/delete", "ShippingGuideController@delete");
 Route::post("shipping-guide/search", "ShippingGuideController@search");
+Route::get("shipping-guide/pdf/download/{guideId}", "ShippingGuideController@generatePDFFile");
 
 
 Route::post("shippings/mass/update", "ShippingController@massUpdate")->middleware("auth");

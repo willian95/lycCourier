@@ -123,10 +123,10 @@
 
                                     <td>
                                         
-                                        <button title="Envíos" class="btn btn-success" @click="setShippings(guide.shipping_guide_shipping)" data-toggle="modal" data-target="#shippingModal"><i class="fas fa-eye"></i></button>
-                                        <a title="Editar" class="btn btn-info" :href="'{{ url('/shipping-guide/edit/') }}'+'/'+guide.id"><i class="fas fa-edit"></i></a>
+                                        <button title="Envíos" class="btn btn-info" @click="setShippings(guide.shipping_guide_shipping)" data-toggle="modal" data-target="#shippingModal"><i class="fas fa-eye"></i></button>
+                                        <a title="Editar" class="btn btn-secondary" :href="'{{ url('/shipping-guide/edit/') }}'+'/'+guide.id"><i class="fas fa-edit"></i></a>
                                         <button title="Eliminar" class="btn btn-danger" @click="deleteShippingGuide(guide.id)"><i class="far fa-trash-alt"></i></button>
-
+                                        <a title="Descargar" class="btn btn-info" :href="'{{ url('/shipping-guide/pdf/download') }}'+'/'+guide.id"><i class="fas fa-cloud-download-alt"></i></a>
                                         
                                     </td>
                                 </tr>

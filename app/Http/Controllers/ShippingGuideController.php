@@ -8,6 +8,7 @@ use App\Http\Requests\ShippingGuideStoreRequest;
 use App\Http\Requests\ShippingGuideUpdateRequest;
 use App\Shipping;
 use App\ShippingGuideShipping;
+use PDF;
 
 class ShippingGuideController extends Controller
 {
@@ -169,6 +170,24 @@ class ShippingGuideController extends Controller
         }catch(\Exception $e){
             return response()->json(["success" => false, "msg" => "Hubo un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
         }
+
+    }
+
+    function generatePDFFile($guideId){
+
+        try{
+
+            $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $guideId)->with("shipping")->whereHas("shipping", function($q){
+                $q->orderBy("tracking", "desc")->orderBy("created_at", "desc");
+            })->get();
+
+            $pdf = PDF::loadView('pdf.shippingGuide', ["shippingGuideShippings" => $shippingGuideShippings]);
+            return $pdf->stream('shipping-guide-'.uniqid().'.pdf');
+
+        }catch(\Exception $e){
+
+        }
+
 
     }
 
