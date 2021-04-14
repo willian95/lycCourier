@@ -46,7 +46,7 @@ class ShippingGuideController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
+            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->orderBy("id", "desc")->get();
             $shippingGuidesCount =  ShippingGuide::with("shippingGuideShipping", "shippingGuideShipping.shipping")->count();
 
             return response()->json(["shippingGuides" => $shippingGuides, "shippingGuidesCount" => $shippingGuidesCount, "dataAmount" => $dataAmount]);
@@ -68,7 +68,7 @@ class ShippingGuideController extends Controller
 
             $shippingGuides = ShippingGuide::where("guide", "like", '%'.$request->search.'%')->orWhereHas("shippingGuideShipping.shipping", function($q) use($request){
                 $q->where("warehouse_number", "like", '%'.$request->search.'%');
-            })->skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
+            })->skip($skip)->take($dataAmount)->orderBy("id", "desc")->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
             $shippingGuidesCount =  ShippingGuide::where("guide", "like", '%'.$request->search.'%')->orWhereHas("shippingGuideShipping.shipping", function($q) use($request){
                 $q->where("warehouse_number", "like", '%'.$request->search.'%');
             })->with("shippingGuideShipping", "shippingGuideShipping.shipping")->count();
