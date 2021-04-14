@@ -53,7 +53,7 @@
                         @php
 
                             $description = str_replace(" ", "-", $shipping->shipping->description);
-                            $description = str_replace(",", "", $shipping->shipping->description);
+                            $description = str_replace(",", "", $description);
 
                             $guideNumber = "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT);
                         @endphp
