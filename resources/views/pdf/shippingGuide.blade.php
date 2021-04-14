@@ -33,9 +33,6 @@
 
                 $tracking = $shipping->shipping->tracking;
 
-                $shippingModel = App\Shipping::find($shipping->shipping->id);
-                $shippingModel->shipping_status_id = 2;
-                $shippingModel->update();
 
             @endphp
 

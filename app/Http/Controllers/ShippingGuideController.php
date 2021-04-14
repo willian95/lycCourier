@@ -98,6 +98,10 @@ class ShippingGuideController extends Controller
                 $shippingGuideShipping->shipping_id = $shipping;
                 $shippingGuideShipping->save();
 
+                $shippingModel = Shipping::find($shipping->shipping->id);
+                $shippingModel->shipping_status_id = 2;
+                $shippingModel->update();
+
             }
 
             return response()->json(["success" => true, "msg" => "Guía creada"]);
