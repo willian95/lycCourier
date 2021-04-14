@@ -60,7 +60,7 @@
                             <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($guideNumber,'C39') }}" width="250" height="100"/>
                         </p>
                         <p style="text-align: center;">
-                            {{ $guideNumber }}
+                            {{ "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT) }}
                         </p>
                     
                     </td>
