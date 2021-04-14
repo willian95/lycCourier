@@ -98,7 +98,7 @@ class ShippingGuideController extends Controller
                 $shippingGuideShipping->shipping_id = $shipping;
                 $shippingGuideShipping->save();
 
-                $shippingModel = Shipping::find($shipping->shipping->id);
+                $shippingModel = Shipping::find($shipping);
                 $shippingModel->shipping_status_id = 2;
                 $shippingModel->update();
 
