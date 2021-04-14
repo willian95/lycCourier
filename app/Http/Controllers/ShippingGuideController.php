@@ -177,7 +177,7 @@ class ShippingGuideController extends Controller
 
         try{
 
-            $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $guideId)->with("shipping")->whereHas("shipping", function($q){
+            $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $guideId)->with("shipping", "shipping.client")->whereHas("shipping", function($q){
                 $q->orderBy("tracking", "desc")->orderBy("created_at", "desc");
             })->get();
 
