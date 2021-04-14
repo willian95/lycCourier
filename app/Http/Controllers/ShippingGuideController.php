@@ -189,7 +189,7 @@ class ShippingGuideController extends Controller
             return $pdf->stream('shipping-guide-'.uniqid().'.pdf');
 
         }catch(\Exception $e){
-
+            dd($e->getMessage(), $e->getLine());
         }
 
 
