@@ -50,14 +50,14 @@
                     </td>
                 </tr>
                 <tr style="border-collapse: collapse;">
-                    <td colspan="4" style="text-align:center; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-collapse: collapse; padding-top: 30px; padding-bottom: 30px;">
+                    <td colspan="4" style="text-align:center; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-collapse: collapse; padding-top: 10px; padding-bottom: 10px;">
 
                         {{--<p style="text-align: center;">Codigo de barras</p>--}}
                         @php
-                            $guideNumber = "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT)."-".$shipping->shipping->description;
+                            $guideNumber = "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT)."-".str_replace(" ", "-", $shipping->shipping->description);
                         @endphp
                         <p style="text-align: center;">
-                            <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($guideNumber,'C39') }}" width="250" />
+                            <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($guideNumber,'C39') }}" width="250" height="100"/>
                         </p>
                         <p style="text-align: center;">
                             {{ $guideNumber }}
@@ -77,7 +77,7 @@
                     <td colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; height: 30px;"></td>
                 </tr>
                 <tr style="border-collapse: collapse;">
-                    <td colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; padding-top: 30px; padding-bottom: 30px;">
+                    <td colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; padding-top: 10px; padding-bottom: 10px;">
 
                         <h3>SHIPPER              ITA EXPORT SALES INC</h3>
                         <h3>ADDRESS              10331SW 138th Th Court MIAMI, Fl 33186</h3>
