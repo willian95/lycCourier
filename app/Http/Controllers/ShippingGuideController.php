@@ -179,7 +179,7 @@ class ShippingGuideController extends Controller
 
     function generatePDFFile($guideId){
 
-        try{
+     
 
             $shippingGuideShippings = ShippingGuideShipping::where("shipping_guide_id", $guideId)->with("shipping", "shipping.client")->whereHas("shipping", function($q){
                 $q->orderBy("tracking", "desc")->orderBy("created_at", "desc");
@@ -188,9 +188,7 @@ class ShippingGuideController extends Controller
             $pdf = PDF::loadView('pdf.shippingGuide', ["shippingGuideShippings" => $shippingGuideShippings]);
             return $pdf->stream('shipping-guide-'.uniqid().'.pdf');
 
-        }catch(\Exception $e){
-            dd($e->getMessage(), $e->getLine());
-        }
+       
 
 
     }
