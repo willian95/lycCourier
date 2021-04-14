@@ -54,10 +54,10 @@
 
                         {{--<p style="text-align: center;">Codigo de barras</p>--}}
                         @php
-                            $guideNumber = "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT);
+                            $guideNumber = "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT)."-".$shipping->shipping->description;
                         @endphp
                         <p style="text-align: center;">
-                            <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($guideNumber,'C39') }}" height="60" width="180" />
+                            <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($guideNumber,'C39') }}" width="250" />
                         </p>
                         <p style="text-align: center;">
                             {{ $guideNumber }}
