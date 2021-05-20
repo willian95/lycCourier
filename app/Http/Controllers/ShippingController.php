@@ -787,11 +787,17 @@ class ShippingController extends Controller
                 ->with(['box' => function ($q) {
                     $q->withTrashed();
                 }])
+                ->with(["client" => function($q){
+                    $q->withTrashed();
+                }])
                 ->with(['recipient' => function ($q) {
                     $q->withTrashed();
                 }])->get();
     
                 $shippingsCount = Shipping::where("reseller_id", \Auth::user()->id)->with("recipient", "box", "shippingStatus", "shippingGuideShipping", "shippingGuideShipping.shippingGuide")->with(['box' => function ($q) {
+                    $q->withTrashed();
+                }])
+                ->with(["client" => function($q){
                     $q->withTrashed();
                 }])
                 ->with(['recipient' => function ($q) {
