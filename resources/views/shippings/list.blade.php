@@ -181,8 +181,9 @@
                                     </td>
                                     <td>
                                         
-                                        
+                                        @if(\Auth::user()->role_id < 3)
                                         <button title="Actualizar Status" v-if="selectedShippings.length == 0 && shipping.shipping_status_id < 4 && shipping.is_finished == 1" class="btn btn-success" data-toggle="modal" data-target="#shippingModal" @click="edit(shipping)" ><i class="far fa-edit"></i></button>
+                                        @endif
 
                                         <a title="Editar"  v-if="selectedShippings.length == 0" :href="'{{ url('/shippings/show') }}'+'/'+shipping.id" class="btn btn-info"><i class="far fa-eye"></i></a>
         
