@@ -38,14 +38,23 @@
                                     </div>
                                 
                                 </div>
- 
-                            
+                                
+                                @if(\Auth::user()->role_id <= 2)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tracking">Tracking number</label>
+                                        <input type="text" class="form-control" v-model="tracking">
+                                    </div>
+                                </div>
+                                @else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tracking">Tracking number</label>
                                         <input type="text" class="form-control" v-model="tracking" :readonly="userId">
                                     </div>
                                 </div>
+
+                                @endif
 
                                 <div class="col-md-6">
                                     <div class="form-group">

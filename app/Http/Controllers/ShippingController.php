@@ -310,7 +310,7 @@ class ShippingController extends Controller
                 $shipping->weight = $request->weight;
                 $shipping->width = $request->width;
                 $shipping->reseller_id = $request->resellerId;
-                $shipping->description = $request->description;
+                $shipping->tracking = $request->tracking;
                 $shipping->description = str_replace("'", "", $request->description);
                 $shipping->address = str_replace("'", "", $request->address);
                 $shipping->update();
