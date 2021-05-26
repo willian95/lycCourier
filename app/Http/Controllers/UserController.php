@@ -25,6 +25,7 @@ class UserController extends Controller
             $user->role_id = $request->roleId;
             $user->email_verified_at = Carbon::now();
             $user->password = bcrypt($request->password);
+            $user->reseller_id = $request->reseller;
             $user->save();
 
             return response()->json(["success" => true, "msg" => "Usuario creado"]);
@@ -51,6 +52,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->role_id = $request->roleId;
+            $user->reseller_id = $request->reseller;
             if($request->has("password")){
                 $user->password = bcrypt($request->password);
             }

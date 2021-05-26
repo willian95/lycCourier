@@ -117,6 +117,14 @@
                             </select>
                             <small v-if="errors.hasOwnProperty('roleId')">@{{ errors['roleId'][0] }}</small>
                         </div>
+
+                        <div class="form-group" v-if="role == 4">
+                            <label for="name">Reseller</label>
+                            <select class="form-control" V-model="reseller">
+                                <option :value="reseller.id" v-for="reseller in resellers">@{{ reseller.name }}</option>
+                            </select>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="password">Contraseña</label>
                             <input type="text" class="form-control" id="password" v-model="password" :readonly="role.id == 4">
@@ -161,6 +169,8 @@
                     page:1,
                     role:"",
                     query:"",
+                    resellers:[],
+                    resellerId:"",
                     roles:JSON.parse('{!! $roles !!}'),
                     loading:false
                 }
@@ -180,7 +190,7 @@
                 store(){
 
                     this.loading = true
-                    axios.post("{{ url('users/store') }}", {name: this.name, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, roleId: this.role})
+                    axios.post("{{ url('users/store') }}", {name: this.name, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, roleId: this.role, reseller: this.reseller})
                     .then(res => {
                         this.loading = false
                         if(res.data.success == true){
@@ -215,7 +225,7 @@
                 update(){
 
                     this.loading = true
-                    axios.post("{{ url('users/update') }}", {name: this.name, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, id: this.userId, roleId:this.role})
+                    axios.post("{{ url('users/update') }}", {name: this.name, email: this.email, password: this.password, password_confirmation: this.passwordConfirmation, id: this.userId, roleId:this.role, reseller: this.reseller})
                     .then(res => {
                         this.loading = false
                         if(res.data.success == true){
@@ -256,6 +266,7 @@
                     this.userId = user.id
                     this.email = user.email
                     this.role = user.role_id
+                    this.reseller = user.reseller_id
                 },
                 fetch(page = 1){
 
@@ -290,6 +301,15 @@
                         })
 
                     }
+
+                },
+                fetchAllResellers(){
+
+                    axios.get("{{ url('/resellers/fetch-all') }}").then(res => {
+
+                        this.resellers = res.data.resellers
+
+                    })
 
                 },
                 erase(id){
@@ -337,6 +357,7 @@
             created(){
 
                 this.fetch()
+                this.fetchAllResellers()
 
             }
 
