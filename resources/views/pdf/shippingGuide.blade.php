@@ -94,7 +94,7 @@
                 </tr>
                 <tr>
                     <td style="padding-top: 30px; padding-bottom: 30px; border-top: 1px solid #000; border-left: 1px solid #000;"><strong>PIECES</strong></td>
-                    <td style="padding-top: 30px; padding-bottom: 30px; border-top: 1px solid #000;"><strong>{{ $trackingCount }}/{{ $trackingAmount }}</strong></td>
+                    <td style="padding-top: 30px; padding-bottom: 30px; border-top: 1px solid #000;"><strong>{{ $trackingCount }}/{{ count($shippingGuideShippings) }}</strong></td>
                     <td style="padding-top: 30px; padding-bottom: 30px; border-top: 1px solid #000;"><strong>WEIGHT</strong></td>
                     <td style="padding-top: 30px; padding-bottom: 30px; text-align:right; border-top: 1px solid #000; border-right: 1px solid #000;"><strong>{{ $shipping->shipping->weight }}KG</strong></td>
                 </tr>
