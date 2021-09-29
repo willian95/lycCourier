@@ -54,12 +54,17 @@
 
                             $description = str_replace(" ", "-", $shipping->shipping->description);
                             $description = str_replace(",", "", $description);
+                            $description = str_replace("(", "", $description);
+                            $description = str_replace(")", "", $description);
 
                             $guideNumber = "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT)."-".$description;
                         @endphp
+                        @if($guideNumber)
                         <p style="text-align: center;">
+                            
                             <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($guideNumber,'C39') }}" width="400" height="100"/>
                         </p>
+                        @endif
                         <p style="text-align: center;">
                             {{ "LYC".str_pad($shipping->shippingGuide->guide, 9, "0", STR_PAD_LEFT) }}
                         </p>
