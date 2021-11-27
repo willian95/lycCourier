@@ -124,11 +124,16 @@
                                                                 <tr>
                                                                     <td class="esd-container-frame" width="530" valign="top" align="center">
                                                                         <table width="100%" cellspacing="0" cellpadding="0">
-                                                                            {{--<tbody>
+                                                                            @if(isset($registerHash))
+                                                                            <tbody>
                                                                                 <tr>
                                                                                     <td class="esd-block-button es-p30t es-p15b" align="center"><span class="es-button-border" style="background: #ed8e20 none repeat scroll 0% 0%;"><a href="{{ url('/register/validate/'.$registerHash) }}" class="es-button" target="_blank" style="font-weight: normal; border-width: 15px 30px; background: #ed8e20 none repeat scroll 0% 0%; border-color: #ed8e20; color: #ffffff; font-size: 18px; padding-top: 1rem; padding-bottom: 1rem; padding-left: .5rem; padding-right: .5rem; margin-bottom: 2rem;">Confirma tu cuenta</a></span></td>
                                                                                 </tr>
-                                                                            </tbody>--}}
+                                                                                <tr style="margin-top: 30px;">
+                                                                                    <td>{{ url('/register/validate/'.$registerHash) }}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            @endif
                                                                         </table>
                                                                     </td>
                                                                 </tr>
