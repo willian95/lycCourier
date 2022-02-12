@@ -207,7 +207,7 @@
                 return {
                     shippingId:"{{ $shippingGuide->id }}",
                     shippings:[],
-                    selectedShippings:JSON.parse('{!! $shippings !!}'),
+                    selectedShippings:"",
                     errors:[],
                     guide:"{{ $shippingGuide->guide }}",
                     loading:false,
@@ -349,6 +349,8 @@
             created(){
 
                 this.fetch()
+                let shippings = `{!! $shippings !!}`
+                this.selectedShippings = JSON.parse(shippings)
 
             }
 
