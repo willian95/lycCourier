@@ -160,7 +160,7 @@
         background: #e5e5e6;
         border-radius: 2px;
         height: 8px;
-        top: 10px;
+        top: 25px;
         -webkit-transition: all 120ms ease-in;
         transition: all 120ms ease-in;
     }
@@ -190,12 +190,13 @@
 
     .process-content .circle {
         position: relative;
+        z-index: 99;
         background: #e5e5e6;
         display: inline-block;
         border-radius: 50%;
-        width: 28px;
-        height: 28px;
-        line-height: 28px;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
         text-align: center;
         -webkit-transition: all 300ms ease-in;
         transition: all 300ms ease-in;
@@ -248,7 +249,7 @@
     }
 
     .process-item.is-current .process-content .circle {
-        background: #ff9c23;
+        background: #27ae60;
     }
 
     .process-item.is-current .process-content .circle span {
@@ -530,7 +531,7 @@
         }
 
         .process-content:before {
-            right: calc(-115% + 126px);
+            right: calc(-75% + 126px);
             margin-left: -36px;
 
         }
@@ -547,6 +548,11 @@
             right: calc(-5% + 130px);
             margin-left: -115px;
         }
+
+        .circle{
+            margin-left: -50px;
+        }
+
     }
 </style>
 
@@ -586,7 +592,7 @@
                                             <p><i class="fa fa-map-marker" aria-hidden="true"></i>
                                                 Desde</p>
                                             <ul>
-                                                <li>LyCCouurier </li>
+                                                <li>Zoom Logistics </li>
                                                 <li>8301 NW 66th St, Miami, FL 33166, EE. UU.</li>
                                             </ul>
                                         </div>
@@ -630,10 +636,11 @@
                         <!-----step--------->
                         <div class="nl-process">
                             <div class="complete-hint"><i class="fa fa-check"></i></div>
-                            <h3 style="text-align: center">{{ $shipping->shippingStatus->name }}</h3>
-                            {{--<ul class="process-list">
-
-                                <li class="process-item  is-current" id="process-item-{{ $shipping->id }}">
+                            {{--<h3 style="text-align: center">{{ $shipping->shippingStatus->name }}</h3>--}}
+                            <ul class="process-list">
+                               
+            
+                                <li class="process-item {{ $shipping->shipping_status_id == 1 ? 'is-current' : '' }}">
                                     <!---is-active--->
                                     <div class="process-content">
                                         <div class="process-active-bar"></div>
@@ -645,7 +652,8 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="process-item ">
+                      
+                                <li class="process-item {{ $shipping->shipping_status_id == 2 ? 'is-current' : '' }}">
                                     <div class="process-content">
                                         <div class="process-active-bar"></div>
                                         <div class="circle">
@@ -656,7 +664,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="process-item ">
+                            
+                           
+                                <li class="process-item {{ $shipping->shipping_status_id == 3 ? 'is-current' : '' }}">
                                     <div class="process-content">
                                         <div class="process-active-bar"></div>
                                         <div class="circle">
@@ -667,7 +677,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="process-item ">
+                           
+                           
+                                <li class="process-item {{ $shipping->shipping_status_id == 4 ? 'is-current' : '' }}">
                                     <div class="process-content">
                                         <div class="process-active-bar"></div>
                                         <div class="circle">
@@ -678,8 +690,9 @@
                                         </div>
                                     </div>
                                 </li>
+                            
 
-                            </ul>--}}
+                            </ul>
                         </div>
                         <div class="footer-step">
                             <button class="footer-step-btn  prev is-show" style="visibility: hidden;">Prev</button>
@@ -776,89 +789,6 @@
         }
 
     </script>
-
-    @foreach($shippings as $shipping)
-
-    <script>
-
-        var shippingIndex = "{{ $shipping->shipping_status_id }}"
-        var shippingId = "{{ $shipping->id }}"
-
-        $(document).ready(function(){
-
-
-            if(shippingIndex > 1){
-                var y = 0;
-                var interval = setInterval(() => {
-                    
-                    if(y == shippingIndex - 2){
-                        clearInterval(interval)
-                    }
-                    $(".next").click()
-
-                    y++;
-                }, 500);
-            }
-
-        })
-
-        $(document).on('click', '.next', function () {
-            StepToNext();
-
-        });
-        $(document).on('click', '.prev', function () {
-            StepToPrev();
-        });
-        /*$(document).on('click', '.finished', function () {
-            StepToInitial();
-        });*/
-
-        function StepToNext() {
-            if (($('#process-list-'+shippingIndex+' .process-item.is-current').next('.process-item')).length) {
-                $('#process-list-'+shippingIndex+' .process-item.is-current').addClass("is-changing");
-
-
-                $('#process-list-'+shippingIndex+'.process-item.is-current.is-changing').removeClass('is-current').addClass('is-active');
-
-                setTimeout(function () {
-                    $('#process-list-'+shippingIndex+'.process-item.is-changing').next('.process-item').addClass("is-current");
-                    $('#process-list-'+shippingIndex+'.process-item.is-current').prev('.process-item.is-changing').removeClass('is-changing');
-                }, 250)
-
-
-            } else {
-                var itemCount;
-                itemCount = $('#process-list-'+shippingIndex+'.process-item').length
-
-                $('#process-list-'+shippingIndex+'.process-item.is-current').addClass('is-active').removeClass('is-current');
-                $('#process-list-'+shippingIndex+'.process-item').addClass('all-complete');
-
-                $('.next').addClass('is-slidedown').removeClass('is-slideup');
-                $('.prev').addClass('is-slidedown').removeClass('is-slideup');
-
-
-                setTimeout(function () {
-                    $('.next').addClass('is-hide').removeClass('is-show');
-                    $('.prev').addClass('is-hide').removeClass('is-show');
-                    $('.finished').addClass('is-show').removeClass('is-hide');
-                    $('.finished').addClass('is-slideup').removeClass('is-slidedown');
-                    $('.complete-hint').addClass('is-show').removeClass('is-hide');
-                }, 120)
-
-                setTimeout(function () {
-                    $('.next').removeClass('is-slidedown').removeClass('is-slideup');
-                    $('.prev').removeClass('is-slidedown').removeClass('is-slideup');
-
-                    $('.finished').removeClass('is-slidedown').removeClass('is-slideup');
-
-                }, 240);
-
-            }
-            $('.star .radiance').addClass('is-active');
-        }
-        </script>
-
-    @endforeach
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 </body>
