@@ -16,7 +16,7 @@ class ShippingGuideController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
 
-            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->get();
+            $shippingGuides = ShippingGuide::skip($skip)->take($dataAmount)->with("shippingGuideShipping", "shippingGuideShipping.shipping")->orderBy("id", "desc")->get();
             $shippingGuidesCount =  ShippingGuide::with("shippingGuideShipping", "shippingGuideShipping.shipping")->count();
 
             return response()->json(["shippingGuides" => $shippingGuides, "shippingGuidesCount" => $shippingGuidesCount, "dataAmount" => $dataAmount]);
