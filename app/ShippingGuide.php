@@ -13,4 +13,9 @@ class ShippingGuide extends Model
     public function shippingGuideShipping(){
         return $this->hasMany(ShippingGuideShipping::class);
     }
+
+    public function dua(){
+        return $this->hasOne(Dua::class);
+    }
+
 }

@@ -287,6 +287,32 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 								@endif
 
+								@if(\Auth::user()->role_id < 3)
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<i class="menu-icon flaticon2-telegram-logo"></i>
+										<span class="menu-text">DUA</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+										
+										
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('dua/create') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text">Listado</span>
+												</a>
+											</li>
+
+										</ul>
+									</div>
+								</li>
+								@endif
+
 								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ url('/logout') }}" class="menu-link">
 										<i class="menu-icon fas fa-power-off"></i>

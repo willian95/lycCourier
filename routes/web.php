@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('login');
 })->middleware("guest")->name("login");
 
+Route::get("dua/search", "DuaController@show");
+
 Route::get("/logout", "LoginController@logout")->middleware("auth");
 
 Route::post("/login", "LoginController@login");
@@ -133,6 +135,10 @@ Route::post("admin-email/store", "AdminMailController@store");
 Route::get("/admin-email/fetch", "AdminMailController@fetch");
 Route::post("/admin-email/update", "AdminMailController@update");
 Route::post("/admin-email/delete", "AdminMailController@delete");
+
+Route::get("dua/create", "DuaController@create");
+Route::post("dua/store", "DuaController@store");
+Route::get("dua/pdf", "DuaController@pdf");
 
 Route::get("test-email", function(){
 
