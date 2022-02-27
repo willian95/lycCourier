@@ -18,7 +18,7 @@
                         <h3 class="card-label">Guías
                     </div>
                     <div class="card-toolbar">
-
+                        <button class="btn btn-success" data-toggle="modal" data-target="#duaFile">Subir archivo</button>
                     </div>
                 </div>
                 <!--end::Header-->
@@ -28,16 +28,6 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--begin: Datatable-->
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Búsqueda</label>
-                                <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Guía #, Warehouse #">
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded table-responsive" id="kt_datatable" style="">
                         <table class="table">
                             <thead>
@@ -56,10 +46,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="guide in guides">
+                                <tr v-for="guide in duas">
 
                                     <td class="datatable-cell">
-                                        @{{ guide.guide }}
+                                        @{{ guide.hawb }}
                                     </td>
                                     <td class="datatable-cell">
                                         @{{ dateFormatter(guide.created_at) }} 
@@ -67,10 +57,10 @@
 
                                     <td>
                                         
-                                        <button v-if="guide.dua == null" title="Crear DUA" @click="setInfo(guide)" class="btn btn-success" data-toggle="modal" data-target="#duaCreate"><i class="fas fa-edit"></i></button>
+                                        <button title="Crear DUA" @click="setInfo(guide)" class="btn btn-success" data-toggle="modal" data-target="#duaCreate"><i class="fas fa-edit"></i></button>
             
-                                        <a v-if="guide.dua" title="Ver DUA" class="btn btn-info" :href="'{{ url('/dua/search') }}'+'?dua='+guide.dua.dua"><i class="fas fa-eye"></i></button>
-                                        <a v-if="guide.dua" title="Ver DUA" target="_blank" class="btn btn-info" :href="'{{ url('/dua/pdf') }}'+'?dua='+guide.dua.dua"><i class="fas fa-download"></i></button>
+                                        <a v-if="guide.dua" title="Ver DUA" class="btn btn-info" target="_blank" :href="'{{ url('/dua/search') }}'+'?dua='+guide.dua"><i class="fas fa-eye"></i></button>
+                                        <a v-if="guide.dua" title="Ver DUA" target="_blank" class="btn btn-info ml-1" :href="'{{ url('/dua/pdf') }}'+'?dua='+guide.dua"><i class="fas fa-download"></i></button>
                                         
                                     </td>
                                 </tr>
@@ -79,37 +69,20 @@
                             </tbody>
                         </table>
 
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4">
-                                <div class="dataTables_info" id="kt_datatable_info" role="status" aria-live="polite">Mostrando página @{{ page }} de @{{ pages }}</div>
+                        <div class="row w-100">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="kt_datatable_info" role="status" aria-live="polite">Mostrando página @{{ currentPage }} de @{{ totalPages }}</div>
                             </div>
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_full_numbers" id="kt_datatable_paginate">
                                     <ul class="pagination">
-                                        <li class="paginate_button page-item previous" id="kt_datatable_previous" v-if="page > 1">
-                                            <a style="cursor:pointer;" @click="fetch(1)" aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">
-                                                <i class="ki ki-arrow-back"></i>
-                                            </a>
-                                        </li>
-                                        <li class="paginate_button page-item active" v-for="index in pages">
-                                            {{--<a style="cursor:pointer;" aria-controls="kt_datatable" tabindex="0" class="page-link":key="index" @click="fetch(index)" >@{{ index }}</a>--}}
-                                            <a class="page-link" style="background-color: #d32b2b; color: #fff !important; cursor:pointer;" v-if="page == index && index >= page - 3 &&  index < page + 3"  :key="index" @click="fetch(index)" >@{{ index }}</a>
-                                            <a class="page-link" style="cursor:pointer;" v-if="page != index && index >= page - 3 &&  index < page + 3"  :key="index" @click="fetch(index)" >@{{ index }}</a> 
+                                        
+                                        <li class="paginate_button page-item active" v-for="(link, index) in totalPages">
+                                            <a style="cursor: pointer" aria-controls="kt_datatable" tabindex="0" :class="currentPage != (index+1) ? linkClass : activeLinkClass":key="index" @click="fetch(path+'?page='+(index+1))">@{{ index+1 }}</a>
                                         </li>
                                         
-                                        <li class="paginate_button page-item next" id="kt_datatable_next" v-if="page < pages" href="#">
-                                            <a style="cursor:pointer;" aria-controls="kt_datatable" data-dt-idx="7" tabindex="0" class="page-link" @click="fetch(pages)">
-                                                <i class="ki ki-arrow-next"></i>
-                                            </a>
-                                        </li>
+                                        
                                     </ul>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <div class="d-flex">
-                                    <label for="">Ir a página</label>
-                                    <input type="text" class="form-control w-50" v-model="searchPage" @keypress="isNumber($event)">
-                                    <button class="btn btn-success" @click="searchPageAction()">ir</button>
                                 </div>
                             </div>
                         </div>
@@ -253,7 +226,34 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" @click="store()">Crear DUA</button>
+                        <button type="button" class="btn btn-primary" @click="store()">Actualizar DUA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal-->
+        <div class="modal fade" id="duaFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear DUA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <form action="{{ url('/dua/store-file') }}" enctype="multipart/form-data" method="post">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="">Archivo</label>
+                                <input type="file" class="form-control" name="file" required>
+                            </div>
+                            <button class="btn btn-info">Subir</button>
+                        </form>
+
+                        
                     </div>
                 </div>
             </div>
@@ -261,11 +261,18 @@
 
     </div>
 
+    <style>
+        .active-link{
+            background-color: red !important;
+        }
+    </style>
+
 @endsection
 
 @push("scripts")
 
     @include("dua.create.script")
 
+    
 
 @endpush

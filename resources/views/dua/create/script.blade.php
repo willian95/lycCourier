@@ -3,16 +3,19 @@
         el: '#shippings-dev',
         data() {
             return {
-                guides:[],
+                duas:[],
+                links:[],
+                currentPage:"",
+                totalPages:"",
+                path:"",
+                linkClass:"page-link",
+                activeLinkClass:"page-link active-link bg-main",
                 query:"",
                 errors:[],
-                pages:0,
-                page:1,
                 startDateExport:"",
                 endDateExport:"",
                 exportType:"",
                 loading:false,
-                searchPage:1,
                 shippings:[],
 
                 hawb:"",
@@ -27,7 +30,8 @@
                 pieces:0,
                 weight:0,
                 shippingGuideId:"",
-                contents:[]
+                contents:[],
+                id:""
 
 
             }
@@ -39,26 +43,19 @@
                 this.fetch(parseInt(this.searchPage))
 
             },
-            fetch(page = 1){
+            fetch(url="{{ url('/dua/fetch/') }}"){
                 
-                this.page = page
-                
-                if(this.query == ""){
                     
-                    axios.get("{{ url('/shipping-guide/fetch/') }}"+"/"+page).then(res => {
+                axios.get(url).then(res => {
                     
-                        this.guides = res.data.shippingGuides
-                        this.pages = Math.ceil(res.data.shippingGuidesCount / res.data.dataAmount)
-    
-                    })
-                }else{
+                    this.duas = res.data.data
+                    this.links = res.data.links
+                    this.currentPage = res.data.current_page
+                    this.totalPages = res.data.last_page
+                    this.path = res.data.path
 
-                    this.search()
-
-                }
-
-                
-
+                })
+            
             },
             
             dateFormatter(date){
@@ -67,25 +64,6 @@
                 let month = date.substring(5, 7)
                 let day = date.substring(8, 10)
                 return day+"-"+month+"-"+year
-            },
-
-            search(){
-                
-                
-                if(this.query == ""){
-                    
-                    this.fetch()
-
-                }else{
-                    
-                    axios.post("{{ url('/shipping-guide/search') }}", {search: this.query, page: this.page}).then(res =>{
-
-                        this.guides = res.data.shippingGuides
-                        this.pages = Math.ceil(res.data.shippingGuidesCount / res.data.dataAmount)
-                    })
-
-                }
-
             },
         
             toggleList(){
@@ -108,17 +86,19 @@
                 }
             },
             setInfo(guide){
-                this.shippingGuideId = guide.id
-                this.weight = 0
-                let hawb = String(guide.guide).padStart(10, "0")
-                this.hawb = "LYC"+hawb
-                this.contents = guide.shipping_guide_shipping
-                guide.shipping_guide_shipping.map(data => {
-
-                    this.weight += data.shipping.weight
-
-                })
-
+                this.id = guide.id
+                this.hawb = guide.hawb
+                this.esser = guide.esser
+                this.client = guide.client
+                this.volante = guide.volante
+                this.tc = guide.tc
+                this.arrivalDate = guide.arrivalDate
+                this.dua = guide.dua
+                this.manifest = guide.manifest
+                this.awb = guide.awb
+                this.pieces = guide.pieces
+                this.weight = guide.weight
+                this.contents = guide.shipping_guide.shipping_guide_shipping
 
             },
             async store(){
@@ -126,6 +106,7 @@
                 try{
 
                     const response = await axios.post("{{ url('/dua/store') }}", {
+                        id:this.id,
                         hawb: this.hawb,
                         esser: this.esser,
                         client: this.client,
@@ -136,8 +117,7 @@
                         manifest: this.manifest,
                         awb: this.awb,
                         pieces: this.pieces,
-                        weight: this.weight,
-                        shipping_guide_id: this.shippingGuideId
+                        weight: this.weight
                     })
 
                     if(response.data.success == true){

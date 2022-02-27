@@ -24,17 +24,9 @@ class DUAStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "hawb" => "required",
-            "esser" => "required",
-            "client" => "required",
-            "volante" => "required",
-            "tc" => "required",
-            "arrivalDate" => "required|date",
-            "dua" => "required",
-            "manifest" => "required",
-            "awb" => "required",
-            "pieces" => "required|integer",
-            "weight" => "required|numeric"
+            "arrivalDate" => "nullable|date",
+            "pieces" => "nullable|integer",
+            "weight" => "nullable|numeric"
         ];
     }
 }

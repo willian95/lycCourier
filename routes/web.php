@@ -137,8 +137,10 @@ Route::post("/admin-email/update", "AdminMailController@update");
 Route::post("/admin-email/delete", "AdminMailController@delete");
 
 Route::get("dua/create", "DuaController@create");
-Route::post("dua/store", "DuaController@store");
+Route::post("dua/store", "DuaController@update");
+Route::post("dua/store-file", "DuaController@uploadFile");
 Route::get("dua/pdf", "DuaController@pdf");
+Route::get("dua/fetch", "DuaController@fetch");
 
 Route::get("test-email", function(){
 

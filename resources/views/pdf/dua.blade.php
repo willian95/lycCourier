@@ -26,7 +26,7 @@
             height="70" />
         </p>
 
-        <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">{{ $dua->dua }}</h1>
+        <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px; text-align: center;">{{ $dua->dua }}</h1>
         <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">PESO: {{ $dua->weight }} KG &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BULTOS: {{ $dua->pieces }}</h1>  
 
 
