@@ -287,7 +287,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 								@endif
 
-								@if(\Auth::user()->role_id < 3)
+								@if(\Auth::user()->role_id == 1 && \Auth::user()->role_id == 5)
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-telegram-logo"></i>
