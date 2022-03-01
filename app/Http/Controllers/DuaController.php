@@ -22,7 +22,7 @@ class DuaController extends Controller
 
     }
 
-    function update(DUAStoreRequest $request){
+    function update(Request $request){
 
         try{
 

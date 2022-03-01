@@ -42,15 +42,15 @@ class DuaImport implements ToCollection
                 $duaNew = new DuaNew;
                 $duaNew->hawb = $row[1];
                 $duaNew->consignee = $row[2];
-                $duaNew->client = $row[3];
-                $duaNew->description = $row[4];
-                $duaNew->pieces = $row[5];
-                $duaNew->weight = floatval($row[6]);
-                $duaNew->address = $row[7];
-                $duaNew->category = $row[8];
-                $duaNew->value = $row[9];
-                $duaNew->document = $row[10];
-                $duaNew->warehouse = $row[11];
+                $duaNew->client = $row[4];
+                $duaNew->description = $row[5];
+                $duaNew->pieces = $row[6];
+                $duaNew->weight = $row[7];
+                $duaNew->address = $row[8];
+                $duaNew->category = $row[9];
+                $duaNew->value = $row[10];
+                $duaNew->document = $row[11];
+                $duaNew->warehouse = $row[12];
                 $duaNew->real_date = $realDate;
                 $duaNew->save();
                 
