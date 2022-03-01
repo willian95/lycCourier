@@ -16,22 +16,30 @@ class DuaImport implements ToCollection
     public function collection(Collection $rows)
     {
         
+        $realDate = "";
         $index = 0;
         foreach ($rows as $row){
             
             
             if($index == 2){
                 
-                $date = str_replace("DATE: ", "",$row[5]);
-                $realDate = $date;
+                foreach($row as $dateSearch){
+                    
+                    if(strpos($dateSearch, "DATE") == 0){
+                        $date = str_replace("DATE: ", "",$dateSearch);
+                        if($date != ""){
+                            $realDate = $date;
+                        }
+                        
+                    }
+
+                }
+                
                 
             }
             
             if($index > 8 && $row[1]){ 
-
-             
                 $duaNew = new DuaNew;
-                $duaNew->shipping_guide_id = ShippingGuide::first()->id;
                 $duaNew->hawb = $row[1];
                 $duaNew->consignee = $row[2];
                 $duaNew->client = $row[3];
@@ -44,7 +52,6 @@ class DuaImport implements ToCollection
                 $duaNew->document = $row[10];
                 $duaNew->warehouse = $row[11];
                 $duaNew->real_date = $realDate;
-                $duaNew->arrivalDate = "2022-01-01";
                 $duaNew->save();
                 
 

@@ -160,7 +160,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="weight">Peso (KG)</label>
-                                    <input type="text" class="form-control" id="weight" v-model="weight.toFixed(2)">
+                                    <input type="text" class="form-control" id="weight" v-model="weight">
                                     <small class="text-danger" v-if="errors.hasOwnProperty('weight')">@{{ errors['weight'][0] }}</small>
                                 </div>
                             </div>

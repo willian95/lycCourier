@@ -98,7 +98,6 @@
                 this.awb = guide.awb
                 this.pieces = guide.pieces
                 this.weight = guide.weight
-                this.contents = guide.shipping_guide.shipping_guide_shipping
 
             },
             async store(){
