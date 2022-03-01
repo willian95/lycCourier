@@ -590,6 +590,16 @@
                                 <p>TC</p>
                                 <p class="subtitle">{{ $dua->tc }}</p>
                             </div>
+
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>Remitente</p>
+                                <p class="subtitle">{{ $dua->consignee }}</p>
+                            </div>
+
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>DUA</p>
+                                <p class="subtitle">{{ $dua->dua }}</p>
+                            </div>
                             
                             
                         </div>
@@ -610,15 +620,6 @@
                             </div>
 
                             <div class="card_content-title card_content-title--info mt-5">
-                                <p>Fecha llegada</p>
-                                <p class="subtitle">{{ $dua->arrivalDate }}</p>
-                            </div>
-
-                        </div>
-                        
-                        <div class="col-md-4">
-
-                            <div class="card_content-title card_content-title--info mt-5">
                                 <p>Cliente</p>
                                 <p class="subtitle">{{ $dua->client }}</p>
                             </div>
@@ -629,36 +630,43 @@
                             </div>
 
                             <div class="card_content-title card_content-title--info mt-5">
-                                <p>DUA</p>
-                                <p class="subtitle">{{ $dua->dua }}</p>
+                                <p>Dirección</p>
+                                <p class="subtitle">{{ $dua->address }}</p>
                             </div>
 
                         </div>
+                        
+                        <div class="col-md-4">
 
-                        <div class="col-12">
+                            
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>Descripción</p>
+                                <p class="subtitle">{{ $dua->description }}</p>
+                            </div>
 
-                            <table class="table">
-                                
-                                <thead>
-                                    <tr>
-                                        <th>Warehouse</th>
-                                        <th>Tracking</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($dua->shippingGuide->shippingGuideShipping as $shipping)
-                                        <tr>
-                                            <td>{{ $shipping->shipping->warehouse_index }}</td>
-                                            <td>
-                                                <a target="_blank" href="{{ url('/tracking').'?tracking='.$shipping->shipping->tracking }}">{{ $shipping->shipping->tracking }}</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>Fecha llegada</p>
+                                <p class="subtitle">{{ $dua->real_date }}</p>
+                            </div>
+                            
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>Valor</p>
+                                <p class="subtitle">$ {{ $dua->value }}</p>
+                            </div>
 
-                            </table>
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>Warehouse</p>
+                                <p class="subtitle">$ {{ $dua->warehouse }}</p>
+                            </div>
+
+                            <div class="card_content-title card_content-title--info mt-5">
+                                <p>Documento</p>
+                                <p class="subtitle">{{ $dua->document }}</p>
+                            </div>
+
 
                         </div>
+
 
                     </div>
                 </div>

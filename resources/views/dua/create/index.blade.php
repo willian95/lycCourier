@@ -36,7 +36,7 @@
                                         <span style="width: 250px;">Guía #</span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
-                                        <span style="width: 250px;">Fecha</span>
+                                        <span style="width: 250px;">Fecha creación</span>
                                     </th>
 
 
@@ -192,32 +192,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="arrivalDate">Fecha llegada</label>
-                                    <input type="date" class="form-control" id="arrivalDate" v-model="arrivalDate">
+                                    <input type="text" class="form-control" id="arrivalDate" v-model="arrivalDate">
                                     <small class="text-danger" v-if="errors.hasOwnProperty('arrivalDate')">@{{ errors['arrivalDate'][0] }}</small>
                                 </div>
-                            </div>
-
-                            <div class="col-12">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Tracking
-                                            </th>
-                                            <th>
-                                                Warehouse
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="track in contents">
-                                            <td>@{{ track.shipping.tracking }}</td>
-                                            <td>@{{ track.shipping.warehouse_number }}</td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-
                             </div>
 
                         </div>

@@ -92,7 +92,7 @@
                 this.client = guide.client
                 this.volante = guide.volante
                 this.tc = guide.tc
-                this.arrivalDate = guide.arrivalDate
+                this.arrivalDate = guide.real_date
                 this.dua = guide.dua
                 this.manifest = guide.manifest
                 this.awb = guide.awb

@@ -32,7 +32,7 @@ class DuaController extends Controller
             $dua->client = $request->client;
             $dua->volante = $request->volante;
             $dua->tc = $request->tc;
-            $dua->arrivalDate = $request->arrivalDate;
+            $dua->real_date = $request->arrivalDate;
             $dua->dua = $request->dua;
             $dua->manifest = $request->manifest;
             $dua->awb = $request->awb;

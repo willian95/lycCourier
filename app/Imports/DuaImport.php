@@ -18,30 +18,34 @@ class DuaImport implements ToCollection
         
         $index = 0;
         foreach ($rows as $row){
+            
+            
             if($index == 2){
-
-                $date = str_replace("DATE: ", "",$row[7]);
-                $date = str_replace("/", "-", $date);
-                $date = strtotime($date);
-                $date = date('Y-m-d',$date);
-
+                
+                $date = str_replace("DATE: ", "",$row[5]);
+                $realDate = $date;
+                
             }
             
             if($index > 8 && $row[1]){ 
 
-                $numberGuide = str_replace("LYC", "", $row[1]);
-                $guide = ShippingGuide::where("guide", intval($numberGuide))->first();
-
-                if($guide){
-                    $duaNew = new DuaNew;
-                    $duaNew->shipping_guide_id = $guide->id;
-                    $duaNew->hawb = $row[1];
-                    $duaNew->client = $row[3];
-                    $duaNew->pieces = $row[5];
-                    $duaNew->weight = floatval($row[6]);
-                    $duaNew->arrivalDate = $date;
-                    $duaNew->save();
-                }
+             
+                $duaNew = new DuaNew;
+                $duaNew->shipping_guide_id = ShippingGuide::first()->id;
+                $duaNew->hawb = $row[1];
+                $duaNew->consignee = $row[2];
+                $duaNew->client = $row[3];
+                $duaNew->description = $row[4];
+                $duaNew->pieces = $row[5];
+                $duaNew->weight = floatval($row[6]);
+                $duaNew->address = $row[7];
+                $duaNew->category = $row[8];
+                $duaNew->value = $row[9];
+                $duaNew->document = $row[10];
+                $duaNew->warehouse = $row[11];
+                $duaNew->real_date = $realDate;
+                $duaNew->arrivalDate = "2022-01-01";
+                $duaNew->save();
                 
 
             }
