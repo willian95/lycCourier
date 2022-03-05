@@ -128,7 +128,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
 							<!--begin::Menu Nav-->
 							<ul class="menu-nav">
-								
+								@if(\Auth::user()->role_id < 3)
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-telegram-logo"></i>
@@ -195,6 +195,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endif
 								
 								@if(\Auth::user()->role_id < 3)
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
