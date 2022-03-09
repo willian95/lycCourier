@@ -14,19 +14,19 @@
         <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">AWB: {{ $dua->awb }}</h1>   
         <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">MANIFIESTO: {{ $dua->manifest }}</h1> 
         <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">VOLANTE: {{ $dua->volante }}</h1>      
-        <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">PESO: {{ $dua->weight }} KG &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BULTOS: {{ $dua->pieces }}</h1>  
-
+        <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">{!! DNS1D::getBarcodeHTML($dua->dua, 'CODABAR') !!}</h1>
+        
 
         <p class="text-center">
             <img id='barcode' 
             src="{{ $data }}" 
             alt="" 
             title="HELLO" 
-            width="70" 
-            height="70" />
+            width="50" 
+            height="50" />
         </p>
 
-        <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px; text-align: center;">{{ $dua->dua }}</h1>
+        <h1 style="font-weight: bolder; font-size: 20px; text-align: center;">{{ $dua->dua }}</h1>
         <h1 style="margin-top: -10px; font-weight: bolder; font-size: 20px;">PESO: {{ $dua->weight }} KG &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BULTOS: {{ $dua->pieces }}</h1>  
 
 
