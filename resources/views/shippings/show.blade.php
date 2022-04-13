@@ -243,9 +243,9 @@
                                 <p class="text-center">
                                     @if(\Auth::user()->role_id < 3)
                                         <button class="btn btn-primary" @click="updateInfo()">Actualizar</button>
-                                        @if($shipping->is_finished == 0)
+                                        {{--@if($shipping->is_finished == 0)
                                         <button class="btn btn-secondary" @click="process()">Procesar</button>
-                                        @endif
+                                        @endif--}}
                                     @endif
                                 </p>
                             </div>
