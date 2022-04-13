@@ -851,6 +851,9 @@ class ShippingController extends Controller
                     }])
                     ->with('shippingProducts')
                     ->first();
+        if(!$shipping){
+            abort(404);
+        }
 
         return view("shippings.show", ["shipping" => $shipping]);
 
