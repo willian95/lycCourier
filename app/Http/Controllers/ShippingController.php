@@ -851,6 +851,9 @@ class ShippingController extends Controller
                     }])
                     ->with('shippingProducts')
                     ->first();
+
+        \Log::info($shipping);
+
         if(!$shipping){
             abort(404);
         }

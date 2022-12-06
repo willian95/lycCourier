@@ -12,6 +12,7 @@ use PDF;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RecipientsExport;
+use Illuminate\Support\Facades\DB;
 
 class RecipientController extends Controller
 {
@@ -220,7 +221,13 @@ class RecipientController extends Controller
 
         try{
 
-            $shippings = Shipping::where("tracking", "like", '%'.$request->search.'%')->orWhere("warehouse_number", "like", '%'.$request->search.'%')->with("recipient", "box", "shippingStatus")->where("recipient_id", $request->recipient)->take(40)->orderBy("id", "desc")->get();
+            $shippings = Shipping::
+                            where(DB::raw("CONCAT(`tracking`, ' ', `warehouse_number`)"), "like", '%'.$request->search.'%')
+                            ->with("recipient", "box", "shippingStatus")
+                            ->where("client_id", $request->recipient)
+                            ->take(40)
+                            ->orderBy("id", "desc")
+                            ->get();
 
             return response()->json(["success" => true, "shippings" => $shippings]);
 
