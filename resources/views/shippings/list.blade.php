@@ -18,6 +18,7 @@
                         <h3 class="card-label">Envíos
                     </div>
                     <div class="card-toolbar">
+                        @if(\Auth::user()->role_id == 1 || \Auth::user()->role_id == 2)
                         <!--begin::Dropdown-->
                         <div class="dropdown dropdown-inline mr-2">
                             <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleList()">
@@ -58,6 +59,7 @@
                             </div>
                             <!--end::Dropdown Menu-->
                         </div>
+                        @endif
                         <!--end::Dropdown-->
                         <!--begin::Button-->
                         @if(\Auth::user()->role_id == 1 || \Auth::user()->role_id == 2)

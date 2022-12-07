@@ -111,7 +111,7 @@ class AdminShippingController extends Controller
     function fetch($page = 1){
 
         try{
-
+            
             $dataAmount = 10;
             $skip = ($page - 1) * $dataAmount;
             $auth = Auth::guard('api')->user() ? Auth::guard('api')->user() : Auth::user();
@@ -141,7 +141,7 @@ class AdminShippingController extends Controller
                 }])->count();
 
             }
-            
+
             return response()->json(["success" => true, "shippings" => $shippings, "shippingsCount" => $shippingsCount, "dataAmount" => $dataAmount]);
 
         }catch(\Exception $e){
