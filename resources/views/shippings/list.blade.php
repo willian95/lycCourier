@@ -105,9 +105,11 @@
                         <table class="table">
                             <thead>
                                 <tr >
+                                    @if(\Auth::user()->role_id < 3)
                                     <th class="datatable-cell datatable-cell-sort">
                                         {{--<input type="checkbox" class="form-check-input" @click="selectAllShippings()" style="margin-top: -16px;">--}}
                                     </th>
+                                    @endif
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Tracking #</span>
                                     </th>
@@ -139,9 +141,11 @@
                             </thead>
                             <tbody>
                                 <tr v-for="shipping in shippings" v-if="shipping.tracking">
+                                    @if(\Auth::user()->role_id < 3)
                                     <td >
                                         <input v-if="shipping.is_finished == 1 && shipping.shipped_at != null" type="checkbox" class="form-check-input" @click="selectShipping(shipping)" :checked="checkTest(shipping)">
                                     </td>
+                                    @endif
                                     <td class="datatable-cell">
                                         @{{ shipping.tracking }}
                                     </td>
