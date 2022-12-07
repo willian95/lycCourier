@@ -91,7 +91,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Búsqueda</label>
-                                <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Tracking #">
+                                <input type="text" class="form-control" v-model="query" @keyup="search()" placeholder="Tracking # o warehouse">
                             </div>
                         </div>
                         <div class="col-md-8" v-if="selectedShippings.length > 0">
