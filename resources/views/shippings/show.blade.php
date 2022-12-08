@@ -31,8 +31,11 @@
                                         
                                         <label for="recipient">Destinatario</label>
                                         <div style="display: flex;">
-                                            <input type="text" class="form-control" @click="showRecipientSearch()" id="recipient" autocomplete="off" v-model="recipientShowName">
+                                            <input type="text" @if(\Auth::user()->role_id >= 3) readonly @endif class="form-control" @click="showRecipientSearch()" id="recipient" autocomplete="off" v-model="recipientShowName">
+
+                                            @if(\Auth::user()->role_id < 3)
                                             <button class="btn btn-success" data-toggle="modal" data-target="#recipientModal"><i class="fa fa-plus"></i></button>
+                                            @endif
                                         </div>
                                         <small style="color:red;" v-if="errors.hasOwnProperty('recipientId')">@{{ errors['recipientId'][0] }}</small>
                                     </div>
@@ -43,23 +46,25 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tracking">Tracking number</label>
-                                        <input type="text" class="form-control" v-model="tracking">
+                                        <input @if(\Auth::user()->role_id >= 3) readonly @endif type="text" class="form-control" v-model="tracking">
                                     </div>
                                 </div>
                                 @else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tracking">Tracking number</label>
-                                        <input type="text" class="form-control" v-model="tracking" :readonly="userId">
+                                        <input @if(\Auth::user()->role_id >= 3) readonly @endif type="text" class="form-control" v-model="tracking" :readonly="userId">
                                     </div>
                                 </div>
 
                                 @endif
-
+                                
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="recipient">Imagen DNI (parte delantera)</label>
-                                        <input type="file" class="form-control" @change="onImageChange" style="overflow:hidden;">
+                                        @if(\Auth::user()->role_id <= 2)
+                                        <input type="file" @if(\Auth::user()->role_id >= 3) readonly @endif class="form-control" @change="onImageChange" style="overflow:hidden;">
+                                        @endif
                                         <img :src="imagePreview" style="width: 40%" />
                                     </div>
                                 
@@ -68,7 +73,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="recipient">Imagen DNI (parte trasera)</label>
-                                        <input type="file" class="form-control" @change="onImageChangeBack" style="overflow:hidden;">
+                                        @if(\Auth::user()->role_id <= 2)
+                                        <input type="file" @if(\Auth::user()->role_id >= 3) readonly @endif class="form-control" @change="onImageChangeBack" style="overflow:hidden;">
+                                        @endif
                                         <img :src="imagePreviewBack" style="width: 40%" />
                                     </div>
                                 
@@ -77,7 +84,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">DNI o CE</label>
-                                        <input type="text" class="form-control" v-model="clientDNI">
+                                        <input type="text" class="form-control" v-model="clientDNI" @if(\Auth::user()->role_id >= 3) readonly @endif>
                                     </div>
                                     <!--<small style="color: red;" v-if="errors.hasOwnProperty('department')">@{{ errors['department'][0] }}</small>-->
                                 
@@ -86,7 +93,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Departamento</label>
-                                    <select class="form-control" @change="fetchProvinces()" v-model="department">
+                                    <select class="form-control" @change="fetchProvinces()" v-model="department" @if(\Auth::user()->role_id >= 3) disabled @endif>
                                         <option v-for="department in departments" :value="department.id">@{{ department.name }}</option>
                                     </select>
                                 </div>
@@ -97,7 +104,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Provincia</label>
-                                    <select class="form-control" v-model="province" @change="fetchDistricts()">
+                                    <select class="form-control" v-model="province" @change="fetchDistricts()" @if(\Auth::user()->role_id >= 3) disabled @endif>
                                         <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                                     </select>
                                 </div>
@@ -108,7 +115,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Distrito</label>
-                                    <select class="form-control" v-model="district">
+                                    <select class="form-control" v-model="district" @if(\Auth::user()->role_id >= 3) disabled @endif>
                                         <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
                                     </select>
                                 </div>
@@ -119,7 +126,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient">Dirección</label>
-                                    <input type="text" class="form-control" v-model="address":readonly="userId"  @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="address":readonly="userId"  @if(\Auth::user()->role_id >= 3) readonly @endif>
                                 </div>
                             </div>
 
@@ -127,7 +134,7 @@
                                 <div class="form-group" >
                                     <label for="reseller">Reseller: @{{ reseller }}</label>
                                   
-                                    <select class="form-control" v-model="resellerId">
+                                    <select class="form-control" v-model="resellerId" @if(\Auth::user()->role_id >= 3) disabled @endif>
                                         <option value="">Sin reseller</option>
                                         <option :value="resellers.id" v-if="resellers != ''">@{{ resellers.name }}</option>
                                     </select>
@@ -138,7 +145,7 @@
                             <div class="col-md-6" v-else>
                                 <div class="form-group">
                                     <label for="address">Reseller</label>
-                                    <select class="form-control" v-model="resellerId">
+                                    <select class="form-control" v-model="resellerId" @if(\Auth::user()->role_id >= 3) disabled @endif>
                                         <option value="">Sin reseller</option>
                                         <option :value="reseller.id" v-for="reseller in allResellers">@{{ reseller.name }}</option>
                                     </select>
@@ -147,14 +154,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
-                                    <textarea rows="4" id="description" class="form-control" v-model="description"></textarea>
+                                    <textarea rows="4" id="description" class="form-control" v-model="description" @if(\Auth::user()->role_id >= 3) readonly @endif></textarea>
                                     <small style="color:red;" v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="agent">Piezas</label>
-                                    <input type="text" class="form-control" v-model="pieces" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="pieces" @if(\Auth::user()->role_id >= 3) readonly @endif>
                                 </div>
                             </div>
                          
@@ -163,7 +170,10 @@
                                 <div class="form-group">
                                     <label for="recipient">Tipo de paquete</label>
                                     <div style="display: flex;">
-                                        <input type="text" class="form-control" v-model="packageShowName" @click="showPackageSearch()"><button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
+                                        <input type="text" class="form-control" v-model="packageShowName"  @click="showPackageSearch()" @if(\Auth::user()->role_id >= 3) readonly @endif>
+                                        @if(\Auth::user()->role_id < 3)
+                                        <button class="btn btn-success" data-toggle="modal" data-target="#packageModal"><i class="fa fa-plus"></i></button>
+                                        @endif
                                     </div>
                                     <small style="color:red;" style="color:red;" v-if="errors.hasOwnProperty('packageId')">@{{ errors['packageId'][0] }}</small>
 
@@ -174,29 +184,30 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Largo (cm)</label>
-                                    <input type="text" class="form-control" v-model="length" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="length" @if(\Auth::user()->role_id >= 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Alto (cm)</label>
-                                    <input type="text" class="form-control" v-model="height" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="height" @if(\Auth::user()->role_id >= 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Ancho (cm)</label>
-                                    <input type="text" class="form-control" v-model="width" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="width" @if(\Auth::user()->role_id >= 3) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tracking">Peso (kg)</label>
-                                    <input type="text" class="form-control" v-model="weight" @if(\Auth::user()->role_id == 3) readonly @endif>
+                                    <input type="text" class="form-control" v-model="weight" @if(\Auth::user()->role_id >= 3) readonly @endif>
                                     <span>@{{ pounds }} lb</span>
                                 </div>
                             </div>
 
+                            @if(\Auth::user()->role_id < 3)
                             <div class="col-md-12">
                                 <p class="text-center">
                                     <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="create()">
@@ -204,6 +215,7 @@
                                     </button>
                                 </p>
                             </div> 
+                            @endif
 
                             <div class="col-md-12">
                                 <table class="table">
@@ -213,7 +225,9 @@
                                             <th>Nombre</th>
                                             <th>Precio</th>
                                             <th style="width: 250px;">Factura</th>
+                                            @if(\Auth::user()->role_id < 3)
                                             <th>Acciones</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -231,10 +245,12 @@
                                                 </div>
                                                 
                                             </td>
+                                            @if(\Auth::user()->role_id < 3)
                                             <td>
                                                 <button class="btn btn-success" data-toggle="modal" data-target="#productModal" @click="edit(product, index)"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-secondary" @click="erase(index)"><i class="fas fa-trash"></i></button>
                                             </td>
+                                            @endif
                                         </tr>
                                     </tbody>
                                 </table>
@@ -848,7 +864,9 @@
                 },
                 showPackageSearch(){
 
+                    @if(\Auth::user()->role_id < 3)
                     $("#packageSearch").modal("show")
+                    @endif
 
                 },
                 showNewRecipientModal(){
